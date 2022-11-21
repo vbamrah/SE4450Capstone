@@ -1,6 +1,6 @@
 import React from 'react'
-import { useEffect, useCallback } from 'react';
-import { View, Text, Button } from "react-native"
+import { useCallback } from 'react';
+import { View, Text, Pressable } from "react-native"
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 
@@ -20,19 +20,35 @@ const Home = ({ navigation }) => {
     }
     
     return (
-        <View style = {{flex : 1, justifyContent : 'flex-start', marginTop: 50}}>
+        <View style = {{flex : 1, justifyContent : 'flex-start'}}>
             <Text style = {{
+                marginTop: 50,
                 textShadowColor: '#000000',
                 textShadowRadius: '10',
                 fontFamily: 'Lemon-Milk',
                 textAlign: 'center',
                 color: '#FFFFFF',
                 fontSize: 50,
-            }}>Home View</Text>
-            <Button 
+            }}>FitMoji</Text>
+            <Pressable
                 onPress = {() => navigation.navigate('Profile')}
-                title = 'Edit Profile'
-            />
+                style = {{
+                    marginTop: 10,
+                    backgroundColor: '#FFFFFF',
+                    width: 130,
+                    borderRadius: 10,
+                    alignSelf: 'center'
+                }}
+            >
+                <Text style = {{
+                    textShadowColor: '#000000',
+                    textShadowRadius: '2',
+                    fontFamily: 'Lemon-Milk',
+                    textAlign: 'center',
+                    color: '#000000',
+                    fontSize: 15,
+                }}>Edit Profile</Text>
+            </Pressable>
         </View>
     )
 }
