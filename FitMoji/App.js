@@ -14,7 +14,7 @@ const MyStack = () => {
         screenOptions={{
           headerShown: false,
           contentStyle: {
-            backgroundColor: '#7DC0C9',
+            backgroundColor: '#FFFFFF',
           }
         }}>
         <Stack.Screen
