@@ -1,50 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import { useEffect, useCallback } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function App() {
-  const [fontsLoaded] = useFonts({
-    'Lemon-Jelly': require('./assets/fonts/lemonjelly.ttf'),
-  });
+import HomeScreen from './screens/Home'
+import ProfileScreen from './screens/EditProfile'
 
-  useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-    }
-    prepare();
-  }, []);
+const Stack = createNativeStackNavigator();
 
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
-  
+const MyStack = () => {
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
-      <Text style={{
-            textShadowColor: '#000000',
-            textShadowRadius: '5',
-            fontFamily: 'Lemon-Jelly',
-            textAlign: 'center',
-            color: '#FFFFFF',
-            fontSize: 120,
-        }}>FitMoji</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: '#7DC0C9',
+          }
+        }}>
+        <Stack.Screen
+          name = "Home" 
+          component = {HomeScreen}
+          options = {{ title : "Home"}}/>
+        <Stack.Screen name = "Profile" component = {ProfileScreen}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ADD8E6',
-    justifyContent: 'center',
-  },
-});
+export default MyStack
