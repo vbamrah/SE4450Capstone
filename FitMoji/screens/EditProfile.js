@@ -1,10 +1,12 @@
 import React from 'react'
-import { useCallback } from 'react';
-import { View, Text, Pressable, ScrollView, Image } from "react-native"
+import { useCallback, useState } from 'react';
+import { StyleSheet, View, Text, Pressable, ScrollView, Image, TextInput } from "react-native"
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 
 const EditProfile = ({ navigation }) => {
+    const [userName, setName] = useState('Username');
+    
     const [fontsLoaded] = useFonts({
         'Lemon-Milk': require('./fonts/LEMONMILK-Regular.otf'),
     });
@@ -20,7 +22,7 @@ const EditProfile = ({ navigation }) => {
     }
 
     return (
-        <View>
+        <View style = {{flex: 1}}>
             <ScrollView>
                 <View style = {{
                     borderRadius: 10,
@@ -39,7 +41,7 @@ const EditProfile = ({ navigation }) => {
                     fontFamily: 'Lemon-Milk',
                     textAlign: 'center',
                     color: '#FFFFFF',
-                    fontSize: 50,
+                    fontSize: 40,
                     }}>Profile</Text>
                     <Pressable
                         onPress = {() => navigation.navigate('Home')}
@@ -94,79 +96,74 @@ const EditProfile = ({ navigation }) => {
                         }}>
                     </Image>
                 </View>
-                <View style = {{
-                    shadowColor: '#8E8E8E',
-                    shadowOpacity: '100%',
-                    shadowOffset: {width: 0, height: 1},
+                <Text style = {{
                     alignSelf: 'center',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    backgroundColor: '#b5e8ff',
-                    width: '90%',
-                    padding: 20,
-                    paddingBottom: 20,
-                    borderRadius: 20,
-                    marginTop: 50,
+                    fontSize: 20,
+                    fontFamily: 'Lemon-Milk',
                 }}>
-                    <Text style = {{
-                            textShadowColor: '#Bfbfbf',
-                            textShadowRadius: '2',
-                            fontFamily: 'Lemon-Milk',
-                            textAlign: 'center',
-                            color: '#000000',
-                            fontSize: 20,
-                        }}>Username</Text>
+                    {userName}
+                </Text>
+                <Text style = {{
+                    marginTop: 40,
+                    padding: 20,
+                    paddingLeft: 40,
+                    fontSize: 10,
+                    fontFamily: 'Lemon-Milk',
+                }}>
+                    Username
+                </Text>
+                <View>
+                    <TextInput 
+                        style = {styles.input}
+                        placeholder = 'Enter Username'
+                        onChangeText = {(val) => setName(val)}/>
                 </View>
-                <View style = {{
-                    shadowColor: '#8E8E8E',
-                    shadowOpacity: '100%',
-                    shadowOffset: {width: 0, height: 2},
-                    alignSelf: 'center',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    backgroundColor: '#b5e8ff',
-                    width: '90%',
+                <Text style = {{
                     padding: 20,
-                    paddingBottom: 20,
-                    borderRadius: 20,
-                    marginTop: 50,
+                    paddingLeft: 40,
+                    fontSize: 10,
+                    fontFamily: 'Lemon-Milk',
                 }}>
-                    <Text style = {{
-                            textShadowColor: '#Bfbfbf',
-                            textShadowRadius: '2',
-                            fontFamily: 'Lemon-Milk',
-                            textAlign: 'center',
-                            color: '#000000',
-                            fontSize: 20,
-                        }}>Email</Text>
+                    Email
+                </Text>
+                <View>
+                    <TextInput 
+                        style = {styles.input}
+                        placeholder = 'Enter Email'/>
                 </View>
-                <View style = {{
-                    shadowColor: '#8E8E8E',
-                    shadowOpacity: '100%',
-                    shadowOffset: {width: 0, height: 2},
-                    alignSelf: 'center',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    backgroundColor: '#b5e8ff',
-                    width: '90%',
+                <Text style = {{
                     padding: 20,
-                    paddingBottom: 20,
-                    borderRadius: 20,
-                    marginTop: 50,
-                    marginBottom: 20,
+                    paddingLeft: 40,
+                    fontSize: 10,
+                    fontFamily: 'Lemon-Milk',
                 }}>
-                    <Text style = {{
-                            textShadowColor: '#Bfbfbf',
-                            textShadowRadius: '2',
-                            fontFamily: 'Lemon-Milk',
-                            textAlign: 'center',
-                            color: '#000000',
-                            fontSize: 20,
-                        }}>Password</Text>
+                    Password
+                </Text>
+                <View>
+                    <TextInput 
+                        style = {styles.input}
+                        placeholder = 'Enter Password'/>
                 </View>
             </ScrollView>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    input: {
+        shadowColor: '#8E8E8E',
+        shadowOpacity: '100%',
+        shadowOffset: {width: 0, height: 2},
+        alignSelf: 'center',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        backgroundColor: '#FFFFFF',
+        width: '90%',
+        padding: 20,
+        paddingBottom: 20,
+        borderRadius: 20,
+        marginBottom: 20,
+    }
+})
 
 export default EditProfile
