@@ -18,10 +18,14 @@ const LogIn = ({navigation}) => {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
-                navigation.replace("Home");
+                if (user.metadata.creationTime === user.metadata.lastSignInTime) {
+                    navigation.replace("Create Profile");
+                }
+                else {
+                    navigation.replace("Home");
+                }
             }
         })
-
         return unsubscribe
     }, [])
 
