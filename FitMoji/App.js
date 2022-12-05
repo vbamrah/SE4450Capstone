@@ -7,6 +7,7 @@ import ProfileScreen from './screens/EditProfile'
 import LogIn from './screens/login'
 import WelcomeScreen from './screens/Welcome'
 import CreateProfile from './screens/createProfile'
+import Sleep from './screens/Sleep'
 
 const Stack = createNativeStackNavigator();
 
@@ -36,8 +37,10 @@ const MyStack = () => {
         component = {WelcomeScreen}/>
          <Stack.Screen 
         name = "Login"
-        component = {LogIn}
-        />
+        component = {LogIn}/>
+        <Stack.Screen 
+        name = "Sleep"
+        component = {Sleep}/>
         <Stack.Screen
           options={{headerShown: false, gestureEnabled: false}}
           name = "Home"

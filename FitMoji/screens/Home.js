@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { View, Text, Pressable } from "react-native"
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import { StyleSheet } from 'react-native';
 
 const Home = ({ navigation }) => {
     const [fontsLoaded] = useFonts({
@@ -49,8 +50,65 @@ const Home = ({ navigation }) => {
                     fontSize: 15,
                 }}>Edit Profile</Text>
             </Pressable>
+            <Pressable
+            onPress = {() => navigation.navigate('Sleep')}
+            style = {{
+                marginTop: 500,
+                backgroundColor: '#FFFFFF',
+                width: 130,
+                borderRadius: 10,
+                alignSelf: 'center'
+            }}
+        >
+            <Text style = {{
+                textShadowColor: '#000000',
+                textShadowRadius: '2',
+                fontFamily: 'Lemon-Milk',
+                textAlign: 'center',
+                color: '#000000',
+                fontSize: 15,
+            }}>Sleep</Text>
+            </Pressable>
         </View>
     )
 }
 
-export default Home
+
+const styles = StyleSheet.create({
+    input: {
+      width: 350,
+      height: 55,
+      backgroundColor: '#42A5F5',
+      margin: 10,
+      padding: 8,
+      color: 'white',
+      borderRadius: 14,
+      fontSize: 18,
+      fontWeight: '500',
+    },
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    sleep: {
+      backgroundColor: "#42A5F5",
+      width: '100%',
+      padding: 15,
+      borderRadius: 10,
+      alignItems: 'center'
+    },
+    buttonText: {
+      color: 'white',
+      fontWeight: '700',
+      fontSize: 16
+    },
+    buttonContainer: {
+      flex: 1,
+      width: '60%',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }
+  })
+
+  export default Home
