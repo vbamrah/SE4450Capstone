@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 import HomeScreen from './screens/Home'
 import ProfileScreen from './screens/EditProfile'
 import LogIn from './screens/login'
 import WelcomeScreen from './screens/Welcome'
 import CreateProfile from './screens/createProfile'
 import Sleep from './screens/Sleep'
+import CaloriePage from './screens.Calorie'
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +47,7 @@ const MyStack = () => {
           component = {HomeScreen}/>
         <Stack.Screen name = "Profile" component = {ProfileScreen}/>
         <Stack.Screen name = "Create Profile" component = {CreateProfile}/>
+        <Stack.Screen name = "Calorie Count" component = {CaloriePage}/>
       </Stack.Navigator>
     </NavigationContainer>
   )
