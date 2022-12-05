@@ -1,8 +1,10 @@
 import React from 'react'
 import { useCallback } from 'react';
-import { View, Text, Pressable } from "react-native"
+import { View, Text, Pressable} from "react-native"
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import { auth } from '../firebase';
+import { getDatabase, ref, child, get } from "firebase/database";
 
 const Home = ({ navigation }) => {
     const [fontsLoaded] = useFonts({
@@ -14,10 +16,24 @@ const Home = ({ navigation }) => {
           await SplashScreen.hideAsync();
         }
     }, [fontsLoaded]);
-    
+
+    const dbRef = ref(getDatabase());
+    const userId = auth.currentUser.uid;
+    get(child(dbRef, `avatars/${userId}`)).then((snapshot) => {
+    if (snapshot.exists()) {
+        console.log(snapshot.val().url);
+        avatarUrl = snapshot.val().url;
+    } else {
+        console.log("No data available");
+    }
+    }).catch((error) => {
+    console.error(error);
+    });
+
+
     if (!fontsLoaded) {
         return null;
-    }
+    } 
     
     return (
         <View style = {{flex : 1, justifyContent : 'flex-start'}}>
