@@ -1,6 +1,6 @@
 import React from 'react'
 import { useCallback } from 'react';
-import { View, Text, Pressable} from "react-native"
+import { View, Text, Pressable, Image} from "react-native"
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { auth } from '../firebase';
@@ -65,6 +65,7 @@ const Home = ({ navigation }) => {
                     fontSize: 15,
                 }}>Edit Profile</Text>
             </Pressable>
+            <Image source={require('./images/Avatar.png')} />
         </View>
     )
 }
