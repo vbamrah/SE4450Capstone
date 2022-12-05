@@ -1,9 +1,10 @@
 import React from 'react'
 import { useCallback } from 'react';
-import { View, Text, Pressable } from "react-native"
+import { View, Text, Pressable, Image} from "react-native"
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { StyleSheet } from 'react-native';
+import { auth } from '../firebase';
+import { getDatabase, ref, child, get } from "firebase/database";
 
 const Home = ({ navigation }) => {
     const [fontsLoaded] = useFonts({
@@ -15,10 +16,24 @@ const Home = ({ navigation }) => {
           await SplashScreen.hideAsync();
         }
     }, [fontsLoaded]);
-    
+
+    const dbRef = ref(getDatabase());
+    const userId = auth.currentUser.uid;
+    get(child(dbRef, `avatars/${userId}`)).then((snapshot) => {
+    if (snapshot.exists()) {
+        console.log(snapshot.val().url);
+        avatarUrl = snapshot.val().url;
+    } else {
+        console.log("No data available");
+    }
+    }).catch((error) => {
+    console.error(error);
+    });
+
+
     if (!fontsLoaded) {
         return null;
-    }
+    } 
     
     return (
         <View style = {{flex : 1, justifyContent : 'flex-start'}}>
@@ -50,25 +65,7 @@ const Home = ({ navigation }) => {
                     fontSize: 15,
                 }}>Edit Profile</Text>
             </Pressable>
-            <Pressable
-            onPress = {() => navigation.navigate('Sleep')}
-            style = {{
-                marginTop: 500,
-                backgroundColor: '#FFFFFF',
-                width: 130,
-                borderRadius: 10,
-                alignSelf: 'center'
-            }}
-        >
-            <Text style = {{
-                textShadowColor: '#000000',
-                textShadowRadius: '2',
-                fontFamily: 'Lemon-Milk',
-                textAlign: 'center',
-                color: '#000000',
-                fontSize: 15,
-            }}>Sleep</Text>
-            </Pressable>
+            <Image source={require('./images/Avatar.png')} />
         </View>
     )
 }

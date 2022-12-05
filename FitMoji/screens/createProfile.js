@@ -66,7 +66,7 @@ const createProfile = ({navigation}) => {
           dob: inputDate
         })
         .catch(error => alert(error.message));
-        navigation.replace("Home");
+        navigation.replace("Create Avatar");
       }
     
       const locale = 'en-GB'

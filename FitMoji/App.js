@@ -6,8 +6,7 @@ import ProfileScreen from './screens/EditProfile'
 import LogIn from './screens/login'
 import WelcomeScreen from './screens/Welcome'
 import CreateProfile from './screens/createProfile'
-import Sleep from './screens/Sleep'
-import CaloriePage from './screens.Calorie'
+import CreateAvatar from './screens/createAvatar'
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +30,10 @@ const MyStack = () => {
             backgroundColor: '#7DC0C9',
           }
         }}>
+        <Stack.Screen
+        name="Create Avatar"
+        options={{headerShown: false}}
+        component = {CreateAvatar}/>
         <Stack.Screen 
         name = "Welcome"
         options={{headerShown: false}}
