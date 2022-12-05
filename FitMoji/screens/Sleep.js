@@ -24,11 +24,11 @@ import {
 registerTranslation('en-GB', enGB)
 
 const createProfile = ({navigation}) => {
-    const [waterIntake, setWater] = useState('');
+    const [sleepTime, setSleep] = useState('');
    
 
     const validateInputs = () => {
-        if (waterIntake == '') {
+        if (sleepTime == '') {
             alert('Invalid input');
         }
         else {
@@ -39,7 +39,7 @@ const createProfile = ({navigation}) => {
     // function writeUserData() {
     //     const db = getDatabase();
     //     set(ref(db, 'users/' + auth.currentUser?.uid), {
-    //       waterIntake: waterIntake
+    //       sleepTime: sleepTime
     //     })
     //     .catch(error => alert(error.message));
     //     navigation.replace("Home");
@@ -59,16 +59,16 @@ const createProfile = ({navigation}) => {
                     color: '#FFFFFF',
                     fontSize: 40,
                     marginBottom: 30
-                }}>Water Tracker</Text>
-              <Text style={styles.goalText}>Goal: 3L</Text>
-              <Text style={styles.goalText}>Litres Drank Today: 1.7L</Text>
-              <Text style={styles.goalText}>Litres to Go: 1.3L</Text>
-              <Text style={styles.header}>Add Water</Text>
+                }}>Sleep Tracker</Text>
+              <Text style={styles.goalText}>Goal: 8hrs</Text>
+              <Text style={styles.goalText}>Bed Time: 12:00am</Text>
+              <Text style={styles.goalText}>Wakeup: 8:00am</Text>
+              <Text style={styles.header}>Hours Slept: 8</Text>
               <View>
-                <TextInput placeholder='Enter amount of water'
-                    style={styles.waterInput}
-                    value= {waterIntake}
-                    onChangeText={text => setWater(text.replace(/[^0-9]/g, ''))} 
+                <TextInput placeholder='Enter amount of sleep'
+                    style={styles.sleepInput}
+                    value= {sleepTime}
+                    onChangeText={text => setSleep(text.replace(/[^0-9]/g, ''))} 
                     keyboardType="numeric"
                     maxLength={3}
                     />
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 5
     },
-    waterInput: {
+    sleepInput: {
         backgroundColor: 'white',
         paddingHorizontal: 15,
         paddingVertical: 10,
