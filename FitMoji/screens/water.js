@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, {useEffect, useState, useCallback} from 'react'
 import { getDatabase, ref, set } from "firebase/database";
-import { DatePickerInput } from 'react-native-paper-dates';
+import { Header } from "react-native/Libraries/NewAppScreen"
 import {View,
 TextInput,
   Text,
