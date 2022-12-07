@@ -144,7 +144,7 @@ const CreateProfile = ({navigation}) => {
     )
 }
 
-export default createProfile;
+export default CreateProfile;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
