@@ -10,7 +10,7 @@ import FoodIntake from './screens/FoodIntake'
 import CreateAvatar from './screens/CreateAvatar'
 import Sleep from './screens/Sleep'
 import Water from './screens/Water'
-import Exercise from './screens/ExerciseComponents/Exercise'
+import Exercise from './screens/Exercise'
 
 const Stack = createNativeStackNavigator();
 

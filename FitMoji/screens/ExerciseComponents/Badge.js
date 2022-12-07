@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, Alert } from 'react-native'
 
 const Badge = props => (
   <View style={styles.badge}>
@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
   },
   text: {
     marginRight: 5,
+    color: 'red'
   }
 })
 

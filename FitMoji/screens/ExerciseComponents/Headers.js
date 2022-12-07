@@ -8,7 +8,7 @@ const Headers = _ => (
     <View style={styles.icons}>
     </View>
     <View>
-      <Text style={styles.headerText}>Start Your</Text>
+      <Text style={styles.headerText}>Conquer Your</Text>
       <Text style={styles.headerText}>
         <Text style={styles.pinkText}>Fitness</Text> Journey
       </Text>
@@ -28,13 +28,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 15,
     height: 90,
+    marginTop: -130
   }, rightBtns: {
     flexDirection: 'row',
   },
   headerText: {
-    fontSize: 35,
+    fontSize: 40,
     fontWeight: 'bold',
     paddingHorizontal: 15,
+    color: "white"
   },
   pinkText: {
     color: "#FC427B",
@@ -43,6 +45,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 20,
     paddingHorizontal: 15,
+    justifyContent: 'space-between'
   }
 });
 
