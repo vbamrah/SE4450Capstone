@@ -5,16 +5,16 @@ import { DatePickerInput } from 'react-native-paper-dates';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import {
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-  Pressable,
-  KeyboardAvoidingView,
-  TouchableOpacity,
-  Platform,
-  TouchableWithoutFeedback,
-  Keyboard
+    View,
+    TextInput,
+    Text,
+    StyleSheet,
+    Pressable,
+    KeyboardAvoidingView,
+    TouchableOpacity,
+    Platform,
+    TouchableWithoutFeedback,
+    Keyboard
 } from 'react-native'
 import { auth } from '../firebase';
 import { database } from '../firebase';
@@ -27,7 +27,7 @@ registerTranslation('en-GB', enGB)
 
 
 const Water = ({navigation}) => {
-    const [waterAmount, setWaterAmount] = useState('');
+    
     let waterGoalForDisplay = getWaterGoal();
    
     let waterDrankForDisplay = getWaterDrank();
@@ -42,13 +42,10 @@ const Water = ({navigation}) => {
    
 
     const validateInputs = () => {
-        if (waterAmount== '' ) {
-            alert('Invalid input');
-        }
-        else {
+        
             writeUserData();
         }
-    }
+    
 
     function addWater(wat){
         var watDrank = getWaterDrank();
@@ -118,12 +115,16 @@ function getWaterToGo(){
 
     function writeUserData() {
         const db = getDatabase();
-        set(ref(db, 'users/' + auth.currentUser?.uid), {
-          waterAmount: waterAmount,
+        set(ref(db, 'Water/' + auth.currentUser?.uid), {
+          waterGoal: waterGoal,
+          waterDrank:waterDrank,
+          waterToGo:waterToGo,
+          date: date
         
         })
         .catch(error => alert(error.message));
-        navigation.replace("");
+        navigation.replace("Water");
+        
       }
     
       const locale = 'en-GB'
@@ -143,7 +144,7 @@ function getWaterToGo(){
                 }}>Water Tracker</Text>
             <Text style={styles.goalText}>{`Goal: ${waterGoalForDisplay}`}</Text>
             <View>
-                <TextInput placeholder='Enter Goal'
+                <TextInput placeholder='Litres'
                     style={styles.weightInput}
                     value= {waterGoal}
                     onChangeText={text => setWaterGoal(text.replace(/[^0-400]/g, ''))} 
@@ -170,6 +171,7 @@ function getWaterToGo(){
             onPress={validateInputs}
             >
                 <Text style={styles.buttonText}>Submit</Text>
+                
             </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
