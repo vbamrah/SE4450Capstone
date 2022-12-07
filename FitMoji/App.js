@@ -26,10 +26,10 @@ const MyStack = () => {
             color: 0,
           },
           headerStyle: {
-            backgroundColor: '#7DC0C9',
+            backgroundColor: '#b5e8ff',
           },
           contentStyle: {
-            backgroundColor: '#7DC0C9',
+            backgroundColor: '#b5e8ff',
           }
         }}>
         <Stack.Screen
