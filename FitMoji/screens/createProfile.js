@@ -23,7 +23,7 @@ import {
   } from 'react-native-paper-dates' 
 registerTranslation('en-GB', enGB)
 
-const createProfile = ({navigation}) => {
+const CreateProfile = ({navigation}) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [heightFeet, setHeightFeet] = useState('');
