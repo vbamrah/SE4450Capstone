@@ -12,7 +12,8 @@ import {
   TouchableOpacity,
   Platform,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  SafeAreaView
 } from 'react-native'
 import { auth } from '../firebase';
 import { database } from '../firebase';
@@ -170,11 +171,12 @@ const createProfile = ({navigation}) => {
         const sleepGoal = ref(db, 'sleepTime/' + auth.currentUser?.uid);
         onValue(sleepGoal, (snapshot) => {
             var data = snapshot.val();
-            goal = data.sleepGoal;
-            if(goal == null) {
+            if(data == null) {
+              
                 goal = 0;
                 //setGoal(goal);
             } else {
+            goal = data.sleepGoal;
                 return goal;
             }
         });
@@ -207,10 +209,10 @@ const createProfile = ({navigation}) => {
                     maxLength={2}
                     />
               </View>
-              <View style={{flexDirection: "row" , marginRight: 30, justifyContent: 'flex-start'}}>
+              <SafeAreaView style={{flexDirection: "row" , marginRight: 30, justifyContent: 'flex-start'}}>
                     <Text style={styles.goalText}>Date:</Text>
-                    <View style = {styles.editButtonContainer}></View>
-                    <View style = {styles.editButtonContainer}>                  
+                    <SafeAreaView style = {styles.editButtonContainer}></SafeAreaView>
+                    <SafeAreaView style = {styles.dateButtonContainer}>                  
                     <DatePickerInput
                     locale={locale}
                     value={inputDate}
@@ -218,8 +220,8 @@ const createProfile = ({navigation}) => {
                     inputMode="start"
                     autoComplete={'sleepdate-full'}
                     />
-                    </View>
-              </View>
+                    </SafeAreaView>
+              </SafeAreaView>
               <View style={{flexDirection: "row" , marginRight: 30, justifyContent: 'space-between'}}>
                     <Text style={styles.goalText}>Bedtime: {inputBedTime}</Text>
                     <View style = {styles.editButtonContainer}></View>
@@ -347,11 +349,19 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     editButtonContainer: {
-        width: '10%',
-        justifyContent: 'center',
-        alignItems: 'center',
+        width: '30%',
+        justifyContent: 'right',
+        alignItems: 'right',
         marginTop: 25
     },
+    dateButtonContainer: {
+      width: '10%',
+      height: '10%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 40,
+      marginLeft: 50
+  },
     editButton: {
         backgroundColor: "#808080",
         width: '100%',

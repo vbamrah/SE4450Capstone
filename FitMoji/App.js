@@ -6,7 +6,9 @@ import ProfileScreen from './screens/EditProfile'
 import LogIn from './screens/login'
 import WelcomeScreen from './screens/Welcome'
 import CreateProfile from './screens/createProfile'
+import FoodIntake from './screens/FoodIntake'
 import CreateAvatar from './screens/createAvatar'
+import Sleep from './screens/Sleep'
 
 const Stack = createNativeStackNavigator();
 
@@ -50,7 +52,7 @@ const MyStack = () => {
           component = {HomeScreen}/>
         <Stack.Screen name = "Profile" component = {ProfileScreen}/>
         <Stack.Screen name = "Create Profile" component = {CreateProfile}/>
-        <Stack.Screen name = "Calorie Count" component = {CaloriePage}/>
+        <Stack.Screen name = "Food Intake" component = {FoodIntake}/>
       </Stack.Navigator>
     </NavigationContainer>
   )
