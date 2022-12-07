@@ -3,11 +3,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screens/Home'
 import ProfileScreen from './screens/EditProfile'
-import LogIn from './screens/login'
+import LogIn from './screens/Login'
 import WelcomeScreen from './screens/Welcome'
-import CreateProfile from './screens/createProfile'
+import CreateProfile from './screens/CreateProfile'
 import FoodIntake from './screens/FoodIntake'
-import CreateAvatar from './screens/createAvatar'
+import CreateAvatar from './screens/CreateAvatar'
 import Sleep from './screens/Sleep'
 
 const Stack = createNativeStackNavigator();
@@ -29,7 +29,7 @@ const MyStack = () => {
             backgroundColor: '#7DC0C9',
           },
           contentStyle: {
-            backgroundColor: '#FFFFFF',
+            backgroundColor: '#7DC0C9',
           }
         }}>
         <Stack.Screen
@@ -50,7 +50,9 @@ const MyStack = () => {
           options={{headerShown: false, gestureEnabled: false}}
           name = "Home"
           component = {HomeScreen}/>
-        <Stack.Screen name = "Profile" component = {ProfileScreen}/>
+        <Stack.Screen options={{headerShown: false, contentStyle: {
+            backgroundColor: '#FFFFFF',
+          }}} name = "Profile" component = {ProfileScreen}/>
         <Stack.Screen name = "Create Profile" component = {CreateProfile}/>
         <Stack.Screen name = "Food Intake" component = {FoodIntake}/>
       </Stack.Navigator>

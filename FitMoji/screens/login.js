@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
-import React, {useEffect, useState} from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useFonts } from 'expo-font';
 import {
   View,
   TextInput,
@@ -47,6 +48,20 @@ const LogIn = ({navigation}) => {
             console.log('Logged in with: ', user.email);
         })
         .catch(error => alert(error.message))
+    }
+
+    const [fontsLoaded] = useFonts({
+        'Lemon-Milk': require('./fonts/LEMONMILK-Regular.otf'),
+    });
+
+    const onLayoutRootView = useCallback(async () => {
+        if (fontsLoaded) {
+            await SplashScreen.hideAsync();
+        }
+    }, [fontsLoaded]);
+
+    if (!fontsLoaded) {
+        return null;
     }
 
     return (

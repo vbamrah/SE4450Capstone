@@ -1,4 +1,5 @@
-import React, {useState, createRef} from 'react'
+import React, {useCallback, useState, createRef} from 'react'
+import { useFonts } from 'expo-font';
 import {
   View,
   Pressable,
@@ -7,6 +8,20 @@ import {
 } from 'react-native'
 
 export default function Welcome({ navigation }) {
+    const [fontsLoaded] = useFonts({
+      'Lemon-Milk': require('./fonts/LEMONMILK-Regular.otf'),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+      if (fontsLoaded) {
+          await SplashScreen.hideAsync();
+      }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+      return null;
+  }
+  
     return (
       <View style={styles.container}>
         <View  style={{flex: 1, justifyContent: 'center'}}>
