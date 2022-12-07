@@ -25,7 +25,7 @@ import {
 import { Button } from 'react-native-paper';
 registerTranslation('en-GB', enGB)
 
-const createProfile = ({navigation}) => {
+const Sleep = ({navigation}) => {
     let sleepGoalToDisplay = getCurrentSleepGoal();
     const [inputDate, setInputDate] = useState(new Date());
     const [inputBedTime, setBedTime] = useState('00:00');
@@ -298,7 +298,7 @@ const createProfile = ({navigation}) => {
     )
 }
 
-export default createProfile;
+export default Sleep;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -352,7 +352,8 @@ const styles = StyleSheet.create({
         width: '30%',
         justifyContent: 'right',
         alignItems: 'right',
-        marginTop: 25
+        marginTop: 25,
+        marginRight:-35
     },
     dateButtonContainer: {
       width: '10%',

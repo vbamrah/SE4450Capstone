@@ -1,6 +1,6 @@
 import React from 'react'
 import { useCallback } from 'react';
-import { View, Text, Pressable, Image, StyleSheet} from "react-native"
+import { View, Text, Pressable, Image} from "react-native"
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { auth } from '../firebase';
@@ -66,44 +66,6 @@ const Home = ({ navigation }) => {
                 }}>Edit Profile</Text>
             </Pressable>
             <Image source={require('./images/Avatar.png')} />
-            <Pressable
-            onPress = {() => navigation.navigate('Sleep')}
-            style = {{
-                marginTop: 0,
-                backgroundColor: '#FFFFFF',
-                width: 130,
-                borderRadius: 10,
-                alignSelf: 'center'
-            }}
-        >
-            <Text style = {{
-                textShadowColor: '#000000',
-                textShadowRadius: '2',
-                fontFamily: 'Lemon-Milk',
-                textAlign: 'center',
-                color: '#000000',
-                fontSize: 15,
-            }}>Sleep</Text>
-            </Pressable>
-            <Pressable
-                onPress = {() => navigation.navigate('Food Intake')}
-                style = {{
-                    marginTop: 10,
-                    backgroundColor: '#FFFFFF',
-                    width: 130,
-                    borderRadius: 10,
-                    alignSelf: 'center'
-                }}
-            >
-                <Text style = {{
-                    textShadowColor: '#000000',
-                    textShadowRadius: '2',
-                    fontFamily: 'Lemon-Milk',
-                    textAlign: 'center',
-                    color: '#000000',
-                    fontSize: 15,
-                }}>Food Intake</Text>
-            </Pressable>
         </View>
     )
 }
@@ -147,3 +109,5 @@ const styles = StyleSheet.create({
   })
 
   export default Home
+
+  
