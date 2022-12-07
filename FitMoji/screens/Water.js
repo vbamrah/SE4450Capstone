@@ -1,9 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
-import React, {useEffect, useState, useCallback} from 'react'
-import { getDatabase, ref, set } from "firebase/database";
+import React, {useEffect, useState, useCallback, } from 'react'
+import { get, getDatabase, ref, set, onValue } from "firebase/database";
+import { DatePickerInput } from 'react-native-paper-dates';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-
 import {
   View,
   TextInput,
@@ -19,11 +19,26 @@ import {
 import { auth } from '../firebase';
 import { database } from '../firebase';
 
+import {
+    enGB,
+    registerTranslation,
+  } from 'react-native-paper-dates' 
+registerTranslation('en-GB', enGB)
 
 
 const Water = ({navigation}) => {
     const [waterAmount, setWaterAmount] = useState('');
+    let waterGoalForDisplay = getWaterGoal();
    
+    let waterDrankForDisplay = getWaterDrank();
+ 
+    let waterToGoForDisplay = getWaterToGo();
+   
+    const defaultValue = 0;
+    const [waterGoal, setWaterGoal] = useState(waterGoalForDisplay);
+    const [waterDrank, setWaterDrank] = useState(waterDrankForDisplay);
+    const [waterToGo, setWaterToGo] = useState(waterToGoForDisplay);
+    const [date, setDate] = useState(new Date());
    
 
     const validateInputs = () => {
@@ -35,7 +50,71 @@ const Water = ({navigation}) => {
         }
     }
 
+    function addWater(wat){
+        var watDrank = getWaterDrank();
+        var goal = getWaterGoal();
+        var addWater = parseInt(wat) + watDrank;
+        var waterToGo = goal - addWater;
+        setWaterDrank(addWater);
+        setWaterToGo(waterToGo);
+    }
 
+    function getWaterGoal(){
+        let goal;
+        const db = getDatabase();
+        const waterGoal = ref(db, 'Water/' + auth.currentUser?.uid);
+        onValue(waterGoal, (snapshot) => {
+        var data = snapshot.val();
+        if(data==null){
+            goal = 0;
+            console.log("should return 0");
+            return goal;
+            
+        }
+        else{
+            goal = data.waterGoal;
+            console.log("should return goal");
+            console.log(data.waterGoal);
+            return goal;
+           
+        }
+        });
+        return goal;
+    }
+
+    function getWaterDrank(){
+        let watDrank;
+        const db = getDatabase();
+        const waterDrank = ref(db, 'Water/' + auth.currentUser?.uid);
+        onValue(waterDrank, (snapshot) => {
+        var data = snapshot.val();
+        if(data==null){
+            watDrank = 0;
+            return watDrank;
+        }
+        else{
+            watDrank = data.waterDrank;
+            return watDrank;
+        }
+        });
+       
+        return watDrank;
+}
+
+
+function getWaterToGo(){
+    var goal = getWaterGoal();
+    if(goal==NaN || goal==undefined){
+        goal = 0;
+    }
+    var watDrank = getWaterDrank();
+    if(watDrank==NaN || watDrank==undefined){
+        watDrank = 0;
+    }
+    var waterToGo = goal - watDrank;
+    
+    return waterToGo;
+}
 
     function writeUserData() {
         const db = getDatabase();
@@ -62,23 +141,28 @@ const Water = ({navigation}) => {
                     fontSize: 50,
                     marginBottom: 30
                 }}>Water Tracker</Text>
-            <Text style={styles.header}>Amount of Water Drank</Text>
-            <TextInput placeholder='Litres'
-            value= {waterAmount}
-            onChangeText={text => setWaterAmount(text)}
-            style={[styles.input]}
-            />
-             <Pressable
-                onPress = {() => navigation.navigate('Home')}
-                style = {{
-                    marginTop: 10,
-                    backgroundColor: '#FFFFFF',
-                    width: 90,
-                    borderRadius: 10,
-                    alignSelf: 'center'
-                }}
-            ></Pressable>
-        
+            <Text style={styles.goalText}>{`Goal: ${waterGoalForDisplay}`}</Text>
+            <View>
+                <TextInput placeholder='Enter Goal'
+                    style={styles.weightInput}
+                    value= {waterGoal}
+                    onChangeText={text => setWaterGoal(text.replace(/[^0-400]/g, ''))} 
+                    keyboardType="numeric"
+                    maxLength={5}
+                    />
+              </View>
+            <Text style={styles.goalText}>{`Water Drank Today: ${waterDrankForDisplay}`}</Text>
+            <Text style={styles.goalText}>{`Water Left Today: ${waterToGoForDisplay}`}</Text>
+              <Text style={styles.header}>Add Water: </Text>
+              <View>
+                <TextInput placeholder='Litres'
+                    style={styles.weightInput}
+                    value= {waterDrank}
+                    onChangeText={text => addWater(text.replace(/[^0-9]/g, ''))} 
+                    keyboardType="numeric"
+                    maxLength={5}
+                    />
+              </View>
         </View>
         <View style={styles.buttonContainer}>
             <TouchableOpacity 
@@ -111,7 +195,24 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 5
     },
-   
+    weightInput: {
+        backgroundColor: 'white',
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        borderRadius: 10,
+        marginTop: 5,
+        width: "100%"
+    },
+    heightInput: {
+        backgroundColor: 'white',
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        borderRadius: 10,
+        marginTop: 5,
+        width: "50%",
+        display: "flex",
+        flexDirection: "row"
+    },
     buttonContainer: {
         width: '60%',
         justifyContent: 'center',
@@ -135,5 +236,12 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 16,
         marginTop: 10
+    },
+    goalText: {
+        color: 'white',
+        fontWeight: '700',
+        fontSize: 25,
+        marginTop: 10
     }
 });
+
