@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, {useEffect, useState, useCallback} from 'react'
-import { getDatabase, ref, set } from "firebase/database";
-import { DatePickerInput } from 'react-native-paper-dates';
+import { getDatabase, onValue, ref, set } from "firebase/database";
+import { DatePickerInput, TimePickerModal } from 'react-native-paper-dates';
 import {
   View,
   TextInput,
@@ -21,29 +21,165 @@ import {
     enGB,
     registerTranslation,
   } from 'react-native-paper-dates' 
+import { Button } from 'react-native-paper';
 registerTranslation('en-GB', enGB)
 
 const createProfile = ({navigation}) => {
-    const [sleepTime, setSleep] = useState('');
+    let sleepGoalToDisplay = getCurrentSleepGoal();
+    const [inputDate, setInputDate] = useState(new Date());
+    const [inputBedTime, setBedTime] = useState('00:00');
+    const [inputWakeupTime, setWakeupTime] = useState('08:00');
+    const [sleepGoal, setGoal] = useState(sleepGoalToDisplay);
+    const [bedVisible, setBedVisible] = React.useState(false);
+    const [wakeVisible, setWakeVisible] = React.useState(false);
+    const [hoursSlept, setHoursSlept] = useState('08hrs 00mins');
+    const onBedDismiss = React.useCallback(() => {
+        setBedVisible(false)
+      }, [setBedVisible])
+
+      const onWakeDismiss = React.useCallback(() => {
+        setWakeVisible(false)
+      }, [setWakeVisible])
+
+    var bedTimeHour;
+    var bedTimeMinute;
+    var wakeupHour;
+    var wakeupMinute;
+    
    
+    const onConfirmBedTime = React.useCallback(
+        ({ hours, minutes }) => {
+          setBedVisible(false);
+          if (hours < 10 && minutes >=10) {
+            bedTimeHour = "0" + hours;
+            bedTimeMinute = minutes;
+          } else if (minutes < 10 && hours >= 10) {
+            bedTimeHour = hours;
+            bedTimeMinute = "0" + minutes;
+          } else if (hours < 10 && minutes < 10) {
+            bedTimeHour = "0" + hours;
+            bedTimeMinute = "0" + minutes;
+          } else {
+            bedTimeHour = hours;
+            bedTimeMinute = minutes;
+          }
+          setBedTime(bedTimeHour + ":" + bedTimeMinute);
+        },
+        [setBedVisible]
+      );
+
+      const onConfirmWakeupTime = React.useCallback(
+        ({ hours, minutes }) => {
+          setWakeVisible(false);
+          if (hours < 10 && minutes >= 10) {
+            wakeupHour = "0" + hours;
+            wakeupMinute = minutes;
+          } else if (minutes < 10 && hours >= 10) {
+            wakeupHour = hours;
+            wakeupMinute = "0" + minutes;
+          } else if (hours < 10 && minutes < 10) {
+            wakeupHour = "0" + hours;
+            wakeupMinute = "0" + minutes;
+          } else{
+            wakeupHour = hours;
+            wakeupMinute = minutes;
+          }
+          setWakeupTime(wakeupHour + ":" + wakeupMinute);
+        },
+        [setWakeVisible]
+      );
 
     const validateInputs = () => {
-        if (sleepTime == '') {
-            alert('Invalid input');
-        }
-        else {
-            //writeUserData();
-        }
+
+            writeUserData();
+        
     }
 
-    // function writeUserData() {
-    //     const db = getDatabase();
-    //     set(ref(db, 'users/' + auth.currentUser?.uid), {
-    //       sleepTime: sleepTime
-    //     })
-    //     .catch(error => alert(error.message));
-    //     navigation.replace("Home");
-    //   }
+    function subtractData() {
+        var bedtimes = inputBedTime.split(":");
+        var bedHours = bedtimes[0];
+        var bedMins = bedtimes[1];
+
+        var waketimes = inputWakeupTime.split(":");
+        var wakeHours = waketimes[0];
+        var wakeMins = waketimes[1];
+
+        var subtractDecimal;
+        var subtractHour;
+        var min;
+        var subtractMin;
+
+        var bedTime;
+
+        if(parseInt(bedHours) > parseInt(wakeHours))
+        {
+            bedTime = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate() - 1, bedHours, bedMins, 0, 0);
+            
+        } else {
+            var bedTime = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate(), bedHours, bedMins, 0, 0);
+        }
+        
+        var wakeTime = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate(), wakeHours, wakeMins, 0, 0);
+              
+        var subtraction = ((wakeTime - bedTime) / (1000*60*60)).toFixed(2);
+    
+        if(subtraction % 1 != 0) {
+            subtractDecimal = subtraction.toString().split(".");
+            subtractHour = parseInt(subtractDecimal[0]);
+            min = parseInt(subtractDecimal[1]);
+            subtractMin = Math.round(min/100 * 60);
+        } else if(subtraction % 1 == 0) {
+            subtractDecimal = subtraction.toString().split(".");
+            subtractHour = parseInt(subtractDecimal[0]);
+            subtractMin = 0;
+        }
+
+        if(((parseInt(bedMins) + parseInt(wakeMins)) > 60) && (parseInt(bedHours) > parseInt(wakeHours))) {
+            subtractHour++;
+        } 
+
+        if(subtractHour < 10 && subtractMin >= 10) {
+            setHoursSlept("0" + subtractHour + "hrs " + subtractMin + "mins");
+        } else if (subtractMin < 10 && subtractHour >= 10) {
+            setHoursSlept(subtractHour + "hrs " + "0" + subtractMin + "mins");
+        } else if (subtractHour < 10 && subtractMin < 10) {
+            setHoursSlept("0" + subtractHour + "hrs " + "0" + subtractMin + "mins");
+        } else {
+            setHoursSlept(subtractHour + "hrs " + subtractMin + "mins")
+        }
+        
+    }
+
+    function writeUserData() {
+        const db = getDatabase();
+        set(ref(db, 'sleepTime/' + auth.currentUser?.uid), {
+          inputDate: inputDate,
+          sleepGoal: sleepGoal,
+          hoursSlept: hoursSlept,
+          inputBedTime: inputBedTime,
+          inputWakeupTime: inputWakeupTime
+        })
+        .catch(error => alert(error.message));
+        navigation.replace("Sleep");
+      }
+
+      function getCurrentSleepGoal() {
+        var goal;
+
+        const db = getDatabase();
+        const sleepGoal = ref(db, 'sleepTime/' + auth.currentUser?.uid);
+        onValue(sleepGoal, (snapshot) => {
+            var data = snapshot.val();
+            goal = data.sleepGoal;
+            if(goal == null) {
+                goal = 0;
+                //setGoal(goal);
+            } else {
+                return goal;
+            }
+        });
+        return goal;
+      }
     
       const locale = 'en-GB'
     return (
@@ -58,20 +194,93 @@ const createProfile = ({navigation}) => {
                     textAlign: 'center',
                     color: '#FFFFFF',
                     fontSize: 40,
-                    marginBottom: 30
+                    marginBottom: 50
                 }}>Sleep Tracker</Text>
-              <Text style={styles.goalText}>Goal: 8hrs</Text>
-              <Text style={styles.goalText}>Bed Time: 12:00am</Text>
-              <Text style={styles.goalText}>Wakeup: 8:00am</Text>
-              <Text style={styles.header}>Hours Slept: 8</Text>
-              <View>
-                <TextInput placeholder='Enter amount of sleep'
+
+                <Text style={styles.goalText}>Goal: {sleepGoalToDisplay}</Text>
+                <View>
+                <TextInput placeholder='Enter Goal'
                     style={styles.sleepInput}
-                    value= {sleepTime}
-                    onChangeText={text => setSleep(text.replace(/[^0-9]/g, ''))} 
+                    value= {sleepGoal}
+                    onChangeText={text => setGoal(text.replace(/[^0-9]/g, ''))} 
                     keyboardType="numeric"
-                    maxLength={3}
+                    maxLength={2}
                     />
+              </View>
+              <View style={{flexDirection: "row" , marginRight: 30, justifyContent: 'flex-start'}}>
+                    <Text style={styles.goalText}>Date:</Text>
+                    <View style = {styles.editButtonContainer}></View>
+                    <View style = {styles.editButtonContainer}>                  
+                    <DatePickerInput
+                    locale={locale}
+                    value={inputDate}
+                    onChange={setInputDate}
+                    inputMode="start"
+                    autoComplete={'sleepdate-full'}
+                    />
+                    </View>
+              </View>
+              <View style={{flexDirection: "row" , marginRight: 30, justifyContent: 'space-between'}}>
+                    <Text style={styles.goalText}>Bedtime: {inputBedTime}</Text>
+                    <View style = {styles.editButtonContainer}></View>
+                    <View style={styles.editButtonContainer}>
+                    <TimePickerModal
+                    locale = {locale}
+                    value = {inputBedTime}
+                    onChange = {onConfirmBedTime} 
+                    inputMode = "start"
+                    autoComplete = {'bedtime-full'}
+                    visible={bedVisible}
+                    onDismiss={onBedDismiss}
+                    onConfirm={onConfirmBedTime}
+                    label="Select"
+                    cancelLabel="Cancel" 
+                    confirmLabel="Ok" 
+                    animationType="fade" 
+                    />
+                    <TouchableOpacity 
+                    style={styles.editButton}
+                    onPress={()=> setBedVisible(true)}
+                    >
+                    <Text style={styles.editButtonText}>Edit Bedtime</Text>
+                    </TouchableOpacity>
+                    </View>
+              </View>
+              <View style={{flexDirection: "row" , marginRight: 30, justifyContent: 'space-between'}}>
+                    <Text style={styles.goalText}>Wakeup: {inputWakeupTime}</Text>
+                    <View style = {styles.editButtonContainer}></View>
+                    <View style={styles.editButtonContainer}>
+                    <TimePickerModal
+                    locale = {locale}
+                    value = {inputWakeupTime}
+                    onChange = {onConfirmWakeupTime} 
+                    inputMode = "start"
+                    autoComplete = {'wakeuptime-full'}
+                    visible={wakeVisible}
+                    onDismiss={onWakeDismiss}
+                    onConfirm={onConfirmWakeupTime}
+                    cancelLabel="Cancel" 
+                    confirmLabel="Ok" 
+                    animationType="fade" 
+                    />
+                    <TouchableOpacity 
+                    style={styles.editButton}
+                    onPress={()=> setWakeVisible(true)}
+                    >
+                    <Text style={styles.editButtonText}>Edit Wakeup</Text>
+                    </TouchableOpacity>
+                    </View>
+              </View>
+              <View style={{flexDirection: "row" , marginRight: 30, justifyContent: 'space-between'}}>
+              <Text style={styles.goalText}>Hours Slept: {hoursSlept}</Text>
+              <View style = {styles.editButtonContainer}>
+              <TouchableOpacity 
+                    style={styles.editButton}
+                    onPress={()=> subtractData()}
+                    >
+                    <Text style={styles.editButtonText}>Refresh Hours</Text>
+                    </TouchableOpacity>
+              </View>
               </View>
         </View>
         <View style={styles.buttonContainer}>
@@ -98,13 +307,6 @@ const styles = StyleSheet.create({
         width: '80%',
 
     },
-    input: {
-        backgroundColor: 'white',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        borderRadius: 10,
-        marginTop: 5
-    },
     sleepInput: {
         backgroundColor: 'white',
         paddingHorizontal: 15,
@@ -112,16 +314,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 5,
         width: "100%"
-    },
-    heightInput: {
-        backgroundColor: 'white',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        borderRadius: 10,
-        marginTop: 5,
-        width: "50%",
-        display: "flex",
-        flexDirection: "row"
     },
     buttonContainer: {
         width: '60%',
@@ -134,7 +326,8 @@ const styles = StyleSheet.create({
         width: '100%',
         padding: 15,
         borderRadius: 10,
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: 30
     },
     buttonText: {
         color: 'white',
@@ -145,12 +338,30 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: '700',
         fontSize: 16,
-        marginTop: 10
+        marginTop: 40
     },
     goalText: {
         color: 'white',
         fontWeight: '700',
         fontSize: 25,
-        marginTop: 10
+        marginTop: 20
+    },
+    editButtonContainer: {
+        width: '10%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 25
+    },
+    editButton: {
+        backgroundColor: "#808080",
+        width: '100%',
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center'
+    },
+    editButtonText: {
+        color: 'white',
+        fontWeight: '700',
+        fontSize: 13
     }
 });
