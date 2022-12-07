@@ -29,7 +29,7 @@ const MyStack = () => {
             backgroundColor: '#7DC0C9',
           },
           contentStyle: {
-            backgroundColor: '#7DC0C9',
+            backgroundColor: '#FFFFFF',
           }
         }}>
         <Stack.Screen
