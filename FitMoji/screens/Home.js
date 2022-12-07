@@ -82,7 +82,7 @@ const Home = ({ navigation }) => {
                     fontFamily: 'Lemon-Milk',
                     textAlign: 'center',
                     color: '#000000',
-                    fontSize: 15,
+                    fontSize: 12,
                 }}>Exercise</Text>
             </Pressable>
             <Pressable
@@ -101,7 +101,7 @@ const Home = ({ navigation }) => {
                     fontFamily: 'Lemon-Milk',
                     textAlign: 'center',
                     color: '#000000',
-                    fontSize: 15,
+                    fontSize: 12,
                 }}>Food Intake</Text>
             </Pressable>
             <Pressable
@@ -120,7 +120,7 @@ const Home = ({ navigation }) => {
                     fontFamily: 'Lemon-Milk',
                     textAlign: 'center',
                     color: '#000000',
-                    fontSize: 15,
+                    fontSize: 12,
                 }}>Water</Text>
             </Pressable>
             <Pressable
@@ -139,7 +139,7 @@ const Home = ({ navigation }) => {
                     fontFamily: 'Lemon-Milk',
                     textAlign: 'center',
                     color: '#000000',
-                    fontSize: 15,
+                    fontSize: 12,
                 }}>Sleep</Text>
             </Pressable>
         </View>
