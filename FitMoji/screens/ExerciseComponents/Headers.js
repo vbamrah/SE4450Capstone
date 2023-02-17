@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   headerText: {
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: 'bold',
     paddingHorizontal: 15,
     color: "white"
