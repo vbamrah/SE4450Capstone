@@ -1,15 +1,19 @@
 import React from 'react'
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { StyleSheet, View, Text, Pressable, Image} from "react-native"
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { auth } from '../firebase';
 import { getDatabase, ref, child, get } from "firebase/database";
+import {WebView} from 'react-native-webview';
+
 
 const Home = ({ navigation }) => {
     const [fontsLoaded] = useFonts({
         'Lemon-Milk': require('./fonts/LEMONMILK-Regular.otf'),
     });
+
+    const [avatarUrl, setAvatarUrl] = useState("AvatarUrl");
     
     const onLayoutRootView = useCallback(async () => {
         if (fontsLoaded) {
@@ -17,19 +21,19 @@ const Home = ({ navigation }) => {
         }
     }, [fontsLoaded]);
 
+
     const dbRef = ref(getDatabase());
     const userId = auth.currentUser.uid;
     get(child(dbRef, `avatars/${userId}`)).then((snapshot) => {
     if (snapshot.exists()) {
         console.log(snapshot.val().url);
-        avatarUrl = snapshot.val().url;
+        setAvatarUrl(snapshot.val().url);
     } else {
         console.log("No data available");
     }
     }).catch((error) => {
     console.error(error);
     });
-
 
     if (!fontsLoaded) {
         return null;
@@ -65,7 +69,30 @@ const Home = ({ navigation }) => {
                     fontSize: 15,
                 }}>Edit Profile</Text>
             </Pressable>
-            <Image source={require('./images/Avatar.png')} />
+            <View style = {{paddingTop: 10, height: '70%', width: '100%'}}>
+                <WebView
+                    style={styles.webContainer}
+                    scrollEnabled={false}
+                    originWhitelist={['*']}
+                    source={{ html: 
+                        `<head>
+                            <style>
+                            body {
+                                background-color: #b5e8ff;
+                            }
+                            model-viewer {
+                                height: 100%;
+                                width: 100%;
+                            }
+                            </style>
+                            <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0">
+                            <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.0.1/model-viewer.min.js"></script>
+                        </head>
+                        <body>
+                            <model-viewer src="${avatarUrl}" shadow-intensity="1" camera-controls touch-action="pan-y"></model-viewer>
+                        </body>`}}
+                />
+            </View>
             <Pressable
                 onPress = {() => navigation.navigate('Exercise')}
                 style = {{
