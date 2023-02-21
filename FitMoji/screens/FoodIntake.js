@@ -122,6 +122,7 @@ const FoodIntake = ({navigation}) => {
         })
         .catch(error => alert(error.message));
         navigation.replace('Food Intake');
+        global.lastActivity = "food";
       }
     
       const locale = 'en-GB'

@@ -15,6 +15,8 @@ import Exercise from './screens/Exercise'
 const Stack = createNativeStackNavigator();
 
 const MyStack = () => {
+  global.lastActivity = "none";
+  global.goalsCompleted = 0;
   return (
     <NavigationContainer>
       <Stack.Navigator

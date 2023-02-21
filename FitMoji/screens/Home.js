@@ -6,9 +6,34 @@ import * as SplashScreen from 'expo-splash-screen';
 import { auth } from '../firebase';
 import { getDatabase, ref, child, get } from "firebase/database";
 import {WebView} from 'react-native-webview';
+import { useFocusEffect } from '@react-navigation/native';
+
+const goal4 = require('./images/emojis/4.png');
+const goal3 = require('./images/emojis/3.png');
+const goal2 = require('./images/emojis/2.png');
+const goal1 = require('./images/emojis/1.png');
+const goal0 = require('./images/emojis/0.png');
+const blankImg = require('./images/emojis/BlankMessageBubble.png');
+const food = require('./images/emojis/food.png');
+const water = require('./images/emojis/water.png');
+const sleep = require('./images/emojis/sleep.png');
+const exercise = require('./images/emojis/exercise.png');
 
 
 const Home = ({ navigation }) => {
+    const [activityChanged, setActivityChanged] = useState(false);
+    useFocusEffect(
+        React.useCallback(() => {
+          setActivityChanged(true);
+          console.log(activityChanged);
+          // Do something when the screen is focused
+          return () => {
+            setActivityChanged(false);
+            // Do something when the screen is unfocused
+            // Useful for cleanup functions
+          };
+        }, [])
+      );
     const [fontsLoaded] = useFonts({
         'Lemon-Milk': require('./fonts/LEMONMILK-Regular.otf'),
     });
@@ -38,6 +63,43 @@ const Home = ({ navigation }) => {
     if (!fontsLoaded) {
         return null;
     } 
+
+    function getGoalImage() {
+        console.log(global.goalsCompleted)
+        if (global.goalsCompleted == 0) {
+            return goal0;
+        }
+        else if (global.goalsCompleted == 1) {
+            return goal1;
+        }
+        else if (global.goalsCompleted == 2) {
+            return goal2;
+        }
+        else if (global.goalsCompleted == 3) {
+            return goal3;
+        }
+        else if (global.goalsCompleted == 4) {
+            return goal4;
+        }
+    }
+
+    function getLastActivityImage() {
+        if (global.lastActivity == "food") {
+            return food;
+        }
+        else if (global.lastActivity == "water") {
+            return water;
+        }
+        else if (global.lastActivity == "sleep") {
+            return sleep;
+        }
+        else if (global.lastActivity == "exercise") {
+            return exercise;
+        }
+        else {
+            return blankImg
+        }
+    }
     
     return (
         <View style = {{flex : 1, justifyContent : 'flex-start'}}>
@@ -92,6 +154,28 @@ const Home = ({ navigation }) => {
                             <model-viewer src="${avatarUrl}" shadow-intensity="1" camera-controls touch-action="pan-y"></model-viewer>
                         </body>`}}
                 />
+            </View>
+            <View style = {{zIndex: 2, elevation: 2, position: 'absolute'}}>
+                <Image
+                style = {{
+                    zIndex: 4,
+                    elevation: 4,
+                    height: 50,
+                    width: 100,
+                    marginLeft: '75%',
+                    marginTop: '40%'
+                }}
+                source = {getGoalImage()}></Image>
+                <Image
+                style = {{
+                    zIndex: 4,
+                    elevation: 4,
+                    height: 50,
+                    width: 100,
+                    marginLeft: '75%',
+                    marginTop: '5%'
+                }}
+                source = {getLastActivityImage()}></Image>
             </View>
             <Pressable
                 onPress = {() => navigation.navigate('Exercise')}
@@ -208,7 +292,10 @@ const styles = StyleSheet.create({
       width: '60%',
       justifyContent: 'center',
       alignItems: 'center',
-    }
+    },
+    goalsImg: {
+
+    },
   })
 
   export default Home

@@ -162,6 +162,7 @@ const Sleep = ({navigation}) => {
         })
         .catch(error => alert(error.message));
         navigation.replace("Sleep");
+        global.lastActivity = "sleep";
       }
 
       function getCurrentSleepGoal() {

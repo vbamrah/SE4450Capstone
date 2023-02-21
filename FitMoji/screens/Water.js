@@ -124,7 +124,7 @@ function getWaterToGo(){
         })
         .catch(error => alert(error.message));
         navigation.replace("Water");
-        
+        global.lastActivity = "water";
       }
     
       const locale = 'en-GB'

@@ -96,6 +96,7 @@ const Exercise = ({navigation}) => {
         })
         .catch(error => alert(error.message));
         navigation.replace('Exercise');
+        global.lastActivity = "exercise";
       }
     
       const locale = 'en-GB'
