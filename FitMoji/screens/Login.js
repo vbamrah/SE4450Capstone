@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react'
 import { useFonts } from 'expo-font';
 import {
@@ -6,7 +5,6 @@ import {
   TextInput,
   Text,
   StyleSheet,
-  Pressable,
   KeyboardAvoidingView,
   TouchableOpacity
 } from 'react-native'
@@ -48,6 +46,12 @@ const LogIn = ({navigation}) => {
             console.log('Logged in with: ', user.email);
         })
         .catch(error => alert(error.message))
+    }
+
+    const handleLogOut = () => { 
+        auth.signOut().then(() =>{ 
+            //navigate to login screen
+        }).catch(error => alert(error.message))
     }
 
     const [fontsLoaded] = useFonts({

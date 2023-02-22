@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useHeaderHeight } from '@react-navigation/elements'
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import { auth } from '../firebase';
 
 const EditProfile = ({ navigation }) => {
     useEffect(() => {
@@ -56,6 +57,13 @@ const EditProfile = ({ navigation }) => {
             console.log(err)
         }
     }
+
+    const handleLogOut = () => { 
+        auth.signOut().then(() => { 
+        navigation.replace("Login");
+            }).catch(error => alert(error.message))
+        }
+    
 
     const [fontsLoaded] = useFonts({
         'Lemon-Milk': require('./fonts/LEMONMILK-Regular.otf'),
@@ -170,6 +178,11 @@ const EditProfile = ({ navigation }) => {
                         style={styles.input}
                         placeholder='Enter Password' />
                 </View>
+                <View style={{ marginTop: 20, alignItems: 'center' }}>
+                    <Pressable onPress={handleLogOut} style={styles.logoutButton}>
+                        <Text style={styles.logoutButtonText}>Log Out</Text>
+                    </Pressable>
+                </View>
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -222,7 +235,19 @@ const styles = StyleSheet.create({
         shadowOpacity: '100%',
         shadowOffset: { width: 0, height: 1 },
         borderRadius: 30
-    }
-})
+    },
+    logoutButton: {
+        backgroundColor: '#ff0000',
+        borderRadius: 10,
+        padding: 10,
+        width: '90%',
+        alignItems: 'center',
+      },
+      logoutButtonText: {
+        color: '#ffffff',
+        fontSize: 16,
+        fontWeight: 'bold',
+      }
+    })
 
 export default EditProfile
