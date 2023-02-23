@@ -267,6 +267,23 @@ const Home = ({ navigation }) => {
             >
                 <Image source={require('./images/Manual.jpg')} style={{ width: '100%', height: '100%', borderRadius: 40, resizeMode: 'contain' }}/>
             </Pressable>
+
+
+             <Pressable
+                onPress = {() => navigation.navigate('Calendar')}
+                style = {{
+                    marginTop: -90,
+                    marginLeft: 30,
+                    backgroundColor: '#FFFFFF',
+                    width: 40,
+                    height: 40,
+                    borderRadius: 40,
+                    alignSelf: 'right'
+                }}
+            >
+                <Image source={require('./images/calendar.png')} style={{ width: '100%', height: '100%', borderRadius: 40, resizeMode: 'contain' }}/>
+            </Pressable>
+
         </View>
     )
 }
