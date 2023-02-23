@@ -23,22 +23,43 @@ import { database } from '../firebase';
 function UserManual() {
   return (
     <ScrollView style={{ flex: 1 }}>
-      <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginTop: 20 }}>
-        User Manual
+      <Text style={styles.heading}>User Manual</Text>
+      <Text style={styles.subheading}>Introduction</Text>
+
+      <Text style={{ marginHorizontal: 20, marginTop: 10 }}>
+        FitMoji is designed to help you lead a healthy and balanced lifestyle by providing engaging tools
+        to track wellness, fitness, and nutrition. This user manual will guide you through the app's features 
+        to help you get the most out of your FitMoji experience. 
       </Text>
-      <Text style={{ marginHorizontal: 20, marginTop: 20 }}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tincidunt lorem at
-        molestie fermentum. Phasellus semper eros in neque efficitur, eget ornare sapien
-        malesuada. Nam convallis metus id massa varius, vel vestibulum mauris aliquet.
-        Nullam dignissim elit elit, eget euismod est convallis sit amet.
+      <Text style={styles.subheading}>Getting Started</Text>
+      <Text style={{ marginHorizontal: 20, marginTop: 10 }}>
+      To use FitMoji, you will need to download it from the App Store or Google Play Store and create 
+      an account. Once you have installed the app, follow these steps to get started: {'\n'}
+      {'\t'} 1. Launch the app on your mobile device. {'\n'}
+      {'\t'} 2. Sign up for an account using your email. {'\n'}
+      {'\t'} 3. Set up your avatar by taking a photo or {'\n'}{'\t'}selecting your desired customizations. {'\n'}
+      {'\t'} 4. Complete your profile by providing basic {'\n'}{'\t'}information about yourself, such as your age, {'\n'}{'\t'}gender, height, and weight.
       </Text>
-      <Text style={{ marginHorizontal: 20, marginTop: 20 }}>
-        Integer non orci vel purus iaculis posuere. Sed nec malesuada nulla. Suspendisse
-        potenti. Nulla id odio eget dolor imperdiet malesuada. Sed euismod eget nulla in
-        scelerisque. Donec vel malesuada elit. Aliquam sodales elit mauris, at accumsan
-        lorem eleifend vel.
+      <Text style={styles.subheading}>Features</Text>
+      <Text style={styles.subheading2}>Avatar</Text>
+      <Text style={{ marginHorizontal: 20, marginTop: 10 }}>
+      Your personalized avatar can be used to track your progress and customize your FitMoji appearance. You can edit
+      your avatar through the Edit Profile button located at the top of the Home Page. Any changes or edits made to 
+      your avatar will be reflected on the Home Page screen.
       </Text>
-      {/* Add more content here */}
+      <Text style={styles.subheading2}>Tracking</Text>
+      <Text style={{ marginHorizontal: 20, marginTop: 10 }}>
+      FitMoji allows you to track your wellness goals by logging your workouts, meals, 
+      sleep schedule, and other activities. Tracking for each category is entered on that category page, which
+      can be accessed using the buttons located at the bottom of the home page.
+      </Text>
+      <Text style={styles.subheading2}>Goal Setting</Text>
+      <Text style={{ marginHorizontal: 20, marginTop: 10 }}>
+      FitMoji allows you to set managable wellness goals for fitness, nutrition, water, and sleep based on your biometric 
+      information. Goals for each category can be set on the category's page, which can be accessed using the 
+      buttons located at the bottom of the home page.
+      {'\n'}{'\n'}
+      </Text>
     </ScrollView>
   );
 }
@@ -53,14 +74,6 @@ const styles = StyleSheet.create({
     inputContainer: {
         width: '80%',
 
-    },
-    sleepInput: {
-        backgroundColor: 'white',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        borderRadius: 10,
-        marginTop: 5,
-        width: "100%"
     },
     buttonContainer: {
         width: '60%',
@@ -86,12 +99,6 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 16,
         marginTop: 40
-    },
-    goalText: {
-        color: 'white',
-        fontWeight: '700',
-        fontSize: 25,
-        marginTop: 20
     },
     editButtonContainer: {
         width: '30%',
@@ -119,5 +126,23 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: '700',
         fontSize: 13
-    }
+    },
+    heading: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        textAlign: 'center',
+    },
+    subheading: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginLeft: 20,
+        marginTop: 20,
+    },
+    subheading2: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        marginLeft: 20,
+        marginTop: 20,
+    },
 });
