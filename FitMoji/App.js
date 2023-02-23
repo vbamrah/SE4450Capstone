@@ -11,6 +11,7 @@ import CreateAvatar from './screens/CreateAvatar'
 import Sleep from './screens/Sleep'
 import Water from './screens/Water'
 import Exercise from './screens/Exercise'
+import UserManual from './screens/UserManual'
 
 const Stack = createNativeStackNavigator();
 
@@ -66,6 +67,7 @@ const MyStack = () => {
         <Stack.Screen name = "Food Intake" component = {FoodIntake}/>
         <Stack.Screen name = "Water" component = {Water}/>
         <Stack.Screen name = "Exercise" component = {Exercise}/>
+        <Stack.Screen name = "User Manual" component = {UserManual}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -115,7 +115,7 @@ const Home = ({ navigation }) => {
             <Pressable
                 onPress = {() => navigation.navigate('Profile')}
                 style = {{
-                    marginTop: 10,
+                    marginTop: 30,
                     backgroundColor: '#FFFFFF',
                     width: 130,
                     borderRadius: 10,
@@ -180,7 +180,7 @@ const Home = ({ navigation }) => {
             <Pressable
                 onPress = {() => navigation.navigate('Exercise')}
                 style = {{
-                    marginTop: 10,
+                    marginTop: -20,
                     backgroundColor: '#FFFFFF',
                     width: 130,
                     borderRadius: 10,
@@ -252,6 +252,20 @@ const Home = ({ navigation }) => {
                     color: '#000000',
                     fontSize: 12,
                 }}>Sleep</Text>
+            </Pressable>
+            <Pressable
+                onPress = {() => navigation.navigate('User Manual')}
+                style = {{
+                    marginTop: -50,
+                    marginLeft: 30,
+                    backgroundColor: '#FFFFFF',
+                    width: 40,
+                    height: 40,
+                    borderRadius: 40,
+                    alignSelf: 'right'
+                }}
+            >
+                <Image source={require('./images/Manual.jpg')} style={{ width: '100%', height: '100%', borderRadius: 40, resizeMode: 'contain' }}/>
             </Pressable>
         </View>
     )
