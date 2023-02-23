@@ -27,9 +27,9 @@ registerTranslation('en-GB', enGB)
 
 const FoodIntake = ({navigation}) => {
 
-    let calorieGoalForDisplay = getCalGoal();
-    console.log(calorieGoalForDisplay);
-    let caloriesEatenForDisplay = getCalsEaten();
+    let calorieGoalForDisplay = getCalGoalThatDisplaysCorrectly();
+    //console.log(calorieGoalForDisplay);
+    let caloriesEatenForDisplay = getCalsEatenThatDisplaysCorrectly();
     //console.log(caloriesEatenForDisplay);
     let caloriesToGoForDisplay = getCalsToGo();
     //console.log(caloriesToGoForDisplay);
@@ -56,45 +56,34 @@ const FoodIntake = ({navigation}) => {
     }
 
     function getCalGoal(){
-        let goal;
+        var goal;
         const db = getDatabase();
         const calorieGoal = ref(db, 'foodIntake/' + auth.currentUser?.uid);
         onValue(calorieGoal, (snapshot) => {
         var data = snapshot.val();
         if(data==null){
             goal = 0;
-            console.log("should return 0");
-            return goal;
-            //setCalorieGoal(0);
         }
         else{
             goal = data.calorieGoal;
-            console.log("should return goal");
-            console.log(data.calorieGoal);
-            return goal;
-           // console.log(goal);
         }
         });
-        //setCalorieGoal(goal);
         return goal;
     }
 
         function getCalsEaten(){
-            let calsEaten;
+            var calsEaten;
             const db = getDatabase();
             const caloriesEaten = ref(db, 'foodIntake/' + auth.currentUser?.uid);
             onValue(caloriesEaten, (snapshot) => {
             var data = snapshot.val();
             if(data==null){
                 calsEaten = 0;
-                return calsEaten;
             }
             else{
                 calsEaten = data.caloriesEaten;
-                return calsEaten;
             }
             });
-            //setCaloriesEaten(calsEaten);
             return calsEaten;
     }
 
@@ -108,8 +97,23 @@ const FoodIntake = ({navigation}) => {
             calsEaten = 0;
         }
         var calsToGo = goal - calsEaten;
-        //console.log(calsToGo);
         return calsToGo;
+    }
+
+    function getCalGoalThatDisplaysCorrectly(){
+        var goal = getCalGoal();
+        if(goal==NaN || goal==undefined){
+            goal = 0;
+        }
+        return goal;
+    }
+
+    function getCalsEatenThatDisplaysCorrectly(){
+        var goal = getCalsEaten();
+        if(goal==NaN || goal==undefined){
+            goal = 0;
+        }
+        return goal;
     }
 
     function writeUserData() {
@@ -140,7 +144,7 @@ const FoodIntake = ({navigation}) => {
                     fontSize: 40,
                     marginBottom: 100,
                 }}>Food Intake Tracker</Text>
-            <Text style={styles.goalText}>{`Goal: ${calorieGoalForDisplay}`}</Text>
+            <Text style={styles.goalText}>{`Calorie Goal: ${calorieGoalForDisplay}`}</Text>
             <View>
                 <TextInput placeholder='Enter or Update Goal'
                     style={styles.weightInput}
@@ -239,6 +243,12 @@ const styles = StyleSheet.create({
     goalText: {
         color: 'white',
         fontWeight: '700',
+        fontSize: 25,
+        marginTop: 10
+    },
+    goalIndicator: {
+        color: 'white',
+        fontWeight: '600',
         fontSize: 25,
         marginTop: 10
     }
