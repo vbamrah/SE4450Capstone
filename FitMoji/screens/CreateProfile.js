@@ -57,13 +57,15 @@ const CreateProfile = ({navigation}) => {
 
     function writeUserData() {
         const db = getDatabase();
+        console.log(auth.currentUser?.uid);
+        console.log(inputDate);
         set(ref(db, 'users/' + auth.currentUser?.uid), {
           firstName: firstName,
           lastName: lastName,
           heightFeet: heightFeet,
           heightInches: heightInches,
           weight: weight,
-          dob: inputDate
+          dob: inputDate.toISOString().split('T')[0],
         })
         .catch(error => alert(error.message));
         navigation.replace("Create Avatar");
