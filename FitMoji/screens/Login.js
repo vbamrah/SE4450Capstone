@@ -107,7 +107,7 @@ const LogIn = ({ navigation }) => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={handleSignUp}
-                        style={[styles.button, styles.buttonOutline, {marginTop: 20}]}
+                        style={[styles.button, styles.buttonOutline, {marginTop: -57}]}
                     >
                         <Text style={styles.buttonOutlineText}>Register</Text>
                     </TouchableOpacity>
@@ -146,6 +146,8 @@ const styles = StyleSheet.create({
         marginTop: 200
     },
     button: {
+        width: '55%',
+        marginRight: 150,
         backgroundColor: "#FFFFFF",
         padding: 15,
         borderRadius: 10,
@@ -158,10 +160,9 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     buttonOutline: {
+        marginRight: -150,
         backgroundColor: "#cfcfcf",
         marginTop: 5,
-        borderColor: "#e6e6e6",
-        borderWidth: 2
     },
     buttonOutlineText: {
         fontFamily: 'Lemon-Milk',
