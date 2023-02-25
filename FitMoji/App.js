@@ -12,6 +12,7 @@ import Sleep from './screens/Sleep'
 import Water from './screens/Water'
 import Exercise from './screens/Exercise'
 import UserManual from './screens/UserManual'
+import Goals from './screens/Goals'
 
 const Stack = createNativeStackNavigator();
 
@@ -23,7 +24,7 @@ const MyStack = () => {
       <Stack.Navigator
       initialRouteName='Welcome'
         screenOptions={{
-          headerShown: true,
+          headerShown: false,
           headerShadowVisible: false,
           headerBackTitleVisible: false,
           headerTintColor: 'white',
@@ -47,6 +48,7 @@ const MyStack = () => {
         component = {WelcomeScreen}/>
          <Stack.Screen 
         name = "Login"
+        options={{headerShown: false}}
         component = {LogIn}/>
         <Stack.Screen 
         name = "Sleep"
@@ -68,6 +70,7 @@ const MyStack = () => {
         <Stack.Screen name = "Water" component = {Water}/>
         <Stack.Screen name = "Exercise" component = {Exercise}/>
         <Stack.Screen name = "User Manual" component = {UserManual}/>
+        <Stack.Screen name = "Goals" component = {Goals}/>
       </Stack.Navigator>
     </NavigationContainer>
   )
