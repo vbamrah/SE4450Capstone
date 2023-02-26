@@ -149,14 +149,14 @@ const Home = ({ navigation }) => {
                         </body>`}}
                     />
                 </View>
-                <View style={{ zIndex: 4, elevation: 2, position: 'absolute', marginTop: 190 }}>
+                <View style={{ zIndex: 4, elevation: 2, position: 'absolute', marginTop: '40%' }}>
                     <MotiView
                         animate={{
                             scale: animated ? 1 : 0,
                             opacity: animated ? 1 : 0
                         }}
                         transition={{ type: 'spring', duration: 600 }}>
-                        <ImageBackground source={require('./images/emojis/BlankMessageBubble.png')} style={[styles.shadowProp, {marginLeft: 255, marginTop: -10, width: 150, height: 75}]}>
+                        <ImageBackground source={require('./images/emojis/BlankMessageBubble.png')} style={[styles.shadowProp, {marginLeft: '60%', marginTop: -10, width: 150, height: 75}]}>
                         <LottieView
                             autoPlay loop
                             style={{
@@ -168,7 +168,7 @@ const Home = ({ navigation }) => {
                             source={require('./images/sad.json')}
                         />
                         </ImageBackground>
-                        <ImageBackground source={require('./images/emojis/BlankMessageBubble.png')} style={[styles.shadowProp, {transform: [{rotateY: '180deg'}], marginLeft: 10, marginTop: -74, width: 150, height: 75}]}>
+                        <ImageBackground source={require('./images/emojis/BlankMessageBubble.png')} style={[styles.shadowProp, {transform: [{rotateY: '180deg'}], marginLeft: '5%', marginTop: -74, width: 150, height: 75}]}>
                         <LottieView
                             autoPlay loop
                             style={{
@@ -185,7 +185,7 @@ const Home = ({ navigation }) => {
                         onPress={handleToggle}
                         style={[styles.shadowProp, styles.smallButton, {
                             marginTop: 290,
-                            marginLeft: 30,
+                            marginLeft: '10%',
                         }]}
                     >
                         <Image source={require('./images/goal.png')} style={styles.buttonImage} />
@@ -232,7 +232,7 @@ const Home = ({ navigation }) => {
                     onPress={() => navigation.navigate('User Manual')}
                     style={[styles.shadowProp, styles.smallButton, {
                         marginTop: -140,
-                        marginLeft: 30,
+                        marginLeft: '10%',
                         alignSelf: 'right'
                     }]}
                 >
@@ -243,7 +243,7 @@ const Home = ({ navigation }) => {
                     onPress={() => navigation.navigate('Goals')}
                     style={[styles.shadowProp, styles.smallButton, {
                         marginTop: -90,
-                        marginLeft: 30,
+                        marginLeft: '10%',
                         alignSelf: 'right'
                     }]}
                 >
@@ -254,7 +254,7 @@ const Home = ({ navigation }) => {
                     onPress={() => navigation.navigate('Profile')}
                     style={[styles.shadowProp, styles.smallButton, {
                         marginTop: -20,
-                        marginLeft: 350,
+                        marginLeft: '80%',
                     }]}
                 >
                     <Image source={require('./images/trackButtons/user.png')} style={{ width: '60%', height: '60%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />

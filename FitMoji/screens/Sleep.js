@@ -215,7 +215,7 @@ const Sleep = ({ navigation }) => {
           bottom: 0,
           top: 0,
         }}></LinearGradient>
-        <View style={styles.inputContainer}>
+        <View>
           <Text style={[styles.shadowProp, {
             fontFamily: 'Lemon-Milk',
             textAlign: 'center',
@@ -233,9 +233,9 @@ const Sleep = ({ navigation }) => {
             </Pressable>
           </View>
           <Text style={[styles.goalText, styles.shadowProp, { marginTop: -30, color: 'white', alignSelf: 'center' }]}>Goal: {sleepGoalToDisplay}</Text>
-          <View>
+          <View style={{alignSelf: 'center'}}>
             <TextInput placeholder='Enter Goal'
-              style={[styles.shadowProp, styles.sleepInput]}
+              style={[styles.shadowProp, styles.sleepInput, {width: '80%'}]}
               value={sleepGoal}
               onChangeText={text => setGoal(text.replace(/[^0-9]/g, ''))}
               keyboardType="numeric"
@@ -263,9 +263,13 @@ const Sleep = ({ navigation }) => {
 
           <View style={[styles.shadowProp, styles.goalContainer, {
             marginTop: 120,
-            marginLeft: -45
+            
           }]} />
-          <View style={[styles.shadowProp, styles.goalContainer, { transform: [{ rotateY: '180deg' }], marginLeft: 225, marginTop: -100 }]} />
+          <View style={[styles.shadowProp, styles.goalContainer, { 
+            transform: [{ rotateY: '180deg' }],
+            marginLeft: 270,
+            marginTop: -100
+          }]} />
           <View style={[styles.shadowProp, styles.bigButton, {
             marginRight: 275,
             marginTop: -175,
@@ -273,8 +277,8 @@ const Sleep = ({ navigation }) => {
             <Image source={require('./images/night.png')} style={[styles.buttonImage, { tintColor: '#ffffff' }]} />
           </View>
           <View style={{ justifyContent: 'center' }}>
-            <Text style={[styles.goalText, { marginTop: 12, marginLeft: -10 }]}>{inputBedTime}</Text>
-            <View style={[styles.editButtonContainer, styles.shadowProp, { marginTop: 10, marginLeft: -20 }]}>
+            <Text style={[styles.goalText, { marginTop: 12, marginLeft: 35 }]}>{inputBedTime}</Text>
+            <View style={[styles.editButtonContainer, styles.shadowProp, { marginTop: 10, marginLeft: 25 }]}>
               <TimePickerModal
                 locale={locale}
                 value={inputBedTime}
@@ -304,8 +308,8 @@ const Sleep = ({ navigation }) => {
             <Image source={require('./images/wake-up.png')} style={[styles.buttonImage, { tintColor: '#ffffff' }]} />
           </View>
           <View style={{ justifyContent: 'center' }}>
-            <Text style={[styles.goalText, { marginLeft: 255, marginTop: 10 }]}>{inputWakeupTime}</Text>
-            <View style={[styles.editButtonContainer, styles.shadowProp, { marginTop: 10, marginLeft: 250 }]}>
+            <Text style={[styles.goalText, { marginLeft: 305, marginTop: 10 }]}>{inputWakeupTime}</Text>
+            <View style={[styles.editButtonContainer, styles.shadowProp, { marginTop: 10, marginLeft: 295, backgroundColor: 'transparent' }]}>
               <TimePickerModal
                 locale={locale}
                 value={inputWakeupTime}
@@ -379,10 +383,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     alignSelf: 'center'
   },
-  inputContainer: {
-    width: '80%',
-
-  },
   sleepInput: {
     backgroundColor: 'white',
     paddingHorizontal: 15,
@@ -435,14 +435,14 @@ const styles = StyleSheet.create({
   },
   editButton: {
     backgroundColor: "#ffffff",
-    width: '100%',
+    width: '80%',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center'
   },
   editButtonText: {
     fontFamily: 'Lemon-Milk',
-    color: 'red',
+    color: 'pink',
     fontWeight: '700',
     fontSize: 13
   },
