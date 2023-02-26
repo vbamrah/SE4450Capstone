@@ -328,7 +328,7 @@ const Sleep = ({ navigation }) => {
             </View>
           </View>
           <View style={{ marginTop: -75, justifyContent: 'center' }}>
-            <Text style={[styles.shadowProp, styles.sleptText, { alignSelf: 'center', fontSize: 10, marginTop: -10 }]}>You Slept:</Text>
+            <Text style={[styles.shadowProp, styles.sleptText, { alignSelf: 'center', fontSize: 10, marginTop: -15 }]}>You Slept</Text>
             <Text style={[styles.shadowProp, styles.sleptText, { alignSelf: 'center', fontSize: 75, marginTop: -15 }]}>{hoursSlept}</Text>
             <Text style={[styles.shadowProp, styles.sleptText, { alignSelf: 'center', fontSize: 10, marginTop: -10 }]}>Hours</Text>
           </View>
