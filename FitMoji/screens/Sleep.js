@@ -215,27 +215,30 @@ const Sleep = ({ navigation }) => {
           bottom: 0,
           top: 0,
         }}></LinearGradient>
-        <View>
+        <View style={{
+          top: '5%'
+        }}>
           <Text style={[styles.shadowProp, {
             fontFamily: 'Lemon-Milk',
             textAlign: 'center',
             color: '#ffffff',
             fontSize: 60,
-            marginTop: 20
           }]}>Sleep</Text>
           <View style={[styles.shadowProp, {
-            marginRight: 300,
+            marginRight: '70%',
           }]}>
             <Pressable
               onPress={() => navigation.navigate('Home')}
               style={[styles.navButtons, { backgroundColor: 'transparent' }]}>
-              <Image source={require('./images/home.png')} style={{ marginTop: -60, tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
+              <Image source={require('./images/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
             </Pressable>
           </View>
-          <Text style={[styles.goalText, styles.shadowProp, { marginTop: -30, color: 'white', alignSelf: 'center' }]}>Goal: {sleepGoalToDisplay}</Text>
-          <View style={{alignSelf: 'center'}}>
+        </View>
+        <View style={{top: '5%'}}>
+          <Text style={[styles.goalText, styles.shadowProp, { marginTop: '-5%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
+          <View style={{ alignSelf: 'center' }}>
             <TextInput placeholder='Enter Goal'
-              style={[styles.shadowProp, styles.sleepInput, {width: '80%'}]}
+              style={[styles.shadowProp, styles.sleepInput, { width: '80%' }]}
               value={sleepGoal}
               onChangeText={text => setGoal(text.replace(/[^0-9]/g, ''))}
               keyboardType="numeric"
@@ -245,98 +248,100 @@ const Sleep = ({ navigation }) => {
 
           <View style={[styles.shadowProp, styles.bigButton, {
             alignSelf: 'center',
-            marginTop: -50
+            marginTop: '-12%'
           }]}>
-            <Image source={require('./images/semicircle.png')} style={[styles.buttonImage, { borderRadius: 30, tintColor: '#ffffff', width: 300, height: 300 }]} />
+            <Image source={require('./images/semicircle.png')} style={[styles.buttonImage, { borderRadius: 30, tintColor: '#ffffff', width: 270, height: 270 }]} />
           </View>
 
           <LottieView
             autoPlay loop
             style={[styles.shadowProp, {
               alignSelf: 'center',
-              top: '5%',
+              top: '3%',
               width: 120,
               height: 120,
             }]}
             source={require('./images/moon.json')}
           />
+          <View>
+            <View style={[styles.shadowProp, styles.goalContainer, {
+              marginTop: '25%',
+              marginLeft: '-1%'
 
-          <View style={[styles.shadowProp, styles.goalContainer, {
-            marginTop: 120,
-            
-          }]} />
-          <View style={[styles.shadowProp, styles.goalContainer, { 
-            transform: [{ rotateY: '180deg' }],
-            marginLeft: 270,
-            marginTop: -100
-          }]} />
-          <View style={[styles.shadowProp, styles.bigButton, {
-            marginRight: 275,
-            marginTop: -175,
-          }]}>
-            <Image source={require('./images/night.png')} style={[styles.buttonImage, { tintColor: '#ffffff' }]} />
-          </View>
-          <View style={{ justifyContent: 'center' }}>
-            <Text style={[styles.goalText, { marginTop: 12, marginLeft: 35 }]}>{inputBedTime}</Text>
-            <View style={[styles.editButtonContainer, styles.shadowProp, { marginTop: 10, marginLeft: 25 }]}>
-              <TimePickerModal
-                locale={locale}
-                value={inputBedTime}
-                onChange={onConfirmBedTime}
-                inputMode="start"
-                autoComplete={'bedtime-full'}
-                visible={bedVisible}
-                onDismiss={onBedDismiss}
-                onConfirm={onConfirmBedTime}
-                label="Select"
-                cancelLabel="Cancel"
-                confirmLabel="Ok"
-                animationType="fade"
-              />
-              <TouchableOpacity
-                style={styles.editButton}
-                onPress={onClicky}
-              >
-                <Text style={styles.editButtonText}>Edit</Text>
-              </TouchableOpacity>
+            }]}>
+              <View style={[styles.shadowProp, styles.bigButton, {
+                marginTop: '-50%',
+              }]}>
+                <Image source={require('./images/night.png')} style={[styles.buttonImage, { tintColor: '#ffffff' }]} />
+              </View>
+              <View style={{ justifyContent: 'center' }}>
+                <Text style={[styles.goalText, { marginTop: '10%', marginLeft: 5, alignSelf: 'center' }]}>{inputBedTime}</Text>
+                <View style={[styles.editButtonContainer, styles.shadowProp, { marginTop: '5%', marginLeft: 50 }]}>
+                  <TimePickerModal
+                    locale={locale}
+                    value={inputBedTime}
+                    onChange={onConfirmBedTime}
+                    inputMode="start"
+                    autoComplete={'bedtime-full'}
+                    visible={bedVisible}
+                    onDismiss={onBedDismiss}
+                    onConfirm={onConfirmBedTime}
+                    label="Select"
+                    cancelLabel="Cancel"
+                    confirmLabel="Ok"
+                    animationType="fade"
+                  />
+                  <TouchableOpacity
+                    style={styles.editButton}
+                    onPress={onClicky}
+                  >
+                    <Text style={styles.editButtonText}>Edit</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
-          </View>
-          <View style={[styles.shadowProp, styles.bigButton, {
-            marginLeft: 270,
-            marginTop: -160,
-          }]}>
-            <Image source={require('./images/wake-up.png')} style={[styles.buttonImage, { tintColor: '#ffffff' }]} />
-          </View>
-          <View style={{ justifyContent: 'center' }}>
-            <Text style={[styles.goalText, { marginLeft: 305, marginTop: 10 }]}>{inputWakeupTime}</Text>
-            <View style={[styles.editButtonContainer, styles.shadowProp, { marginTop: 10, marginLeft: 295, backgroundColor: 'transparent' }]}>
-              <TimePickerModal
-                locale={locale}
-                value={inputWakeupTime}
-                onChange={onConfirmWakeupTime}
-                inputMode="start"
-                autoComplete={'wakeuptime-full'}
-                visible={wakeVisible}
-                onDismiss={onWakeDismiss}
-                onConfirm={onConfirmWakeupTime}
-                cancelLabel="Cancel"
-                confirmLabel="Ok"
-                animationType="fade"
-              />
-              <TouchableOpacity
-                style={styles.editButton}
-                onPress={() => setWakeVisible(true)}
-              >
-                <Text style={styles.editButtonText}>Edit</Text>
-              </TouchableOpacity>
+            <View style={[styles.shadowProp, styles.goalContainer, {
+              transform: [{ rotateY: '180deg' }],
+              marginLeft: '65%',
+              marginRight: '-1%',
+              marginTop: -100
+            }]}>
+              <View style={[styles.shadowProp, styles.bigButton, {
+                transform: [{ rotateY: '180deg' }],
+                marginTop: '-50%',
+              }]}>
+                <Image source={require('./images/wake-up.png')} style={[styles.buttonImage, { tintColor: '#ffffff' }]} />
+              </View>
+              <View style={{ justifyContent: 'center' }}>
+                <Text style={[styles.goalText, { transform: [{ rotateY: '180deg' }], marginTop: '10%', marginRight: '25%' }]}>{inputWakeupTime}</Text>
+                <View style={[styles.editButtonContainer, styles.shadowProp, { transform: [{ rotateY: '180deg' }], marginTop: '5%', marginRight: '35%' }]}>
+                  <TimePickerModal
+                    locale={locale}
+                    value={inputWakeupTime}
+                    onChange={onConfirmWakeupTime}
+                    inputMode="start"
+                    autoComplete={'wakeuptime-full'}
+                    visible={wakeVisible}
+                    onDismiss={onWakeDismiss}
+                    onConfirm={onConfirmWakeupTime}
+                    cancelLabel="Cancel"
+                    confirmLabel="Ok"
+                    animationType="fade"
+                  />
+                  <TouchableOpacity
+                    style={styles.editButton}
+                    onPress={() => setWakeVisible(true)}
+                  >
+                    <Text style={styles.editButtonText}>Edit</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
+            <Text style={[styles.shadowProp, styles.sleptText, { alignSelf: 'center', fontSize: 10, marginTop: -95 }]}>You Slept</Text>
+            <Text style={[styles.shadowProp, styles.sleptText, { alignSelf: 'center', fontSize: 75, marginTop: '-4%' }]}>{hoursSlept}</Text>
+            <Text style={[styles.shadowProp, styles.sleptText, { alignSelf: 'center', fontSize: 10, marginTop: '-3%' }]}>Hours</Text>
           </View>
-          <View style={{ marginTop: -75, justifyContent: 'center' }}>
-            <Text style={[styles.shadowProp, styles.sleptText, { alignSelf: 'center', fontSize: 10, marginTop: -15 }]}>You Slept</Text>
-            <Text style={[styles.shadowProp, styles.sleptText, { alignSelf: 'center', fontSize: 75, marginTop: -15 }]}>{hoursSlept}</Text>
-            <Text style={[styles.shadowProp, styles.sleptText, { alignSelf: 'center', fontSize: 10, marginTop: -10 }]}>Hours</Text>
-          </View>
-          <View style={[styles.editButtonContainer, styles.shadowProp, { alignSelf: 'center', marginTop: -150 }]}>
+          <View style={[styles.editButtonContainer, styles.shadowProp, { alignSelf: 'center', marginTop: '-40%' }]}>
             <TouchableOpacity
               style={styles.editButton}
               onPress={() => subtractData()}
@@ -344,8 +349,8 @@ const Sleep = ({ navigation }) => {
               <Text style={[styles.editButtonText]}>Calculate</Text>
             </TouchableOpacity>
           </View>
-          <SafeAreaView style={{ justifyContent: 'center', alignSelf: 'center', marginTop: 110 }}>
-            <View style={[styles.editButtonContainer, styles.shadowProp, { marginTop: 70, marginLeft: 5, height: 10 }]}>
+          <SafeAreaView style={{ justifyContent: 'center', alignSelf: 'center' }}>
+            <View style={[styles.editButtonContainer, styles.shadowProp, { marginTop: '50%', height: 10 }]}>
               <DatePickerInput
                 locale={locale}
                 value={inputDate}
@@ -356,7 +361,7 @@ const Sleep = ({ navigation }) => {
             </View>
           </SafeAreaView>
         </View>
-        <View style={[styles.shadowProp, styles.buttonContainer, { marginTop: 115 }]}>
+        <View style={[styles.shadowProp, styles.buttonContainer, { marginTop: '35%', alignSelf: 'center' }]}>
           <TouchableOpacity
             style={styles.button}
             onPress={validateInputs}
@@ -372,9 +377,7 @@ const Sleep = ({ navigation }) => {
 export default Sleep;
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: 1
   },
   navButtons: {
     width: 40,
@@ -421,7 +424,6 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   editButtonContainer: {
-    width: '30%',
     justifyContent: 'right',
     alignItems: 'right',
   },
@@ -435,7 +437,6 @@ const styles = StyleSheet.create({
   },
   editButton: {
     backgroundColor: "#ffffff",
-    width: '80%',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center'

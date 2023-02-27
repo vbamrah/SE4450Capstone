@@ -109,7 +109,7 @@ const Home = ({ navigation }) => {
     }
 
     return (
-        <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+        <View style={{ flex: 1 }}>
             <LinearGradient colors={['#b5e8ff', '#ffffff']} style={{
                 position: 'absolute',
                 left: 0,
@@ -117,14 +117,18 @@ const Home = ({ navigation }) => {
                 bottom: 0,
                 top: 0,
             }}>
-                <Text style={[styles.shadowProp, {
-                    marginTop: 50,
-                    fontFamily: 'Lemon-Milk',
-                    textAlign: 'center',
-                    color: '#ffffff',
-                    fontSize: 60,
-                }]}>FitMoji</Text>
-                <View style={{ paddingTop: 20, height: '70%', width: '100%' }}>
+                <View style={{
+                    top: '5%',
+                }}>
+                    <Text style={[styles.shadowProp, {
+
+                        fontFamily: 'Lemon-Milk',
+                        textAlign: 'center',
+                        color: '#ffffff',
+                        fontSize: 60,
+                    }]}>FitMoji</Text>
+                </View>
+                <View style={{ paddingTop: 20, height: '70%', width: '100%', marginTop: '10%' }}>
                     <WebView
                         style={[styles.webContainer, { borderRadius: 30 }]}
                         scrollEnabled={false}
@@ -149,36 +153,45 @@ const Home = ({ navigation }) => {
                         </body>`}}
                     />
                 </View>
-                <View style={{ zIndex: 4, elevation: 2, position: 'absolute', marginTop: '40%' }}>
+                <View style={{ zIndex: 4, elevation: 2, position: 'absolute', marginTop: '40%', alignItems: 'center' }}>
                     <MotiView
                         animate={{
                             scale: animated ? 1 : 0,
                             opacity: animated ? 1 : 0
                         }}
                         transition={{ type: 'spring', duration: 600 }}>
-                        <ImageBackground source={require('./images/emojis/BlankMessageBubble.png')} style={[styles.shadowProp, {marginLeft: '60%', marginTop: -10, width: 150, height: 75}]}>
-                        <LottieView
-                            autoPlay loop
-                            style={{
-                                alignSelf: 'center',
-                                top: '2%',
-                                width: 60,
-                                height: 60,
-                            }}
-                            source={require('./images/sad.json')}
-                        />
+                        <ImageBackground source={require('./images/emojis/BlankMessageBubble.png')} style={[styles.shadowProp, {
+                            marginLeft: '60%',
+                            marginTop: -10,
+                            width: 150,
+                            height: 75 }]}>
+                            <LottieView
+                                autoPlay loop
+                                style={{
+                                    alignSelf: 'center',
+                                    top: '2%',
+                                    width: 60,
+                                    height: 60,
+                                }}
+                                source={require('./images/sad.json')}
+                            />
                         </ImageBackground>
-                        <ImageBackground source={require('./images/emojis/BlankMessageBubble.png')} style={[styles.shadowProp, {transform: [{rotateY: '180deg'}], marginLeft: '5%', marginTop: -74, width: 150, height: 75}]}>
-                        <LottieView
-                            autoPlay loop
-                            style={{
-                                alignSelf: 'center',
-                                top: '2.5%',
-                                width: 60,
-                                height: 60
-                            }}
-                            source={require('./images/droplet.json')}
-                        />
+                        <ImageBackground source={require('./images/emojis/BlankMessageBubble.png')} style={[styles.shadowProp, { 
+                            transform: [{ rotateY: '180deg' }], 
+                            marginLeft: '3%', 
+                            marginTop: -74, 
+                            width: 150, 
+                            height: 75 }]}>
+                            <LottieView
+                                autoPlay loop
+                                style={{
+                                    alignSelf: 'center',
+                                    top: '2.5%',
+                                    width: 60,
+                                    height: 60
+                                }}
+                                source={require('./images/droplet.json')}
+                            />
                         </ImageBackground>
                     </MotiView>
                     <Pressable
@@ -186,6 +199,7 @@ const Home = ({ navigation }) => {
                         style={[styles.shadowProp, styles.smallButton, {
                             marginTop: 290,
                             marginLeft: '10%',
+                            alignSelf: 'right'
                         }]}
                     >
                         <Image source={require('./images/goal.png')} style={styles.buttonImage} />
@@ -247,7 +261,7 @@ const Home = ({ navigation }) => {
                         alignSelf: 'right'
                     }]}
                 >
-                    <Image source={require('./images/calendar.png')} style={[styles.buttonImage, {height: '60%', width: '60%', top: '17%'}]} />
+                    <Image source={require('./images/calendar.png')} style={[styles.buttonImage, { height: '60%', width: '60%', top: '17%' }]} />
                 </Pressable>
 
                 <Pressable
