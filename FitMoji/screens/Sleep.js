@@ -361,7 +361,7 @@ const Sleep = ({ navigation }) => {
             </View>
           </SafeAreaView>
         </View>
-        <View style={[styles.shadowProp, styles.buttonContainer, { marginTop: '35%', alignSelf: 'center' }]}>
+        <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, {marginTop: '35%'}]}>
           <TouchableOpacity
             style={styles.button}
             onPress={validateInputs}
@@ -477,5 +477,9 @@ const styles = StyleSheet.create({
   sleptText: {
     fontFamily: 'Lemon-Milk',
     color: 'black'
-  }
+  },
+  submitButton: {
+    marginTop: '80%',
+    alignSelf: 'center'
+}
 });

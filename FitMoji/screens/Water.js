@@ -133,7 +133,7 @@ const Water = ({ navigation }) => {
     const locale = 'en-GB'
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <KeyboardAvoidingView style={styles.container} behavior="padding">
+            <KeyboardAvoidingView style={styles.container}>
                 <LinearGradient colors={['#b5e8ff', '#ffffff']} style={{
                     position: 'absolute',
                     left: 0,
@@ -141,69 +141,102 @@ const Water = ({ navigation }) => {
                     bottom: 0,
                     top: 0,
                 }}></LinearGradient>
-                <View style={styles.inputContainer}>
+                <View style={{
+                    top: '5%'
+                }}>
                     <Text style={[styles.shadowProp, {
                         fontFamily: 'Lemon-Milk',
                         textAlign: 'center',
-                        color: '#FFFFFF',
+                        color: '#ffffff',
                         fontSize: 60,
-                        marginTop: 20
                     }]}>Water</Text>
                     <View style={[styles.shadowProp, {
-                        marginRight: 290
+                        marginRight: '70%',
                     }]}>
                         <Pressable
                             onPress={() => navigation.navigate('Home')}
                             style={[styles.navButtons, { backgroundColor: 'transparent' }]}>
-                            <Image source={require('./images/home.png')} style={{ marginTop: -103, tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
+                            <Image source={require('./images/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
                         </Pressable>
                     </View>
-                    <Text style={styles.goalText}>{`Goal: ${waterGoalForDisplay}`}</Text>
-                    <View style={{marginTop: -250}}>
-                        <TextInput placeholder='Litres'
-                            style={styles.weightInput}
+                </View>
+                <View style={{ top: '5%' }}>
+                    <Text style={[styles.goalText, styles.shadowProp, { marginTop: '-5%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
+                    <View style={{ alignSelf: 'center' }}>
+                        <TextInput placeholder='Enter Goal'
+                            style={[styles.shadowProp, styles.sleepInput, { width: '80%' }]}
                             value={waterGoal}
-                            onChangeText={text => setWaterGoal(text.replace(/[^0-400]/g, ''))}
+                            onChangeText={text => setWaterGoal(text.replace(/[^0-9]/g, ''))}
                             keyboardType="numeric"
-                            maxLength={5}
+                            maxLength={2}
                         />
                     </View>
-                    <Text style={styles.goalText}>{`Water Drank Today: ${waterDrankForDisplay}`}</Text>
-                    <Text style={styles.goalText}>{`Water Left Today: ${waterToGoForDisplay}`}</Text>
-                    <Text style={styles.goalText}>Add Water: </Text>
-                    <View>
+                    <LottieView
+                        autoPlay loop
+                        style={[styles.shadowProp, {
+                            alignSelf: 'center',
+                            width: 250,
+                            height: 250,
+                        }]}
+                        source={require('./images/watertracker.json')}
+                    />
+                    <Pressable
+                        style={[styles.shadowProp, styles.bigButton, {
+                            marginTop: -55,
+                        }]}
+                    >
+                        <Image source={require('./images/plus.png')} style={styles.buttonImage} />
+                    </Pressable>
+                    <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
                         <TextInput placeholder='Litres'
-                            style={styles.weightInput}
+                            style={[styles.sleepInput, styles.shadowProp]}
                             value={waterDrank}
                             onChangeText={text => addWater(text.replace(/[^0-9]/g, ''))}
                             keyboardType="numeric"
                             maxLength={5}
                         />
                     </View>
-                </View>
-                <View style={[styles.shadowProp, styles.buttonContainer, { marginTop: 105 }]}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={validateInputs}
-                    >
-                        <Text style={styles.buttonText}>Submit</Text>
-                    </TouchableOpacity>
+                    <View style={{ alignItems: 'center' }}>
+                        <Text style={[styles.goalText, styles.shadowProp]}>Today's Stats</Text>
+                        <View style={[styles.shadowProp, { marginRight: '50%', marginTop: '-5%' }]}>
+                            <Text style={[styles.goalText, styles.bigNumber]}>{`${waterDrankForDisplay}`}</Text>
+                            <Text style={[styles.goalText, styles.shadowProp, { fontSize: 20, marginTop: -10, textAlign: 'center' }]}>{`Litres${'\n'}Drank`}</Text>
+                        </View>
+                        <View style={[styles.shadowProp, { marginLeft: '50%', marginTop: -160}]}>
+                            <Text style={[styles.goalText, styles.bigNumber]}>{`${waterToGoForDisplay}`}</Text>
+                            <Text style={[styles.goalText, styles.shadowProp, { fontSize: 20, textAlign: 'center', marginTop: -10}]}>{`Litres${'\n'}Left`}</Text>
+                        </View>
+                    </View>
+                    <View>
+                        <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton]}>
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={validateInputs}
+                            >
+                                <Text style={styles.buttonText}>Submit</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 </View>
             </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback >
     )
 }
 
 export default Water;
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        flex: 1
+    },
+    navButtons: {
+        width: 40,
+        height: 40,
+        borderRadius: 30,
+        backgroundColor: '#FFFFFF',
+        alignSelf: 'center'
     },
     inputContainer: {
         width: '80%',
-
     },
     input: {
         backgroundColor: 'white',
@@ -212,23 +245,13 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 5
     },
-    weightInput: {
+    sleepInput: {
         backgroundColor: 'white',
         paddingHorizontal: 15,
         paddingVertical: 10,
         borderRadius: 10,
-        marginTop: 5,
-        width: "100%"
-    },
-    heightInput: {
-        backgroundColor: 'white',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        borderRadius: 10,
-        marginTop: 5,
-        width: "50%",
-        display: "flex",
-        flexDirection: "row"
+        marginTop: 10,
+        width: "40%"
     },
     buttonContainer: {
         width: '60%',
@@ -248,18 +271,11 @@ const styles = StyleSheet.create({
         color: '#b5e8ff',
         fontSize: 30
     },
-    header: {
-        color: 'white',
-        fontWeight: '700',
-        fontSize: 16,
-        marginTop: 10
-    },
     goalText: {
         fontFamily: 'Lemon-Milk',
-        color: 'white',
-        fontWeight: '700',
+        color: '#ffffff',
         fontSize: 25,
-        marginTop: 10
+        marginTop: 20
     },
     shadowProp: {
         shadowOffset: { width: -2, height: 4 },
@@ -267,5 +283,28 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 3,
     },
+    submitButton: {
+        marginTop: '5%',
+        alignSelf: 'center'
+    },
+    bigButton: {
+        backgroundColor: '#FFFFFF',
+        width: 50,
+        height: 50,
+        borderRadius: 40,
+        alignSelf: 'center'
+    },
+    bigNumber: {
+        textAlign: 'center',
+        fontSize: 75,
+        color: '#b5e8ff'
+    },
+    buttonImage: {
+        width: '70%',
+        height: '70%',
+        resizeMode: 'contain',
+        alignSelf: 'center',
+        top: '15%'
+    }
 });
 

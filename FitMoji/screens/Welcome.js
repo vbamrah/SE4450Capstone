@@ -35,9 +35,9 @@ export default function Welcome({ navigation }) {
       }}>
         <Image source={require('./images/yoga-position.png')} style={[styles.shadowProp, { tintColor: 'white', width: '20%', height: '20%', resizeMode: 'contain', alignSelf: 'center', top: '30%'}]} />
         <View style={[styles.shadowProp, 
-          {backgroundColor: 'white', alignSelf: 'center', width: 100, height: 5, marginTop: 210, marginLeft: 200}]}></View>
+          {backgroundColor: 'white', alignSelf: 'center', width: 100, height: 5, marginTop: '51%', marginLeft: 200}]}></View>
           <View style={[styles.shadowProp, 
-          {backgroundColor: 'white', alignSelf: 'center', width: 100, height: 5, marginTop: -5, marginRight: 200}]}></View>
+          {backgroundColor: 'white', alignSelf: 'center', width: 100, height: 5, marginTop: '-1%', marginRight: 200}]}></View>
         <View style={{ flex: 1, justifyContent: 'center' }}>
           <Text style={[styles.shadowProp, {
             marginTop: -170,
