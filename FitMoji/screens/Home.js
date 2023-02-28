@@ -1,6 +1,6 @@
 import React from 'react'
 import { useCallback, useState } from 'react';
-import { ImageBackground, StyleSheet, View, Text, Pressable, Image } from "react-native"
+import { ImageBackground, StyleSheet, View, Text, Pressable, Image, Button } from "react-native"
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { auth } from '../firebase';
@@ -8,6 +8,8 @@ import { getDatabase, ref, child, get } from "firebase/database";
 import { WebView } from 'react-native-webview';
 import { useFocusEffect } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { MotiView, MotiText } from 'moti';
+import LottieView from 'lottie-react-native';
 
 const goal4 = require('./images/emojis/4.png');
 const goal3 = require('./images/emojis/3.png');
@@ -22,6 +24,10 @@ const exercise = require('./images/emojis/exercise.png');
 
 
 const Home = ({ navigation }) => {
+    const [animated, setAnimated] = useState(false);
+    const handleToggle = () => {
+        setAnimated(!animated);
+    }
     const [activityChanged, setActivityChanged] = useState(false);
     useFocusEffect(
         React.useCallback(() => {
@@ -98,31 +104,41 @@ const Home = ({ navigation }) => {
             return exercise;
         }
         else {
-            return blankImg
+            return water
         }
     }
 
     return (
-        <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-            <LinearGradient colors={['#ffffff', '#b5e8ff']}/>
-            <Text style={[styles.shadowProp, {
-                marginTop: 50,
-                fontFamily: 'Lemon-Milk',
-                textAlign: 'center',
-                color: '#FFFFFF',
-                fontSize: 50,
-            }]}>FitMoji</Text>
-            <View style={{ paddingTop: 20, height: '70%', width: '100%'}}>
-                <WebView
-                    style={[styles.webContainer, {borderRadius: 30}]}
-                    scrollEnabled={false}
-                    originWhitelist={['*']}
-                    source={{
-                        html:
-                            `<head>
+        <View style={{ flex: 1 }}>
+            <LinearGradient colors={['#b5e8ff', '#ffffff']} style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                bottom: 0,
+                top: 0,
+            }}>
+                <View style={{
+                    top: '5%',
+                }}>
+                    <Text style={[styles.shadowProp, {
+
+                        fontFamily: 'Lemon-Milk',
+                        textAlign: 'center',
+                        color: '#ffffff',
+                        fontSize: 60,
+                    }]}>FitMoji</Text>
+                </View>
+                <View style={{ paddingTop: 20, height: '70%', width: '100%', marginTop: '10%' }}>
+                    <WebView
+                        style={[styles.webContainer, { borderRadius: 30 }]}
+                        scrollEnabled={false}
+                        originWhitelist={['*']}
+                        source={{
+                            html:
+                                `<head>
                             <style>
                             body {
-                                background-image: linear-gradient(white, #b5e8ff);
+                                background-image: linear-gradient(#C2ECFF, #F2FBFF);
                             }
                             model-viewer {
                                 height: 100%;
@@ -135,130 +151,141 @@ const Home = ({ navigation }) => {
                         <body>
                             <model-viewer src="${avatarUrl}" shadow-intensity="1" camera-controls touch-action="pan-y"></model-viewer>
                         </body>`}}
-                />
-            </View>
-            <View style={{ zIndex: 2, elevation: 2, position: 'absolute' }}>
-                <Image
-                    style={{
-                        zIndex: 4,
-                        elevation: 4,
-                        height: 50,
-                        width: 100,
-                        marginLeft: '75%',
-                        marginTop: '40%'
-                    }}
-                    source={getGoalImage()}></Image>
-                <Image
-                    style={{
-                        zIndex: 4,
-                        elevation: 4,
-                        height: 50,
-                        width: 100,
-                        marginLeft: '75%',
-                        marginTop: '5%'
-                    }}
-                    source={getLastActivityImage()}></Image>
-            </View>
-            <Pressable
-                onPress={() => navigation.navigate('Exercise')}
-                style={[styles.shadowProp, {
-                    marginRight: 265,
-                    marginTop: 15,
-                    backgroundColor: '#FFFFFF',
-                    width: 70,
-                    height: 70,
-                    borderRadius: 40,
-                    alignSelf: 'center'
-                }]}
-            >
-                <Image source={require('./images/trackButtons/exercise.png')} style={{ width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
-            </Pressable>
-            <Pressable
-                onPress={() => navigation.navigate('Food Intake')}
-                style={[styles.shadowProp, {
-                    marginRight: 90,
-                    marginTop: -70,
-                    backgroundColor: '#FFFFFF',
-                    width: 70,
-                    height: 70,
-                    borderRadius: 40,
-                    alignSelf: 'center'
-                }]}
-            >
-                <Image source={require('./images/trackButtons/food.png')} style={{ width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
-            </Pressable>
-            <Pressable
-                onPress={() => navigation.navigate('Water')}
-                style={[styles.shadowProp, {
-                    marginLeft: 90,
-                    marginTop: -70,
-                    backgroundColor: '#FFFFFF',
-                    width: 70,
-                    height: 70,
-                    borderRadius: 40,
-                    alignSelf: 'center'
-                }]}
-            >
-                <Image source={require('./images/trackButtons/water.png')} style={{ width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
-            </Pressable>
-            <Pressable
-                onPress={() => navigation.navigate('Sleep')}
-                style={[styles.shadowProp, {
-                    marginLeft: 265,
-                    marginTop: -70,
-                    backgroundColor: '#FFFFFF',
-                    width: 70,
-                    height: 70,
-                    borderRadius: 40,
-                    alignSelf: 'center'
-                }]}
-            >
-                <Image source={require('./images/trackButtons/sleep.png')} style={{ width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
-            </Pressable>
+                    />
+                </View>
+                <View style={{ zIndex: 4, elevation: 2, position: 'absolute', marginTop: '40%', alignItems: 'center' }}>
+                    <Pressable
+                        onPress={() => navigation.navigate('Goals')}
+                        style={[styles.shadowProp, styles.smallButton, {
+                            marginTop: 325,
+                            marginLeft: '10%',
+                            alignSelf: 'right'
+                        }]}
+                    >
+                        <Image source={require('./images/star.png')} style={[styles.buttonImage, { height: '60%', width: '60%', top: '17%' }]} />
+                    </Pressable>
+                    <Pressable
+                        onPress={handleToggle}
+                        style={[styles.shadowProp, styles.smallButton, {
+                            marginTop: 10,
+                            marginLeft: '10%',
+                            alignSelf: 'right'
+                        }]}
+                    >
+                        <Image source={require('./images/goal.png')} style={styles.buttonImage} />
+                    </Pressable>
+                    <MotiView
+                        animate={{
+                            scale: animated ? 1 : 0,
+                            opacity: animated ? 1 : 0
+                        }}
+                        transition={{ type: 'spring', duration: 600 }}>
+                        <ImageBackground source={require('./images/emojis/BlankMessageBubble.png')} style={[styles.shadowProp, {
+                            marginLeft: '60%',
+                            marginTop: -425,
+                            width: 150,
+                            height: 75
+                        }]}>
+                            <LottieView
+                                autoPlay loop
+                                style={{
+                                    alignSelf: 'center',
+                                    top: '2%',
+                                    width: 60,
+                                    height: 60,
+                                }}
+                                source={require('./images/sad.json')}
+                            />
+                        </ImageBackground>
+                        <ImageBackground source={require('./images/emojis/BlankMessageBubble.png')} style={[styles.shadowProp, {
+                            transform: [{ rotateY: '180deg' }],
+                            marginLeft: '3%',
+                            marginTop: -74,
+                            width: 150,
+                            height: 75
+                        }]}>
+                            <LottieView
+                                autoPlay loop
+                                style={{
+                                    alignSelf: 'center',
+                                    top: '2.5%',
+                                    width: 60,
+                                    height: 60
+                                }}
+                                source={require('./images/droplet.json')}
+                            />
+                        </ImageBackground>
+                    </MotiView>
+                </View>
+                <Pressable
+                    onPress={() => navigation.navigate('Exercise')}
+                    style={[styles.shadowProp, styles.bigButton, {
+                        marginRight: 265,
+                        marginTop: 15,
+                    }]}
+                >
+                    <Image source={require('./images/trackButtons/exercise.png')} style={styles.buttonImage} />
+                </Pressable>
+                <Pressable
+                    onPress={() => navigation.navigate('Food Intake')}
+                    style={[styles.shadowProp, styles.bigButton, {
+                        marginRight: 90,
+                        marginTop: -70,
+                    }]}
+                >
+                    <Image source={require('./images/trackButtons/food.png')} style={styles.buttonImage} />
+                </Pressable>
+                <Pressable
+                    onPress={() => navigation.navigate('Water')}
+                    style={[styles.shadowProp, styles.bigButton, {
+                        marginLeft: 90,
+                        marginTop: -70,
+                    }]}
+                >
+                    <Image source={require('./images/trackButtons/water.png')} style={styles.buttonImage} />
+                </Pressable>
+                <Pressable
+                    onPress={() => navigation.navigate('Sleep')}
+                    style={[styles.shadowProp, styles.bigButton, {
+                        marginLeft: 265,
+                        marginTop: -70,
+                    }]}
+                >
+                    <Image source={require('./images/trackButtons/sleep.png')} style={styles.buttonImage} />
+                </Pressable>
 
-            <Pressable
-                onPress={() => navigation.navigate('User Manual')}
-                style={[styles.shadowProp, {
-                    marginTop: -140,
-                    marginLeft: 30,
-                    backgroundColor: '#FFFFFF',
-                    width: 40,
-                    height: 40,
-                    borderRadius: 40,
-                    alignSelf: 'right'
-                }]}
-            >
-                <Image source={require('./images/Manual.jpg')} style={{ width: '100%', height: '100%', borderRadius: 40, resizeMode: 'contain' }} />
-            </Pressable>
+                <Pressable
+                    onPress={() => navigation.navigate('User Manual')}
+                    style={[styles.shadowProp, styles.smallButton, {
+                        marginTop: -140,
+                        marginLeft: '10%',
+                        alignSelf: 'right'
+                    }]}
+                >
+                    <Image source={require('./images/manual-book.png')} style={styles.buttonImage} />
+                </Pressable>
 
-            <Pressable
-                onPress={() => navigation.navigate('Calendar')}
-                style={[styles.shadowProp, {
-                    marginTop: -90,
-                    marginLeft: 30,
-                    backgroundColor: '#FFFFFF',
-                    width: 40,
-                    height: 40,
-                    borderRadius: 40,
-                    alignSelf: 'right'
-                }]}
-            >
-                <Image source={require('./images/calendar.png')} style={{ width: '100%', height: '100%', borderRadius: 40, resizeMode: 'contain' }} />
-            </Pressable>
+                <Pressable
+                    onPress={() => navigation.navigate('')}
+                    style={[styles.shadowProp, styles.smallButton, {
+                        marginTop: -90,
+                        marginLeft: '10%',
+                        alignSelf: 'right'
+                    }]}
+                >
+                    <Image source={require('./images/calendar.png')} style={[styles.buttonImage, { height: '60%', width: '60%', top: '17%' }]} />
+                </Pressable>
 
-            <Pressable
-                onPress={() => navigation.navigate('Profile')}
-                style={[styles.shadowProp, {
-                    marginTop: -20,
-                    marginLeft: 350,
-                    backgroundColor: '#FFFFFF',
-                    width: 40,
-                    height: 40,
-                    borderRadius: 40,
-                }]}
-            >
-                <Image source={require('./images/trackButtons/user.png')} style={{ width: '60%', height: '60%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
-            </Pressable>
+                <Pressable
+                    onPress={() => navigation.navigate('Profile')}
+                    style={[styles.shadowProp, styles.smallButton, {
+                        marginTop: -20,
+                        marginLeft: '80%',
+                    }]}
+                >
+                    <Image source={require('./images/trackButtons/user.png')} style={{ width: '60%', height: '60%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
+                </Pressable>
+            </LinearGradient>
         </View>
     )
 }
@@ -305,9 +332,26 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 3,
     },
-    goalsImg: {
-
+    smallButton: {
+        backgroundColor: '#FFFFFF',
+        width: 40,
+        height: 40,
+        borderRadius: 40,
     },
+    bigButton: {
+        backgroundColor: '#FFFFFF',
+        width: 70,
+        height: 70,
+        borderRadius: 40,
+        alignSelf: 'center'
+    },
+    buttonImage: {
+        width: '70%',
+        height: '70%',
+        resizeMode: 'contain',
+        alignSelf: 'center',
+        top: '15%'
+    }
 })
 
 export default Home;

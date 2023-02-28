@@ -1,16 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useFonts } from 'expo-font';
 import {
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-  KeyboardAvoidingView,
-  TouchableOpacity
+    View,
+    TextInput,
+    Text,
+    StyleSheet,
+    KeyboardAvoidingView,
+    TouchableOpacity
 } from 'react-native'
 import { auth } from '../firebase';
+import { LinearGradient } from 'expo-linear-gradient';
 
-const LogIn = ({navigation}) => {
+const LogIn = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -30,26 +31,26 @@ const LogIn = ({navigation}) => {
 
     const handleSignUp = () => {
         auth
-        .createUserWithEmailAndPassword(email, password)
-        .then(userCredentials => {
-            const user = userCredentials.user;
-            console.log(user.email);
-        })
-        .catch(error => alert(error.message))
+            .createUserWithEmailAndPassword(email, password)
+            .then(userCredentials => {
+                const user = userCredentials.user;
+                console.log(user.email);
+            })
+            .catch(error => alert(error.message))
     }
 
     const handleLogIn = () => {
         auth
-        .signInWithEmailAndPassword(email,password)
-        .then(userCredentials => {
-            const user = userCredentials.user;
-            console.log('Logged in with: ', user.email);
-        })
-        .catch(error => alert(error.message))
+            .signInWithEmailAndPassword(email, password)
+            .then(userCredentials => {
+                const user = userCredentials.user;
+                console.log('Logged in with: ', user.email);
+            })
+            .catch(error => alert(error.message))
     }
 
-    const handleLogOut = () => { 
-        auth.signOut().then(() =>{ 
+    const handleLogOut = () => {
+        auth.signOut().then(() => {
             //navigate to login screen
         }).catch(error => alert(error.message))
     }
@@ -69,44 +70,50 @@ const LogIn = ({navigation}) => {
     }
 
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        
-        <View style={styles.inputContainer}>
-            <Text style = {{
-                    textShadowColor: '#000000',
-                    textShadowRadius: '10',
-                    fontFamily: 'Lemon-Milk',
-                    textAlign: 'center',
-                    color: '#FFFFFF',
-                    fontSize: 50,
-                }}>Login</Text>
-            <TextInput placeholder='Email'
-            value= {email}
-            onChangeText={text => setEmail(text)}
-            style={[styles.input, styles.inputEmail]}
-            />
-             <TextInput placeholder='Password'
-            value= {password}
-            onChangeText={password => setPassword(password)} 
-            style={styles.input}
-            secureTextEntry
-            />
-        </View>
-        <View style={styles.buttonContainer}>
-            <TouchableOpacity 
-            onPress={handleLogIn}
-            style={styles.button}
-            >
-                <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-            onPress={handleSignUp}
-            style={[styles.button, styles.buttonOutline]}
-            >
-                <Text style={styles.buttonOutlineText}>Register</Text>
-            </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
+            <LinearGradient colors={['#b5e8ff', '#ffffff']} style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                bottom: 0,
+                top: 0,
+            }}>
+                <View style={[styles.inputContainer, styles.shadowProp]}>
+                    <Text style={{
+                        fontFamily: 'Lemon-Milk',
+                        textAlign: 'center',
+                        color: '#FFFFFF',
+                        fontSize: 60,
+                        marginTop: 100
+                    }}>Login</Text>
+                    <TextInput placeholder='Email'
+                        value={email}
+                        onChangeText={text => setEmail(text)}
+                        style={[styles.input , {marginTop: 20}]}
+                    />
+                    <TextInput placeholder='Password'
+                        value={password}
+                        onChangeText={password => setPassword(password)}
+                        style={styles.input}
+                        secureTextEntry
+                    />
+                </View>
+                <View style={[styles.buttonContainer, styles.shadowProp]}>
+                    <TouchableOpacity
+                        onPress={handleLogIn}
+                        style={styles.button}
+                    >
+                        <Text style={styles.buttonText}>Login</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={handleSignUp}
+                        style={[styles.button, styles.buttonOutline, {marginTop: -57}]}
+                    >
+                        <Text style={styles.buttonOutlineText}>Register</Text>
+                    </TouchableOpacity>
+                </View>
+            </LinearGradient>
+        </KeyboardAvoidingView>
     )
 }
 
@@ -118,46 +125,55 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     inputContainer: {
-        width: '80%',
-
+        marginTop: 200,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     input: {
+        width: '65%',
         backgroundColor: 'white',
         paddingHorizontal: 15,
         paddingVertical: 10,
         borderRadius: 10,
         marginTop: 5
     },
-    inputEmail: {
-        marginTop: 20
-    },
     buttonContainer: {
+        flex: 1,
         width: '60%',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 40
+        marginLeft: 85,
+        marginTop: 200
     },
     button: {
-        backgroundColor: "#42A5F5",
-        width: '100%',
+        width: '55%',
+        marginRight: 150,
+        backgroundColor: "#FFFFFF",
         padding: 15,
         borderRadius: 10,
         alignItems: 'center'
     },
     buttonText: {
-        color: 'white',
+        fontFamily: 'Lemon-Milk',
+        color: '#b5e8ff',
         fontWeight: '700',
-        fontSize: 16
+        fontSize: 20
     },
     buttonOutline: {
-        backgroundColor: "#7DC0C9",
+        marginRight: -150,
+        backgroundColor: "#cfcfcf",
         marginTop: 5,
-        borderColor: "#42A5F5",
-        borderWidth: 2
     },
     buttonOutlineText: {
-        color: '#42A5F5',
+        fontFamily: 'Lemon-Milk',
+        color: '#b5e8ff',
         fontWeight: '700',
-        fontSize: 16
+        fontSize: 20
+    },
+    shadowProp: {
+        shadowOffset: { width: -2, height: 4 },
+        shadowColor: '#171717',
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
     },
 });
