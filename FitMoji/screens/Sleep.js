@@ -200,7 +200,7 @@ const Sleep = ({ navigation }) => {
         goal = data.sleepGoal;
         return goal;
       }
-    }
+    });
   }
 
       function getRecommendedSleepGoal(){
