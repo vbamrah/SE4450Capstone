@@ -21,6 +21,7 @@ import { auth } from '../firebase';
 import { database } from '../firebase';
 import { LinearGradient } from 'expo-linear-gradient';
 import LottieView from 'lottie-react-native';
+import { MotiView, MotiText } from 'moti';
 
 import {
     enGB,
@@ -36,6 +37,11 @@ const Water = ({ navigation }) => {
     let waterDrankForDisplay = getWaterDrank();
 
     let waterToGoForDisplay = getWaterToGo();
+
+    const [animated, setAnimated] = useState(false);
+    const handleToggle = () => {
+        setAnimated(!animated);
+    }
 
     const defaultValue = 0;
     const [waterGoal, setWaterGoal] = useState(waterGoalForDisplay);
@@ -83,7 +89,7 @@ const Water = ({ navigation }) => {
     }
 
     function getWaterDrank() {
-        let watDrank;
+        let watDrank = 0;
         const db = getDatabase();
         const waterDrank = ref(db, 'Water/' + auth.currentUser?.uid);
         onValue(waterDrank, (snapshot) => {
@@ -180,42 +186,57 @@ const Water = ({ navigation }) => {
                         }]}
                         source={require('./images/watertracker.json')}
                     />
-                    <Pressable
-                        style={[styles.shadowProp, styles.bigButton, {
-                            marginTop: -55,
-                        }]}
-                    >
-                        <Image source={require('./images/plus.png')} style={styles.buttonImage} />
-                    </Pressable>
-                    <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
-                        <TextInput placeholder='Litres'
-                            style={[styles.sleepInput, styles.shadowProp]}
-                            value={waterDrank}
-                            onChangeText={text => addWater(text.replace(/[^0-9]/g, ''))}
-                            keyboardType="numeric"
-                            maxLength={5}
-                        />
+                    <View style={{ alignSelf: 'center', justifyContent: 'center', marginTop: -45 }}>
+                        <MotiView
+                            animate={{
+                                scale: animated ? 1 : 0,
+                                opacity: animated ? 1 : 0,
+                                transform: [{ translateY: 45 }],
+                            }}
+                            transition={{ type: 'spring', duration: 600 }}>
+                            <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
+                                <TextInput placeholder='Litres'
+                                    style={[styles.sleepInput, styles.shadowProp]}
+                                    value={waterDrank}
+                                    onChangeText={text => addWater(text.replace(/[^0-9]/g, ''))}
+                                    keyboardType="numeric"
+                                    maxLength={5}
+                                />
+                            </View>
+                        </MotiView>
+                        <Pressable
+                            onPress={handleToggle}
+                            style={[styles.shadowProp, styles.bigButton, {
+                                marginTop: -57,
+                            }]}
+                        >
+                            <Image source={require('./images/plus.png')} style={styles.buttonImage} />
+                        </Pressable>
                     </View>
-                    <View style={{ alignItems: 'center' }}>
+                    <View style={{ alignItems: 'center', marginTop: 45 }}>
                         <Text style={[styles.goalText, styles.shadowProp]}>Today's Stats</Text>
-                        <View style={[styles.shadowProp, { marginRight: '50%', marginTop: '-5%' }]}>
-                            <Text style={[styles.goalText, styles.bigNumber]}>{`${waterDrankForDisplay}`}</Text>
-                            <Text style={[styles.goalText, styles.shadowProp, { fontSize: 20, marginTop: -10, textAlign: 'center' }]}>{`Litres${'\n'}Drank`}</Text>
-                        </View>
-                        <View style={[styles.shadowProp, { marginLeft: '50%', marginTop: -160}]}>
-                            <Text style={[styles.goalText, styles.bigNumber]}>{`${waterToGoForDisplay}`}</Text>
-                            <Text style={[styles.goalText, styles.shadowProp, { fontSize: 20, textAlign: 'center', marginTop: -10}]}>{`Litres${'\n'}Left`}</Text>
+                        <View style={[styles.shadowProp, styles.goalContainer, {
+                            marginTop: '5%',
+                        }]}>
+                            <View style={[{ marginRight: '50%', marginTop: '-7%' }]}>
+                                <Text style={[styles.goalText, styles.bigNumber]}>{`${waterDrankForDisplay}`}</Text>
+                                <Text style={[styles.goalText, { color: '#BCF4A6', fontSize: 20, marginTop: -10, textAlign: 'center' }]}>{`Litres${'\n'}Drank`}</Text>
+                            </View>
+                            <View style={[{ marginLeft: '50%', marginTop: -163 }]}>
+                                <Text style={[styles.goalText, styles.bigNumber]}>{`${waterToGoForDisplay}`}</Text>
+                                <Text style={[styles.goalText, {  color: '#F1A7B0', fontSize: 20, textAlign: 'center', marginTop: -10 }]}>{`Litres${'\n'}Left`}</Text>
+                            </View>
                         </View>
                     </View>
-                    <View>
-                        <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton]}>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={validateInputs}
-                            >
-                                <Text style={styles.buttonText}>Submit</Text>
-                            </TouchableOpacity>
-                        </View>
+                </View>
+                <View>
+                    <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton]}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={validateInputs}
+                        >
+                            <Text style={styles.buttonText}>Submit</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </KeyboardAvoidingView>
@@ -246,9 +267,9 @@ const styles = StyleSheet.create({
         marginTop: 5
     },
     sleepInput: {
-        backgroundColor: 'white',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
+        backgroundColor: '#ffffff',
+        paddingHorizontal: 20,
+        paddingVertical: 12,
         borderRadius: 10,
         marginTop: 10,
         width: "40%"
@@ -264,7 +285,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         padding: 10,
-        marginBottom: 30
     },
     buttonText: {
         fontFamily: 'Lemon-Milk',
@@ -284,7 +304,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
     },
     submitButton: {
-        marginTop: '5%',
+        marginTop: 90,
         alignSelf: 'center'
     },
     bigButton: {
@@ -305,6 +325,12 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         alignSelf: 'center',
         top: '15%'
-    }
+    },
+    goalContainer: {
+        width: '90%',
+        height: 150,
+        backgroundColor: '#F2FBFF',
+        borderRadius: 25
+    },
 });
 

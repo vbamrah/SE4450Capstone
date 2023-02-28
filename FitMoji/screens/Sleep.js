@@ -346,7 +346,7 @@ const Sleep = ({ navigation }) => {
               style={styles.editButton}
               onPress={() => subtractData()}
             >
-              <Text style={[styles.editButtonText]}>Calculate</Text>
+              <Text style={[styles.editButtonText, {color: '#BCF4A6'}]}>Calculate</Text>
             </TouchableOpacity>
           </View>
           <SafeAreaView style={{ justifyContent: 'center', alignSelf: 'center' }}>
@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
   },
   editButtonText: {
     fontFamily: 'Lemon-Milk',
-    color: 'pink',
+    color: '#808080',
     fontWeight: '700',
     fontSize: 13
   },

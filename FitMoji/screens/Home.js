@@ -154,6 +154,26 @@ const Home = ({ navigation }) => {
                     />
                 </View>
                 <View style={{ zIndex: 4, elevation: 2, position: 'absolute', marginTop: '40%', alignItems: 'center' }}>
+                    <Pressable
+                        onPress={() => navigation.navigate('Goals')}
+                        style={[styles.shadowProp, styles.smallButton, {
+                            marginTop: 325,
+                            marginLeft: '10%',
+                            alignSelf: 'right'
+                        }]}
+                    >
+                        <Image source={require('./images/star.png')} style={[styles.buttonImage, { height: '60%', width: '60%', top: '17%' }]} />
+                    </Pressable>
+                    <Pressable
+                        onPress={handleToggle}
+                        style={[styles.shadowProp, styles.smallButton, {
+                            marginTop: 10,
+                            marginLeft: '10%',
+                            alignSelf: 'right'
+                        }]}
+                    >
+                        <Image source={require('./images/goal.png')} style={styles.buttonImage} />
+                    </Pressable>
                     <MotiView
                         animate={{
                             scale: animated ? 1 : 0,
@@ -162,9 +182,10 @@ const Home = ({ navigation }) => {
                         transition={{ type: 'spring', duration: 600 }}>
                         <ImageBackground source={require('./images/emojis/BlankMessageBubble.png')} style={[styles.shadowProp, {
                             marginLeft: '60%',
-                            marginTop: -10,
+                            marginTop: -425,
                             width: 150,
-                            height: 75 }]}>
+                            height: 75
+                        }]}>
                             <LottieView
                                 autoPlay loop
                                 style={{
@@ -176,12 +197,13 @@ const Home = ({ navigation }) => {
                                 source={require('./images/sad.json')}
                             />
                         </ImageBackground>
-                        <ImageBackground source={require('./images/emojis/BlankMessageBubble.png')} style={[styles.shadowProp, { 
-                            transform: [{ rotateY: '180deg' }], 
-                            marginLeft: '3%', 
-                            marginTop: -74, 
-                            width: 150, 
-                            height: 75 }]}>
+                        <ImageBackground source={require('./images/emojis/BlankMessageBubble.png')} style={[styles.shadowProp, {
+                            transform: [{ rotateY: '180deg' }],
+                            marginLeft: '3%',
+                            marginTop: -74,
+                            width: 150,
+                            height: 75
+                        }]}>
                             <LottieView
                                 autoPlay loop
                                 style={{
@@ -194,16 +216,6 @@ const Home = ({ navigation }) => {
                             />
                         </ImageBackground>
                     </MotiView>
-                    <Pressable
-                        onPress={handleToggle}
-                        style={[styles.shadowProp, styles.smallButton, {
-                            marginTop: 290,
-                            marginLeft: '10%',
-                            alignSelf: 'right'
-                        }]}
-                    >
-                        <Image source={require('./images/goal.png')} style={styles.buttonImage} />
-                    </Pressable>
                 </View>
                 <Pressable
                     onPress={() => navigation.navigate('Exercise')}
@@ -254,7 +266,7 @@ const Home = ({ navigation }) => {
                 </Pressable>
 
                 <Pressable
-                    onPress={() => navigation.navigate('Goals')}
+                    onPress={() => navigation.navigate('')}
                     style={[styles.shadowProp, styles.smallButton, {
                         marginTop: -90,
                         marginLeft: '10%',

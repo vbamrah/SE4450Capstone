@@ -1,6 +1,18 @@
 import React from 'react'
 import { useCallback, useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Pressable, ScrollView, Image, TextInput, KeyboardAvoidingView, SafeAreaView } from "react-native"
+import {
+    View,
+    TextInput,
+    Text,
+    StyleSheet,
+    Pressable,
+    KeyboardAvoidingView,
+    TouchableOpacity,
+    Platform,
+    TouchableWithoutFeedback,
+    Keyboard,
+    Image
+} from 'react-native'
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -28,74 +40,76 @@ const Goals = ({ navigation }) => {
         activeStrokeWidth: 25,
         inActiveStrokeWidth: 25,
         inActiveStrokeOpacity: 0.2
-      };
+    };
 
     return (
-        <View style={styles.container}>
-            <LinearGradient colors={['#b5e8ff', '#ffffff']} style={{
-                position: 'absolute',
-                left: 0,
-                right: 0,
-                bottom: 0,
-                top: 0,
-                borderRadius: 30
-            }}>
-                <Text style={[styles.shadowProp, {
-                    marginTop: 50,
-                    fontFamily: 'Lemon-Milk',
-                    textAlign: 'center',
-                    color: '#ffffff',
-                    fontSize: 60,
-                }]}>Goals</Text>
-                <View style={[styles.shadowProp, {
-                    marginTop: -60,
-                    marginRight: 300,
-                }]}>
-                    <Pressable
-                        onPress={() => navigation.navigate('Home')}
-                        style={styles.navButtons}>
-                        <Image source={require('./images/home.png')} style={{ width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
-                    </Pressable>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+            <KeyboardAvoidingView style={styles.container}>
+                <LinearGradient colors={['#b5e8ff', '#ffffff']} style={{
+                    position: 'absolute',
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    top: 0,
+                }}></LinearGradient>
+                <View style={{
+                    top: '5%'
+                }}>
+                    <Text style={[styles.shadowProp, {
+                        fontFamily: 'Lemon-Milk',
+                        textAlign: 'center',
+                        color: '#ffffff',
+                        fontSize: 60,
+                    }]}>Goals</Text>
+                    <View style={[styles.shadowProp, {
+                        marginRight: '70%',
+                    }]}>
+                        <Pressable
+                            onPress={() => navigation.navigate('Home')}
+                            style={[styles.navButtons, { backgroundColor: 'transparent' }]}>
+                            <Image source={require('./images/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
+                        </Pressable>
+                    </View>
                 </View>
                 <View style={[styles.shadowProp, {
                     alignSelf: 'center',
                     marginTop: 200
                 }]}>
-                <CircularProgressBase
-                {...props}
-                    value={80}
-                    radius={150}
-                    activeStrokeColor={'#e84118'}
-                    inActiveStrokeColor={'#e84118'}
-                    
-                >
                     <CircularProgressBase
-                    {...props}
-                        value={87}
-                        radius={120}
-                        activeStrokeColor={'#badc58'}
-                        inActiveStrokeColor={'#badc58'}
+                        {...props}
+                        value={80}
+                        radius={150}
+                        activeStrokeColor={'#e84118'}
+                        inActiveStrokeColor={'#e84118'}
+
                     >
                         <CircularProgressBase
-                        {...props}
-                            value={72}
-                            radius={90}
-                            activeStrokeColor={'#18dcff'}
-                            inActiveStrokeColor={'#18dcff'}
+                            {...props}
+                            value={87}
+                            radius={120}
+                            activeStrokeColor={'#badc58'}
+                            inActiveStrokeColor={'#badc58'}
                         >
                             <CircularProgressBase
-                            {...props}
-                                value={62}
-                                radius={60}
-                                activeStrokeColor={'#a358dc'}
-                                inActiveStrokeColor={'#a358dc'}
-                            />
+                                {...props}
+                                value={72}
+                                radius={90}
+                                activeStrokeColor={'#18dcff'}
+                                inActiveStrokeColor={'#18dcff'}
+                            >
+                                <CircularProgressBase
+                                    {...props}
+                                    value={62}
+                                    radius={60}
+                                    activeStrokeColor={'#a358dc'}
+                                    inActiveStrokeColor={'#a358dc'}
+                                />
+                            </CircularProgressBase>
                         </CircularProgressBase>
                     </CircularProgressBase>
-                </CircularProgressBase>
                 </View>
-            </LinearGradient>
-        </View>
+            </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
     );
 }
 
@@ -115,8 +129,6 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     shadowProp: {
         shadowOffset: { width: -2, height: 4 },
