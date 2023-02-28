@@ -13,8 +13,8 @@ const Headers = _ => (
         <Text style={styles.pinkText}>Fitness</Text> Journey
       </Text>
       <View style={styles.badges}>
-        <Badge name="Exercises" />
-        <Badge name="Exercise History" />
+        <Badge name="Exercises" style={styles.firstBadge}/>
+        <Badge name="Exercise History"  style={styles.badge} />
       </View>
     </View>
   </React.Fragment>
@@ -36,17 +36,21 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     paddingHorizontal: 15,
-    color: "white"
+    color: "grey"
   },
   pinkText: {
-    color: "#FC427B",
+    color: "#4da6ff",
+  },
+  exercise: {
+    marginRight: 20,
   },
   badges: {
     flexDirection: 'row',
     marginVertical: 20,
+    marginHorizontal: -65,
     paddingHorizontal: 15,
     justifyContent: 'space-between'
   }
-});
+  });
 
 export default Headers;
