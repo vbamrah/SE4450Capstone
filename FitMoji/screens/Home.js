@@ -266,7 +266,7 @@ const Home = ({ navigation }) => {
                 </Pressable>
 
                 <Pressable
-                    onPress={() => navigation.navigate('')}
+                    onPress={() => navigation.navigate('Calendar')}
                     style={[styles.shadowProp, styles.smallButton, {
                         marginTop: -90,
                         marginLeft: '10%',
