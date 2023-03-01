@@ -269,9 +269,13 @@ const Sleep = ({ navigation }) => {
             </Pressable>
           </View>
         </View>
-        <Text style={styles.recommendationText}>{`Recommended Sleep Goal: ${sleepRecommendation} hours`}</Text>
+        <View style={{
+          alignSelf: 'center'
+        }}>
+        <Text style={[styles.goalText, styles.shadowProp, { color: 'white', textAlign: 'center' }]}>{`Recommended Goal ${'\n'+sleepRecommendation} hours`}</Text>
+        </View>
         <View style={{ top: '5%' }}>
-          <Text style={[styles.goalText, styles.shadowProp, { marginTop: '-5%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
+          <Text style={[styles.goalText, styles.shadowProp, { marginTop: '-8%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
           <View style={{ alignSelf: 'center' }}>
             <TextInput placeholder='Enter Goal'
               style={[styles.shadowProp, styles.sleepInput, { width: '80%' }]}
@@ -386,7 +390,7 @@ const Sleep = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <SafeAreaView style={{ justifyContent: 'center', alignSelf: 'center' }}>
-            <View style={[styles.editButtonContainer, styles.shadowProp, { marginTop: '50%', height: 10 }]}>
+            <View style={[styles.editButtonContainer, styles.shadowProp, { marginTop: '40%', height: 10 }]}>
               <DatePickerInput
                 locale={locale}
                 value={inputDate}
