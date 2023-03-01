@@ -276,26 +276,38 @@ const Sleep = ({ navigation }) => {
             </Pressable>
           </View>
         </View>
-        <View style={{
+        <View style={[styles.shadowProp, {
+          top: '3%',
+          width: '90%',
+          height: '8%',
+          backgroundColor: '#cdefff',
+          borderRadius: 25,
           alignSelf: 'center'
-        }}>
-          <Text style={[styles.goalText, styles.shadowProp, { color: 'white', textAlign: 'center' }]}>{`Recommended Goal ${'\n' + sleepRecommendation} hours`}</Text>
+        }]}>
+          <Text style={[styles.goalText, { color: 'white', textAlign: 'center', marginTop: 3 }]}>{`Recommended Goal ${'\n' + sleepRecommendation} hours`}</Text>
         </View>
-        <View style={{ top: '5%' }}>
-          <Text style={[styles.goalText, styles.shadowProp, { marginTop: '-8%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
-          <View style={{ zIndex: 4, alignSelf: 'center' }}>
-            <TextInput placeholder='Enter Goal'
-              style={[styles.shadowProp, styles.sleepInput, { width: '80%' }]}
-              value={sleepGoal}
-              onChangeText={text => setGoal(text.replace(/[^0-9]/g, ''))}
-              keyboardType="numeric"
-              maxLength={2}
-            />
-          </View>
+        <Text style={[styles.goalText, styles.shadowProp, { marginTop: '8%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
+        <View style={{ zIndex: 4, alignSelf: 'center' }}>
+          <TextInput placeholder='Enter Goal'
+            style={[styles.shadowProp, styles.sleepInput, { width: '80%' }]}
+            value={sleepGoal}
+            onChangeText={text => setGoal(text.replace(/[^0-9]/g, ''))}
+            keyboardType="numeric"
+            maxLength={2}
+          />
+        </View>
+        <View style={[styles.shadowProp, {
+          top: '2%',
+          width: '90%',
+          height: '40%',
+          backgroundColor: '#e5f7ff',
+          borderRadius: 25,
+          alignSelf: 'center'
+        }]}>
 
           <View style={[styles.shadowProp, styles.bigButton, {
             alignSelf: 'center',
-            marginTop: '-12%'
+            marginTop: '-15%'
           }]}>
             <Image source={require('./images/sleepPage/semicircle.png')} style={[styles.buttonImage, { borderRadius: 30, tintColor: '#ffffff', width: 270, height: 270 }]} />
           </View>
@@ -313,7 +325,7 @@ const Sleep = ({ navigation }) => {
           <View>
             <View style={[styles.shadowProp, styles.goalContainer, {
               marginTop: '25%',
-              marginLeft: '-1%'
+              marginLeft: '-5%'
 
             }]}>
               <View style={[styles.shadowProp, styles.bigButton, {
@@ -395,19 +407,24 @@ const Sleep = ({ navigation }) => {
               <Text style={[styles.editButtonText, { color: '#BCF4A6' }]}>Calculate</Text>
             </TouchableOpacity>
           </View>
-          <SafeAreaView style={{ justifyContent: 'center', alignSelf: 'center' }}>
-            <View style={[styles.editButtonContainer, styles.shadowProp, { marginTop: '40%', height: 10 }]}>
+          <View style={[styles.editButtonContainer]}>
+            <View style={ { marginTop: '50%', height: '10%', alignSelf: 'center' }}>
               <DatePickerInput
                 locale={locale}
                 value={inputDate}
                 onChange={setInputDate}
                 inputMode="start"
                 autoComplete={'sleepdate-full'}
+                visible={dateVisible}
+                onDismiss={onDateDismiss}
+                cancelLabel="Cancel"
+                confirmLabel="Ok"
+                animationType="fade"
               />
             </View>
-          </SafeAreaView>
+          </View>
         </View>
-        <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { marginTop: '35%' }]}>
+        <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { marginTop: '33%' }]}>
           <TouchableOpacity
             style={styles.button}
             onPress={validateInputs}
