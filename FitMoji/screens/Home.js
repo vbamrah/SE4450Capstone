@@ -200,7 +200,7 @@ const Home = ({ navigation }) => {
                                     width: 60,
                                     height: 60,
                                 }}
-                                source={getGoalImage()}
+                                source={getLastActivityImage()}
                             />
                         </ImageBackground>
                         <ImageBackground source={require('./images/emojis/bubble.png')} style={[styles.shadowProp, {
@@ -216,9 +216,9 @@ const Home = ({ navigation }) => {
                                     alignSelf: 'center',
                                     top: '2.5%',
                                     width: 60,
-                                    height: 60
+                                    height: 60,
                                 }}
-                                source={getLastActivityImage()}
+                                source={getGoalImage()}
                             />
                         </ImageBackground>
                     </MotiView>
