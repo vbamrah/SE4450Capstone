@@ -200,45 +200,43 @@ const Sleep = ({ navigation }) => {
         goal = data.sleepGoal;
         return goal;
       }
-    }
+    });
   }
 
-      function getRecommendedSleepGoal(){
-        var dob;
-        var recommendation;
-        const db = getDatabase();
-        const userData = ref(db, 'users/' + auth.currentUser?.uid);
-        onValue(userData, (snapshot) => {
-        var data = snapshot.val();
-        dob = data.dob;
-        let dobYear = dob.slice(0,4);
-        let currentYear = new Date().getFullYear();
-        let age = currentYear - dobYear;
-        if(age <= 12){
-          recommendation = "9-12";
-        }
-        else if(age > 12 && age <= 18){
-          recommendation = "8-12";
-        }
-        else if(age > 18 && age <= 60){
-          recommendation = "7";
-        }
-        else if(age > 60 && age <= 64){
-          recommendation = "7-9";
-        }
-        else{
-          recommendation = "7-8";
-        }
+  function getRecommendedSleepGoal() {
+    var dob;
+    var recommendation;
+    const db = getDatabase();
+    const userData = ref(db, 'users/' + auth.currentUser?.uid);
+    onValue(userData, (snapshot) => {
+      var data = snapshot.val();
+      dob = data.dob;
+      let dobYear = dob.slice(0, 4);
+      let currentYear = new Date().getFullYear();
+      let age = currentYear - dobYear;
+      if (age <= 12) {
+        recommendation = "9-12";
+      }
+      else if (age > 12 && age <= 18) {
+        recommendation = "8-12";
+      }
+      else if (age > 18 && age <= 60) {
+        recommendation = "7";
+      }
+      else if (age > 60 && age <= 64) {
+        recommendation = "7-9";
+      }
+      else {
+        recommendation = "7-8";
+      }
+    });
+    return recommendation;
+  }
 
-        });
-
-        return recommendation;
-    }
-
-    function getSleepRecommendationThatDisplaysCorrectly(){
-        var sleepRec = getRecommendedSleepGoal();
-        return sleepRec;
-    }
+  function getSleepRecommendationThatDisplaysCorrectly() {
+    var sleepRec = getRecommendedSleepGoal();
+    return sleepRec;
+  }
 
   const locale = 'en-GB'
 
@@ -272,7 +270,7 @@ const Sleep = ({ navigation }) => {
           </View>
         </View>
         <Text style={styles.recommendationText}>{`Recommended Sleep Goal: ${sleepRecommendation} hours`}</Text>
-        <View style={{top: '5%'}}>
+        <View style={{ top: '5%' }}>
           <Text style={[styles.goalText, styles.shadowProp, { marginTop: '-5%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
           <View style={{ alignSelf: 'center' }}>
             <TextInput placeholder='Enter Goal'
@@ -384,7 +382,7 @@ const Sleep = ({ navigation }) => {
               style={styles.editButton}
               onPress={() => subtractData()}
             >
-              <Text style={[styles.editButtonText, {color: '#BCF4A6'}]}>Calculate</Text>
+              <Text style={[styles.editButtonText, { color: '#BCF4A6' }]}>Calculate</Text>
             </TouchableOpacity>
           </View>
           <SafeAreaView style={{ justifyContent: 'center', alignSelf: 'center' }}>
@@ -399,7 +397,7 @@ const Sleep = ({ navigation }) => {
             </View>
           </SafeAreaView>
         </View>
-        <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, {marginTop: '35%'}]}>
+        <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { marginTop: '35%' }]}>
           <TouchableOpacity
             style={styles.button}
             onPress={validateInputs}
@@ -418,12 +416,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-    recommendationText: {
-        color: 'grey',
-        fontWeight: '600',
-        fontSize: 12,
-        marginTop: 10
-    },
+  recommendationText: {
+    color: 'grey',
+    fontWeight: '600',
+    fontSize: 12,
+    marginTop: 10
+  },
   navButtons: {
     width: 40,
     height: 40,
@@ -526,5 +524,5 @@ const styles = StyleSheet.create({
   submitButton: {
     marginTop: '80%',
     alignSelf: 'center'
-}
+  }
 });

@@ -245,6 +245,7 @@ const Water = ({ navigation }) => {
 }
 
 export default Water;
+
 const styles = StyleSheet.create({
     container: {
         flex: 1
