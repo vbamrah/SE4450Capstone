@@ -67,7 +67,7 @@ const Goals = ({ navigation }) => {
                         <Pressable
                             onPress={() => navigation.navigate('Home')}
                             style={[styles.navButtons, { backgroundColor: 'transparent' }]}>
-                            <Image source={require('./images/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
+                            <Image source={require('./images/globalButtons/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
                         </Pressable>
                     </View>
                 </View>

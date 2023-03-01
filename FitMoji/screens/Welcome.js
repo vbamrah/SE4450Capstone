@@ -33,7 +33,7 @@ export default function Welcome({ navigation }) {
         bottom: 0,
         top: 0,
       }}>
-        <Image source={require('./images/yoga-position.png')} style={[styles.shadowProp, { tintColor: 'white', width: '20%', height: '20%', resizeMode: 'contain', alignSelf: 'center', top: '30%'}]} />
+        <Image source={require('./images/logo/yoga-position.png')} style={[styles.shadowProp, { tintColor: 'white', width: '20%', height: '20%', resizeMode: 'contain', alignSelf: 'center', top: '30%'}]} />
         <View style={[styles.shadowProp, 
           {backgroundColor: 'white', alignSelf: 'center', width: 100, height: 5, marginTop: '51%', marginLeft: 200}]}></View>
           <View style={[styles.shadowProp, 

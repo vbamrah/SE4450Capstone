@@ -122,6 +122,9 @@ const Water = ({ navigation }) => {
         if(waterToGo <= 0) {
             global.goalsCompleted[0] = 'complete';
         }
+        else {
+            global.goalsCompleted[0] = 'incomplete';
+          }
 
         return waterToGo;
     }
@@ -166,7 +169,7 @@ const Water = ({ navigation }) => {
                         <Pressable
                             onPress={() => navigation.navigate('Home')}
                             style={[styles.navButtons, { backgroundColor: 'transparent' }]}>
-                            <Image source={require('./images/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
+                            <Image source={require('./images/globalButtons/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
                         </Pressable>
                     </View>
                 </View>
@@ -188,7 +191,7 @@ const Water = ({ navigation }) => {
                             width: 250,
                             height: 250,
                         }]}
-                        source={require('./images/watertracker.json')}
+                        source={require('./images/pagePics/waterTracker.json')}
                     />
                     <View style={{ alignSelf: 'center', justifyContent: 'center', marginTop: -45 }}>
                         <MotiView
@@ -214,7 +217,7 @@ const Water = ({ navigation }) => {
                                 marginTop: -57,
                             }]}
                         >
-                            <Image source={require('./images/plus.png')} style={styles.buttonImage} />
+                            <Image source={require('./images/globalButtons/plus.png')} style={styles.buttonImage} />
                         </Pressable>
                     </View>
                     <View style={{ alignItems: 'center', marginTop: 45 }}>

@@ -169,9 +169,12 @@ const Sleep = ({ navigation }) => {
 
     setHoursSlept(subtractHour);
 
-    if(subtractHour >= getRecommendedSleepGoal()) {
+    if (subtractHour >= getRecommendedSleepGoal()) {
       global.goalsCompleted[3] = 'complete';
-  }
+    }
+    else {
+      global.goalsCompleted[3] = 'incomplete';
+    }
 
   }
 
@@ -269,14 +272,14 @@ const Sleep = ({ navigation }) => {
             <Pressable
               onPress={() => navigation.navigate('Home')}
               style={[styles.navButtons, { backgroundColor: 'transparent' }]}>
-              <Image source={require('./images/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
+              <Image source={require('./images/globalButtons/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
             </Pressable>
           </View>
         </View>
         <View style={{
           alignSelf: 'center'
         }}>
-        <Text style={[styles.goalText, styles.shadowProp, { color: 'white', textAlign: 'center' }]}>{`Recommended Goal ${'\n'+sleepRecommendation} hours`}</Text>
+          <Text style={[styles.goalText, styles.shadowProp, { color: 'white', textAlign: 'center' }]}>{`Recommended Goal ${'\n' + sleepRecommendation} hours`}</Text>
         </View>
         <View style={{ top: '5%' }}>
           <Text style={[styles.goalText, styles.shadowProp, { marginTop: '-8%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
@@ -294,7 +297,7 @@ const Sleep = ({ navigation }) => {
             alignSelf: 'center',
             marginTop: '-12%'
           }]}>
-            <Image source={require('./images/semicircle.png')} style={[styles.buttonImage, { borderRadius: 30, tintColor: '#ffffff', width: 270, height: 270 }]} />
+            <Image source={require('./images/sleepPage/semicircle.png')} style={[styles.buttonImage, { borderRadius: 30, tintColor: '#ffffff', width: 270, height: 270 }]} />
           </View>
 
           <LottieView
@@ -305,7 +308,7 @@ const Sleep = ({ navigation }) => {
               width: 120,
               height: 120,
             }]}
-            source={require('./images/moon.json')}
+            source={require('./images/pagePics/sleepTracker.json')}
           />
           <View>
             <View style={[styles.shadowProp, styles.goalContainer, {
@@ -316,7 +319,7 @@ const Sleep = ({ navigation }) => {
               <View style={[styles.shadowProp, styles.bigButton, {
                 marginTop: '-50%',
               }]}>
-                <Image source={require('./images/night.png')} style={[styles.buttonImage, { tintColor: '#ffffff' }]} />
+                <Image source={require('./images/sleepPage/night.png')} style={[styles.buttonImage, { tintColor: '#ffffff' }]} />
               </View>
               <View style={{ justifyContent: 'center' }}>
                 <Text style={[styles.goalText, { marginTop: '10%', marginLeft: 5, alignSelf: 'center' }]}>{inputBedTime}</Text>
@@ -353,7 +356,7 @@ const Sleep = ({ navigation }) => {
               <View style={[styles.shadowProp, styles.bigButton, {
                 marginTop: '-50%',
               }]}>
-                <Image source={require('./images/wake-up.png')} style={[styles.buttonImage, { tintColor: '#ffffff' }]} />
+                <Image source={require('./images/sleepPage/morning.png')} style={[styles.buttonImage, { tintColor: '#ffffff' }]} />
               </View>
               <View style={{ justifyContent: 'center' }}>
                 <Text style={[styles.goalText, { transform: [{ rotateY: '180deg' }], marginTop: '10%', marginRight: '25%' }]}>{inputWakeupTime}</Text>
@@ -375,7 +378,7 @@ const Sleep = ({ navigation }) => {
                     style={styles.editButton}
                     onPress={() => setWakeVisible(true)}
                   >
-                    <Text style={[styles.editButtonText, { transform: [{ rotateY: '180deg' }]}]}>Edit</Text>
+                    <Text style={[styles.editButtonText, { transform: [{ rotateY: '180deg' }] }]}>Edit</Text>
                   </TouchableOpacity>
                 </View>
               </View>

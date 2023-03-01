@@ -111,6 +111,9 @@ const FoodIntake = ({navigation}) => {
         if(calsToGo <= 0) {
             global.goalsCompleted[1] = 'complete';
         }
+        else {
+            global.goalsCompleted[1] = 'incomplete';
+          }
 
         return calsToGo;
     }
@@ -170,7 +173,7 @@ const FoodIntake = ({navigation}) => {
                         <Pressable
                             onPress={() => navigation.navigate('Home')}
                             style={[styles.navButtons, { backgroundColor: 'transparent' }]}>
-                            <Image source={require('./images/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
+                            <Image source={require('./images/globalButtons/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
                         </Pressable>
                     </View>
                 </View>
@@ -193,7 +196,7 @@ const FoodIntake = ({navigation}) => {
                             width: 200,
                             height: 200,
                         }]}
-                        source={require('./images/foodtracker.json')}
+                        source={require('./images/pagePics/foodTracker.json')}
                     />
                     <View style={{ alignSelf: 'center', justifyContent: 'center', marginTop: 10 }}>
                         <MotiView
@@ -219,7 +222,7 @@ const FoodIntake = ({navigation}) => {
                                 marginTop: -55,
                             }]}
                         >
-                            <Image source={require('./images/plus.png')} style={styles.buttonImage} />
+                            <Image source={require('./images/globalButtons/plus.png')} style={styles.buttonImage} />
                         </Pressable>
                     </View>
                     <View style={{ alignItems: 'center', marginTop: 60 }}>

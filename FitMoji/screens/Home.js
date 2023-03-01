@@ -11,16 +11,16 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { MotiView, MotiText } from 'moti';
 import LottieView from 'lottie-react-native';
 
-const goal4 = require('./images/fourthGoal.json');
-const goal3 = require('./images/thirdGoal.json');
-const goal2 = require('./images/secondGoal.json');
-const goal1 = require('./images/sad.json');
-const goal0 = require('./images/zeroGoal.json');
-const blankImg = require('./images/emojis/BlankMessageBubble.png');
-const food = require('./images/veggie.json');
-const water = require('./images/droplet.json');
-const sleep = require('./images/sleeping.json');
-const exercise = require('./images/muscle.json');
+const goal4 = require('./images/emojis/fourGoal.json');
+const goal3 = require('./images/emojis/threeGoal.json');
+const goal2 = require('./images/emojis/twoGoal.json');
+const goal1 = require('./images/emojis/oneGoal.json');
+const goal0 = require('./images/emojis/zeroGoal.json');
+
+const food = require('./images/emojis/foodEmoji.json');
+const water = require('./images/emojis/waterEmoji.json');
+const sleep = require('./images/emojis/sleepEmoji.json');
+const exercise = require('./images/emojis/exerciseEmoji.json');
 
 
 const Home = ({ navigation }) => {
@@ -168,7 +168,7 @@ const Home = ({ navigation }) => {
                             alignSelf: 'right'
                         }]}
                     >
-                        <Image source={require('./images/star.png')} style={[styles.buttonImage, { height: '60%', width: '60%', top: '17%' }]} />
+                        <Image source={require('./images/homeButtons/star.png')} style={[styles.buttonImage, { height: '60%', width: '60%', top: '17%' }]} />
                     </Pressable>
                     <Pressable
                         onPress={handleToggle}
@@ -178,7 +178,7 @@ const Home = ({ navigation }) => {
                             alignSelf: 'right'
                         }]}
                     >
-                        <Image source={require('./images/goal.png')} style={styles.buttonImage} />
+                        <Image source={require('./images/homeButtons/goal.png')} style={styles.buttonImage} />
                     </Pressable>
                     <MotiView
                         animate={{
@@ -186,7 +186,7 @@ const Home = ({ navigation }) => {
                             opacity: animated ? 1 : 0
                         }}
                         transition={{ type: 'spring', duration: 600 }}>
-                        <ImageBackground source={require('./images/emojis/BlankMessageBubble.png')} style={[styles.shadowProp, {
+                        <ImageBackground source={require('./images/emojis/bubble.png')} style={[styles.shadowProp, {
                             marginLeft: '60%',
                             marginTop: -425,
                             width: 150,
@@ -203,7 +203,7 @@ const Home = ({ navigation }) => {
                                 source={getGoalImage()}
                             />
                         </ImageBackground>
-                        <ImageBackground source={require('./images/emojis/BlankMessageBubble.png')} style={[styles.shadowProp, {
+                        <ImageBackground source={require('./images/emojis/bubble.png')} style={[styles.shadowProp, {
                             transform: [{ rotateY: '180deg' }],
                             marginLeft: '3%',
                             marginTop: -74,
@@ -268,7 +268,7 @@ const Home = ({ navigation }) => {
                         alignSelf: 'right'
                     }]}
                 >
-                    <Image source={require('./images/manual-book.png')} style={styles.buttonImage} />
+                    <Image source={require('./images/homeButtons/manual-book.png')} style={styles.buttonImage} />
                 </Pressable>
 
                 <Pressable
@@ -279,7 +279,7 @@ const Home = ({ navigation }) => {
                         alignSelf: 'right'
                     }]}
                 >
-                    <Image source={require('./images/calendar.png')} style={[styles.buttonImage, { height: '60%', width: '60%', top: '17%' }]} />
+                    <Image source={require('./images/homeButtons/calendar.png')} style={[styles.buttonImage, { height: '60%', width: '60%', top: '17%' }]} />
                 </Pressable>
 
                 <Pressable
@@ -289,7 +289,7 @@ const Home = ({ navigation }) => {
                         marginLeft: '80%',
                     }]}
                 >
-                    <Image source={require('./images/trackButtons/user.png')} style={{ width: '60%', height: '60%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
+                    <Image source={require('./images/homeButtons/user.png')} style={{ width: '60%', height: '60%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
                 </Pressable>
             </LinearGradient>
         </View>

@@ -151,6 +151,9 @@ const Exercise = ({ navigation }) => {
     if(exerciseToGo <= 0) {
       global.goalsCompleted[2] = 'complete';
   }
+  else {
+    global.goalsCompleted[2] = 'incomplete';
+  }
 
     return exerciseToGo;
   }
@@ -193,7 +196,7 @@ const Exercise = ({ navigation }) => {
             <Pressable
               onPress={() => navigation.navigate('Home')}
               style={[styles.navButtons, { backgroundColor: 'transparent' }]}>
-              <Image source={require('./images/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
+              <Image source={require('./images/globalButtons/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
             </Pressable>
           </View>
           <View style={{ zIndex: 4, marginTop: -60, alignItems: 'center' }}>
@@ -217,7 +220,7 @@ const Exercise = ({ navigation }) => {
               width: 200,
               height: 200,
             }]}
-            source={require('./images/run.json')}
+            source={require('./images/pagePics/exerciseTracker.json')}
           />
           <View style={{
             alignItems: 'center',
