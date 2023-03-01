@@ -107,6 +107,11 @@ const FoodIntake = ({navigation}) => {
             calsEaten = 0;
         }
         var calsToGo = goal - calsEaten;
+
+        if(calsToGo <= 0) {
+            global.goalsCompleted[1] = 'complete';
+        }
+
         return calsToGo;
     }
 

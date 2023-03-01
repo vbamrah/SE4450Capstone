@@ -148,6 +148,10 @@ const Exercise = ({ navigation }) => {
     }
     var exerciseToGo = goal - minsExercised;
 
+    if(exerciseToGo <= 0) {
+      global.goalsCompleted[2] = 'complete';
+  }
+
     return exerciseToGo;
   }
 
@@ -251,7 +255,7 @@ const Exercise = ({ navigation }) => {
             <Text style={[styles.goalText, {fontSize: 60, marginTop: -10, color: '#b5e8ff'}]}>{`${exerciseForDisplay}`}</Text>
           </View>
           <View style={[styles.goalContainer , styles.shadowProp, { marginTop: 10 , alignItems: 'center', alignSelf: 'center'}]}>
-            <Text style={[styles.goalText, {color: '#F1A7B0', marginTop: 2}]}>Exercises To Go</Text>
+            <Text style={[styles.goalText, {color: '#F1A7B0', marginTop: 2}]}>Minutes To Go</Text>
             <Text style={[styles.goalText, {fontSize: 60, marginTop: -10, color: '#b5e8ff'}]}>{`${exerciseToGoForDisplay}`}</Text>
           </View>
         </View>

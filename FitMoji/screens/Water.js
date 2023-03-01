@@ -119,6 +119,10 @@ const Water = ({ navigation }) => {
         }
         var waterToGo = goal - watDrank;
 
+        if(waterToGo <= 0) {
+            global.goalsCompleted[0] = 'complete';
+        }
+
         return waterToGo;
     }
 

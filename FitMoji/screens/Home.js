@@ -11,16 +11,16 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { MotiView, MotiText } from 'moti';
 import LottieView from 'lottie-react-native';
 
-const goal4 = require('./images/emojis/4.png');
-const goal3 = require('./images/emojis/3.png');
-const goal2 = require('./images/emojis/2.png');
-const goal1 = require('./images/emojis/1.png');
-const goal0 = require('./images/emojis/0.png');
+const goal4 = require('./images/fourthGoal.json');
+const goal3 = require('./images/thirdGoal.json');
+const goal2 = require('./images/secondGoal.json');
+const goal1 = require('./images/sad.json');
+const goal0 = require('./images/zeroGoal.json');
 const blankImg = require('./images/emojis/BlankMessageBubble.png');
-const food = require('./images/emojis/food.png');
-const water = require('./images/emojis/water.png');
-const sleep = require('./images/emojis/sleep.png');
-const exercise = require('./images/emojis/exercise.png');
+const food = require('./images/veggie.json');
+const water = require('./images/droplet.json');
+const sleep = require('./images/sleeping.json');
+const exercise = require('./images/muscle.json');
 
 
 const Home = ({ navigation }) => {
@@ -73,19 +73,25 @@ const Home = ({ navigation }) => {
 
     function getGoalImage() {
         console.log(global.goalsCompleted)
-        if (global.goalsCompleted == 0) {
+        var counter = 0;
+        for (i = 0; i < global.goalsCompleted.length; i++) {
+            if (global.goalsCompleted[i] == 'complete') {
+                counter++;
+            }
+        }
+        if (counter == 0) {
             return goal0;
         }
-        else if (global.goalsCompleted == 1) {
+        else if (counter == 1) {
             return goal1;
         }
-        else if (global.goalsCompleted == 2) {
+        else if (counter == 2) {
             return goal2;
         }
-        else if (global.goalsCompleted == 3) {
+        else if (counter == 3) {
             return goal3;
         }
-        else if (global.goalsCompleted == 4) {
+        else if (counter == 4) {
             return goal4;
         }
     }
@@ -194,7 +200,7 @@ const Home = ({ navigation }) => {
                                     width: 60,
                                     height: 60,
                                 }}
-                                source={require('./images/sad.json')}
+                                source={getGoalImage()}
                             />
                         </ImageBackground>
                         <ImageBackground source={require('./images/emojis/BlankMessageBubble.png')} style={[styles.shadowProp, {
@@ -212,7 +218,7 @@ const Home = ({ navigation }) => {
                                     width: 60,
                                     height: 60
                                 }}
-                                source={require('./images/droplet.json')}
+                                source={getLastActivityImage()}
                             />
                         </ImageBackground>
                     </MotiView>

@@ -169,6 +169,10 @@ const Sleep = ({ navigation }) => {
 
     setHoursSlept(subtractHour);
 
+    if(subtractHour >= getRecommendedSleepGoal()) {
+      global.goalsCompleted[3] = 'complete';
+  }
+
   }
 
   function writeUserData() {
@@ -276,7 +280,7 @@ const Sleep = ({ navigation }) => {
         </View>
         <View style={{ top: '5%' }}>
           <Text style={[styles.goalText, styles.shadowProp, { marginTop: '-8%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
-          <View style={{ alignSelf: 'center' }}>
+          <View style={{ zIndex: 4, alignSelf: 'center' }}>
             <TextInput placeholder='Enter Goal'
               style={[styles.shadowProp, styles.sleepInput, { width: '80%' }]}
               value={sleepGoal}
@@ -347,14 +351,13 @@ const Sleep = ({ navigation }) => {
               marginTop: -100
             }]}>
               <View style={[styles.shadowProp, styles.bigButton, {
-                transform: [{ rotateY: '180deg' }],
                 marginTop: '-50%',
               }]}>
                 <Image source={require('./images/wake-up.png')} style={[styles.buttonImage, { tintColor: '#ffffff' }]} />
               </View>
               <View style={{ justifyContent: 'center' }}>
                 <Text style={[styles.goalText, { transform: [{ rotateY: '180deg' }], marginTop: '10%', marginRight: '25%' }]}>{inputWakeupTime}</Text>
-                <View style={[styles.editButtonContainer, styles.shadowProp, { transform: [{ rotateY: '180deg' }], marginTop: '5%', marginRight: '35%' }]}>
+                <View style={[styles.editButtonContainer, styles.shadowProp, { marginTop: '5%', marginLeft: '35%' }]}>
                   <TimePickerModal
                     locale={locale}
                     value={inputWakeupTime}
@@ -372,7 +375,7 @@ const Sleep = ({ navigation }) => {
                     style={styles.editButton}
                     onPress={() => setWakeVisible(true)}
                   >
-                    <Text style={styles.editButtonText}>Edit</Text>
+                    <Text style={[styles.editButtonText, { transform: [{ rotateY: '180deg' }]}]}>Edit</Text>
                   </TouchableOpacity>
                 </View>
               </View>
