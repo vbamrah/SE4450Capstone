@@ -146,7 +146,7 @@ const Water = ({ navigation }) => {
     const locale = 'en-GB'
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <KeyboardAvoidingView style={styles.container}>
+            <View style={styles.container}>
                 <LinearGradient colors={['#b5e8ff', '#ffffff']} style={{
                     position: 'absolute',
                     left: 0,
@@ -164,7 +164,7 @@ const Water = ({ navigation }) => {
                         fontSize: 60,
                     }]}>Water</Text>
                     <View style={[styles.shadowProp, {
-                        marginRight: '70%',
+                        marginRight: '75%',
                     }]}>
                         <Pressable
                             onPress={() => navigation.navigate('Home')}
@@ -173,7 +173,7 @@ const Water = ({ navigation }) => {
                         </Pressable>
                     </View>
                 </View>
-                <View style={{ top: '5%' }}>
+                <View style={{ top: '2%' }}>
                     <Text style={[styles.goalText, styles.shadowProp, { marginTop: '-5%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
                     <View style={{ alignSelf: 'center' }}>
                         <TextInput placeholder='Enter Goal'
@@ -188,8 +188,8 @@ const Water = ({ navigation }) => {
                         autoPlay loop
                         style={[styles.shadowProp, {
                             alignSelf: 'center',
-                            width: 250,
-                            height: 250,
+                            width: 200,
+                            height: 200,
                         }]}
                         source={require('./images/pagePics/waterTracker.json')}
                     />
@@ -201,7 +201,7 @@ const Water = ({ navigation }) => {
                                 transform: [{ translateY: 45 }],
                             }}
                             transition={{ type: 'spring', duration: 600 }}>
-                            <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
+                            <View style={{ alignSelf: 'center' }}>
                                 <TextInput placeholder='Litres'
                                     style={[styles.sleepInput, styles.shadowProp]}
                                     value={waterDrank}
@@ -220,7 +220,9 @@ const Water = ({ navigation }) => {
                             <Image source={require('./images/globalButtons/plus.png')} style={styles.buttonImage} />
                         </Pressable>
                     </View>
-                    <View style={{ alignItems: 'center', marginTop: 45 }}>
+                </View>
+                <View style={{ transform: [{translateY: 10}] }}>
+                    <View style={{ alignItems: 'center' }}>
                         <Text style={[styles.goalText, styles.shadowProp]}>Today's Stats</Text>
                         <View style={[styles.shadowProp, styles.goalContainer, {
                             marginTop: '5%',
@@ -235,9 +237,7 @@ const Water = ({ navigation }) => {
                             </View>
                         </View>
                     </View>
-                </View>
-                <View>
-                    <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton]}>
+                    <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { transform: [{translateY: -40}]}]}>
                         <TouchableOpacity
                             style={styles.button}
                             onPress={validateInputs}
@@ -246,7 +246,7 @@ const Water = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-            </KeyboardAvoidingView>
+            </View>
         </TouchableWithoutFeedback >
     )
 }
@@ -255,7 +255,9 @@ export default Water;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between'
     },
     navButtons: {
         width: 40,

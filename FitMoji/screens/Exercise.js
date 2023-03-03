@@ -148,12 +148,12 @@ const Exercise = ({ navigation }) => {
     }
     var exerciseToGo = goal - minsExercised;
 
-    if(exerciseToGo <= 0) {
+    if (exerciseToGo <= 0) {
       global.goalsCompleted[2] = 'complete';
-  }
-  else {
-    global.goalsCompleted[2] = 'incomplete';
-  }
+    }
+    else {
+      global.goalsCompleted[2] = 'incomplete';
+    }
 
     return exerciseToGo;
   }
@@ -173,7 +173,7 @@ const Exercise = ({ navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <KeyboardAvoidingView style={styles.container}>
+      <View style={styles.container}>
         <LinearGradient colors={['#b5e8ff', '#ffffff']} style={{
           position: 'absolute',
           left: 0,
@@ -182,7 +182,8 @@ const Exercise = ({ navigation }) => {
           top: 0,
         }}></LinearGradient>
         <View style={{
-          top: '5%'
+          top: '5%',
+          flex: 0.2
         }}>
           <Text style={[styles.shadowProp, {
             fontFamily: 'Lemon-Milk',
@@ -191,7 +192,7 @@ const Exercise = ({ navigation }) => {
             fontSize: 60,
           }]}>Fitness</Text>
           <View style={[styles.shadowProp, {
-            marginRight: '70%',
+            marginRight: '75%',
           }]}>
             <Pressable
               onPress={() => navigation.navigate('Home')}
@@ -199,7 +200,9 @@ const Exercise = ({ navigation }) => {
               <Image source={require('./images/globalButtons/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
             </Pressable>
           </View>
-          <View style={{ zIndex: 4, marginTop: -60, alignItems: 'center' }}>
+        </View>
+        <View style={{flex: 0.8, top: '2%'}}>
+          <View style={{ zIndex: 4, alignItems: 'center' }}>
             <Text style={styles.goalText}>Goal</Text>
             <View style={{ alignSelf: 'center' }}>
               <TextInput
@@ -226,44 +229,44 @@ const Exercise = ({ navigation }) => {
             alignItems: 'center',
             marginTop: -80
           }}>
-          <Text style={[styles.goalText, styles.shadowProp]}>Add Minutes</Text>
-          <Text style={[styles.goalText, styles.shadowProp, {fontSize: 60, marginTop: -10}]}>{`${counter}`}</Text>
-          <View style={{
-            alignItems: 'center',
-            alignSelf: 'center',
-            flexDirection: 'row'
-          }}>
-            <TouchableOpacity
-              style={[styles.button, styles.shadowProp, { marginTop: 10, marginRight: 10, width: '25%' }]}
-              onPress={() => {addExercise(5); countMin(5);}}
-            >
-              <Text style={[styles.buttonText, { fontSize: 16 }]}>+5 Min</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.shadowProp, { marginTop: 10, marginRight: 10, width: '25%' }]}
-              onPress={() => addExercise(10)}
-            >
-              <Text style={[styles.buttonText, { fontSize: 16 }]}>+10 Min</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.shadowProp, { marginTop: 10, width: '25%' }]}
-              onPress={() => addExercise(15)}
-            >
-              <Text style={[styles.buttonText, { fontSize: 16 }]}>+15 Min</Text>
-            </TouchableOpacity>
-          </View>
-          </View>
-          <View style={[styles.goalContainer, styles.shadowProp, { marginTop: 40, alignItems: 'center', alignSelf: 'center' }]}>
-            <Text style={[styles.goalText, {color: '#BCF4A6', marginTop: 2}]}>Minutes Exercised</Text>
-            <Text style={[styles.goalText, {fontSize: 60, marginTop: -10, color: '#b5e8ff'}]}>{`${exerciseForDisplay}`}</Text>
-          </View>
-          <View style={[styles.goalContainer , styles.shadowProp, { marginTop: 10 , alignItems: 'center', alignSelf: 'center'}]}>
-            <Text style={[styles.goalText, {color: '#F1A7B0', marginTop: 2}]}>Minutes To Go</Text>
-            <Text style={[styles.goalText, {fontSize: 60, marginTop: -10, color: '#b5e8ff'}]}>{`${exerciseToGoForDisplay}`}</Text>
+            <Text style={[styles.goalText, styles.shadowProp]}>Add Minutes</Text>
+            <Text style={[styles.goalText, styles.shadowProp, { fontSize: 60, marginTop: -10 }]}>{`${counter}`}</Text>
+            <View style={{
+              alignItems: 'center',
+              alignSelf: 'center',
+              flexDirection: 'row'
+            }}>
+              <TouchableOpacity
+                style={[styles.button, styles.shadowProp, { marginTop: 10, marginRight: 10, width: '25%' }]}
+                onPress={() => { addExercise(5); countMin(5); }}
+              >
+                <Text style={[styles.buttonText, { fontSize: 16 }]}>+5 Min</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.shadowProp, { marginTop: 10, marginRight: 10, width: '25%' }]}
+                onPress={() => addExercise(10)}
+              >
+                <Text style={[styles.buttonText, { fontSize: 16 }]}>+10 Min</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.shadowProp, { marginTop: 10, width: '25%' }]}
+                onPress={() => addExercise(15)}
+              >
+                <Text style={[styles.buttonText, { fontSize: 16 }]}>+15 Min</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-        <View>
-          <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton]}>
+        <View style={{ transform: [{translateY: 25}] }}>
+          <View style={[styles.goalContainer, styles.shadowProp, { marginTop: 40, alignItems: 'center', alignSelf: 'center' }]}>
+            <Text style={[styles.goalText, { color: '#BCF4A6', marginTop: 2 }]}>Minutes Exercised</Text>
+            <Text style={[styles.goalText, { fontSize: 60, marginTop: -10, color: '#b5e8ff' }]}>{`${exerciseForDisplay}`}</Text>
+          </View>
+          <View style={[styles.goalContainer, styles.shadowProp, { marginTop: 10, alignItems: 'center', alignSelf: 'center' }]}>
+            <Text style={[styles.goalText, { color: '#F1A7B0', marginTop: 2 }]}>Minutes To Go</Text>
+            <Text style={[styles.goalText, { fontSize: 60, marginTop: -10, color: '#b5e8ff' }]}>{`${exerciseToGoForDisplay}`}</Text>
+          </View>
+          <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { transform: [{translateY: -60}]}]}>
             <TouchableOpacity
               style={styles.button}
               onPress={validateInputs}
@@ -294,7 +297,7 @@ const Exercise = ({ navigation }) => {
                 trackTintColor="blue"
                 />
         </View> */}
-      </KeyboardAvoidingView>
+      </View>
     </TouchableWithoutFeedback>
   );
 }
@@ -302,6 +305,8 @@ const Exercise = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start'
   },
   navButtons: {
     width: 40,
@@ -396,7 +401,7 @@ const styles = StyleSheet.create({
     height: 100,
     backgroundColor: '#F2FBFF',
     borderRadius: 25
-},
+  },
 });
 
 export default Exercise;

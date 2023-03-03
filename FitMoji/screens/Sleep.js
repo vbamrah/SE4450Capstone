@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState, useCallback } from 'react'
 import { getDatabase, onValue, ref, set } from "firebase/database";
-import { DatePickerInput, TimePickerModal } from 'react-native-paper-dates';
+import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates';
 import {
   View,
   TextInput,
@@ -36,8 +36,21 @@ const Sleep = ({ navigation }) => {
   const [sleepGoal, setGoal] = useState(sleepGoalToDisplay);
   const [bedVisible, setBedVisible] = React.useState(false);
   const [wakeVisible, setWakeVisible] = React.useState(false);
-  const [dateVisible, setDateVisible] = React.useState(false);
-  const [hoursSlept, setHoursSlept] = useState('8');
+  const [hoursSlept, setHoursSlept] = useState('0');
+  const [date, setDate] = React.useState('');
+  const [open, setOpen] = React.useState(false);
+
+  const onDismissSingle = React.useCallback(() => {
+    setOpen(false);
+  }, [setOpen]);
+
+  const onConfirmSingle = React.useCallback(
+    (params) => {
+      setOpen(false);
+      setDate(params.date);
+    },
+    [setOpen, setDate]
+  );
 
   const onBedDismiss = React.useCallback(() => {
     setBedVisible(false)
@@ -47,23 +60,12 @@ const Sleep = ({ navigation }) => {
     setWakeVisible(false)
   }, [setWakeVisible])
 
-  const onDateDismiss = React.useCallback(() => {
-    setDateVisible(false)
-  }, [setDateVisible])
-
-  const onClicky = useCallback(() => {
-    setBedVisible(true);
-  })
-
-  const onClicky2 = useCallback(() => {
-    setDateVisible(true);
-  })
-
   var bedTimeHour;
   var bedTimeMinute;
   var wakeupHour;
   var wakeupMinute;
   let sleepRecommendation = getSleepRecommendationThatDisplaysCorrectly();
+  let properDate = formatDate(date);
 
   const onConfirmBedTime = React.useCallback(
     ({ hours, minutes }) => {
@@ -108,9 +110,11 @@ const Sleep = ({ navigation }) => {
   );
 
   const validateInputs = () => {
-
     writeUserData();
+  }
 
+  const format = (date) => {
+    formatDate(date);
   }
 
   function subtractData() {
@@ -245,11 +249,30 @@ const Sleep = ({ navigation }) => {
     return sleepRec;
   }
 
+  function formatDate(date) {
+    var dateString = date.toString();
+    var dateWithoutWeekday = dateString.substring(4, dateString.length);
+    var month = dateWithoutWeekday.substring(0, dateWithoutWeekday.indexOf(" "));
+    var dateWithoutMonth = dateWithoutWeekday.substring(4, dateString.length);
+    var day = dateWithoutMonth.substring(0, dateWithoutMonth.indexOf(" "));
+    var dateWithoutDay = dateWithoutMonth.substring(dateWithoutMonth.indexOf(" ")+1, dateWithoutMonth.length)
+    var year = dateWithoutDay.substring(0, dateWithoutDay.indexOf(" "))
+
+    var proper;
+    
+    if(dateString.length > 1)
+      proper = month + " " + day + ", " + year;
+    else
+      proper = 'No Date Selected';
+
+    return proper;
+  }
+
   const locale = 'en-GB'
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <KeyboardAvoidingView style={styles.container}>
+      <View style={styles.container}>
         <LinearGradient colors={['#b5e8ff', '#ffffff']} style={{
           position: 'absolute',
           left: 0,
@@ -267,7 +290,7 @@ const Sleep = ({ navigation }) => {
             fontSize: 60,
           }]}>Sleep</Text>
           <View style={[styles.shadowProp, {
-            marginRight: '70%',
+            marginRight: '75%',
           }]}>
             <Pressable
               onPress={() => navigation.navigate('Home')}
@@ -299,7 +322,7 @@ const Sleep = ({ navigation }) => {
         <View style={[styles.shadowProp, {
           top: '2%',
           width: '90%',
-          height: '40%',
+          height: 350,
           backgroundColor: '#e5f7ff',
           borderRadius: 25,
           alignSelf: 'center'
@@ -309,7 +332,7 @@ const Sleep = ({ navigation }) => {
             alignSelf: 'center',
             marginTop: '-15%'
           }]}>
-            <Image source={require('./images/sleepPage/semicircle.png')} style={[styles.buttonImage, { borderRadius: 30, tintColor: '#ffffff', width: 270, height: 270 }]} />
+            <Image source={require('./images/sleepPage/semicircle.png')} style={[styles.buttonImage, { borderRadius: 30, tintColor: '#ffffff', width: '400%', height: 260 }]} />
           </View>
 
           <LottieView
@@ -323,9 +346,10 @@ const Sleep = ({ navigation }) => {
             source={require('./images/pagePics/sleepTracker.json')}
           />
           <View>
-            <View style={[styles.shadowProp, styles.goalContainer, {
+            <View style={[styles.shadowProp, styles.goalContainerLeft, {
+              alignSelf: 'flex-start',
+              transform: [{ translateX: -30 }],
               marginTop: '25%',
-              marginLeft: '-5%'
 
             }]}>
               <View style={[styles.shadowProp, styles.bigButton, {
@@ -334,7 +358,7 @@ const Sleep = ({ navigation }) => {
                 <Image source={require('./images/sleepPage/night.png')} style={[styles.buttonImage, { tintColor: '#ffffff' }]} />
               </View>
               <View style={{ justifyContent: 'center' }}>
-                <Text style={[styles.goalText, { marginTop: '10%', marginLeft: 5, alignSelf: 'center' }]}>{inputBedTime}</Text>
+                <Text style={[styles.goalText, { marginTop: '10%', alignSelf: 'center' }]}>{inputBedTime}</Text>
                 <View style={[styles.editButtonContainer, styles.shadowProp, { marginTop: '5%', marginLeft: 50 }]}>
                   <TimePickerModal
                     locale={locale}
@@ -352,17 +376,16 @@ const Sleep = ({ navigation }) => {
                   />
                   <TouchableOpacity
                     style={styles.editButton}
-                    onPress={onClicky}
+                    onPress={() => setBedVisible(true)}
                   >
                     <Text style={styles.editButtonText}>Edit</Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
-            <View style={[styles.shadowProp, styles.goalContainer, {
-              transform: [{ rotateY: '180deg' }],
-              marginLeft: '65%',
-              marginRight: '-1%',
+            <View style={[styles.shadowProp, styles.goalContainerRight, {
+              alignSelf: 'flex-end',
+              transform: [{ translateX: 30 }],
               marginTop: -100
             }]}>
               <View style={[styles.shadowProp, styles.bigButton, {
@@ -371,7 +394,7 @@ const Sleep = ({ navigation }) => {
                 <Image source={require('./images/sleepPage/morning.png')} style={[styles.buttonImage, { tintColor: '#ffffff' }]} />
               </View>
               <View style={{ justifyContent: 'center' }}>
-                <Text style={[styles.goalText, { transform: [{ rotateY: '180deg' }], marginTop: '10%', marginRight: '25%' }]}>{inputWakeupTime}</Text>
+                <Text style={[styles.goalText, { marginTop: '10%', alignSelf: 'center' }]}>{inputWakeupTime}</Text>
                 <View style={[styles.editButtonContainer, styles.shadowProp, { marginTop: '5%', marginLeft: '35%' }]}>
                   <TimePickerModal
                     locale={locale}
@@ -390,7 +413,7 @@ const Sleep = ({ navigation }) => {
                     style={styles.editButton}
                     onPress={() => setWakeVisible(true)}
                   >
-                    <Text style={[styles.editButtonText, { transform: [{ rotateY: '180deg' }] }]}>Edit</Text>
+                    <Text style={[styles.editButtonText]}>Edit</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -399,7 +422,7 @@ const Sleep = ({ navigation }) => {
             <Text style={[styles.shadowProp, styles.sleptText, { alignSelf: 'center', fontSize: 75, marginTop: '-4%' }]}>{hoursSlept}</Text>
             <Text style={[styles.shadowProp, styles.sleptText, { alignSelf: 'center', fontSize: 10, marginTop: '-3%' }]}>Hours</Text>
           </View>
-          <View style={[styles.editButtonContainer, styles.shadowProp, { alignSelf: 'center', marginTop: '-40%' }]}>
+          <View style={[styles.editButtonContainer, styles.shadowProp, { alignSelf: 'center', transform: [{ translateY: -150 }] }]}>
             <TouchableOpacity
               style={styles.editButton}
               onPress={() => subtractData()}
@@ -408,23 +431,30 @@ const Sleep = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <View style={[styles.editButtonContainer]}>
-            <View style={ { marginTop: '50%', height: '10%', alignSelf: 'center' }}>
-              <DatePickerInput
+            <Text style={[styles.goalText, {
+              alignSelf: 'center',
+              transform: [{ translateY: -20 }]
+            }]}>{`${properDate}`}</Text>
+            <View style={{ transform: [{ translateY: -10 }], height: '10%', alignSelf: 'center' }}>
+              <DatePickerModal
                 locale={locale}
-                value={inputDate}
-                onChange={setInputDate}
-                inputMode="start"
-                autoComplete={'sleepdate-full'}
-                visible={dateVisible}
-                onDismiss={onDateDismiss}
-                cancelLabel="Cancel"
-                confirmLabel="Ok"
-                animationType="fade"
+                mode="single"
+                visible={open}
+                onDismiss={onDismissSingle}
+                date={date}
+                onConfirm={onConfirmSingle}
+                onChange={() => format(date)}
               />
+              <TouchableOpacity
+                style={[styles.editButton, styles.shadowProp, {height: 40}]}
+                onPress={() => setOpen(true)}
+              >
+                <Text style={styles.editButtonText}>Change Date</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
-        <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { marginTop: '33%' }]}>
+        <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { transform: [{ translateY: -180 }] }]}>
           <TouchableOpacity
             style={styles.button}
             onPress={validateInputs}
@@ -432,7 +462,7 @@ const Sleep = ({ navigation }) => {
             <Text style={styles.buttonText}>Submit</Text>
           </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
+      </View>
     </TouchableWithoutFeedback>
   )
 }
@@ -537,12 +567,19 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     alignSelf: 'center'
   },
-  goalContainer: {
+  goalContainerLeft: {
     width: 150,
     height: 100,
     backgroundColor: '#F2FBFF',
     borderTopRightRadius: 25,
     borderBottomRightRadius: 25,
+  },
+  goalContainerRight: {
+    width: 150,
+    height: 100,
+    backgroundColor: '#F2FBFF',
+    borderTopLeftRadius: 25,
+    borderBottomLeftRadius: 25,
   },
   sleptText: {
     fontFamily: 'Lemon-Milk',

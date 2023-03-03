@@ -1,21 +1,21 @@
 import { useNavigation } from '@react-navigation/native';
-import React, {useEffect, useState, useCallback, } from 'react'
+import React, { useEffect, useState, useCallback, } from 'react'
 import { get, getDatabase, ref, set, onValue } from "firebase/database";
 import { DatePickerInput } from 'react-native-paper-dates';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import {
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-  Pressable,
-  KeyboardAvoidingView,
-  TouchableOpacity,
-  Platform,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Image
+    View,
+    TextInput,
+    Text,
+    StyleSheet,
+    Pressable,
+    KeyboardAvoidingView,
+    TouchableOpacity,
+    Platform,
+    TouchableWithoutFeedback,
+    Keyboard,
+    Image
 } from 'react-native'
 import { auth } from '../firebase';
 import { database } from '../firebase';
@@ -27,10 +27,10 @@ import { AutoSizeText, ResizeTextMode } from 'react-native-auto-size-text';
 import {
     enGB,
     registerTranslation,
-  } from 'react-native-paper-dates' 
+} from 'react-native-paper-dates'
 registerTranslation('en-GB', enGB)
 
-const FoodIntake = ({navigation}) => {
+const FoodIntake = ({ navigation }) => {
 
     let calorieGoalForDisplay = getCalGoalThatDisplaysCorrectly();
     //console.log(calorieGoalForDisplay);
@@ -38,7 +38,7 @@ const FoodIntake = ({navigation}) => {
     //console.log(caloriesEatenForDisplay);
     let caloriesToGoForDisplay = getCalsToGo();
     //console.log(caloriesToGoForDisplay);
-    
+
     const [animated, setAnimated] = useState(false);
     const handleToggle = () => {
         setAnimated(!animated);
@@ -49,14 +49,14 @@ const FoodIntake = ({navigation}) => {
     const [caloriesEaten, setCaloriesEaten] = useState(caloriesEatenForDisplay);
     const [caloriesToGo, setCaloriesToGo] = useState(caloriesToGoForDisplay);
     const [date, setDate] = useState(new Date());
-    
-    
+
+
 
     const validateInputs = () => {
         writeUserData();
     }
 
-    function addCalories(cals){
+    function addCalories(cals) {
         var calsEaten = getCalsEaten();
         var goal = getCalGoal();
         var addCals = parseInt(cals) + calsEaten;
@@ -65,70 +65,70 @@ const FoodIntake = ({navigation}) => {
         setCaloriesToGo(calsToGo);
     }
 
-    function getCalGoal(){
+    function getCalGoal() {
         var goal;
         const db = getDatabase();
         const calorieGoal = ref(db, 'foodIntake/' + auth.currentUser?.uid);
         onValue(calorieGoal, (snapshot) => {
-        var data = snapshot.val();
-        if(data==null){
-            goal = 0;
-        }
-        else{
-            goal = data.calorieGoal;
-        }
+            var data = snapshot.val();
+            if (data == null) {
+                goal = 0;
+            }
+            else {
+                goal = data.calorieGoal;
+            }
         });
         return goal;
     }
 
-        function getCalsEaten(){
-            var calsEaten;
-            const db = getDatabase();
-            const caloriesEaten = ref(db, 'foodIntake/' + auth.currentUser?.uid);
-            onValue(caloriesEaten, (snapshot) => {
+    function getCalsEaten() {
+        var calsEaten;
+        const db = getDatabase();
+        const caloriesEaten = ref(db, 'foodIntake/' + auth.currentUser?.uid);
+        onValue(caloriesEaten, (snapshot) => {
             var data = snapshot.val();
-            if(data==null){
+            if (data == null) {
                 calsEaten = 0;
             }
-            else{
+            else {
                 calsEaten = data.caloriesEaten;
             }
-            });
-            return calsEaten;
+        });
+        return calsEaten;
     }
 
-    function getCalsToGo(){
+    function getCalsToGo() {
         var goal = getCalGoal();
-        if(goal==NaN || goal==undefined){
+        if (goal == NaN || goal == undefined) {
             goal = 0;
         }
         var calsEaten = getCalsEaten();
-        if(calsEaten==NaN || calsEaten==undefined){
+        if (calsEaten == NaN || calsEaten == undefined) {
             calsEaten = 0;
         }
         var calsToGo = goal - calsEaten;
 
-        if(calsToGo <= 0) {
+        if (calsToGo <= 0) {
             global.goalsCompleted[1] = 'complete';
         }
         else {
             global.goalsCompleted[1] = 'incomplete';
-          }
+        }
 
         return calsToGo;
     }
 
-    function getCalGoalThatDisplaysCorrectly(){
+    function getCalGoalThatDisplaysCorrectly() {
         var goal = getCalGoal();
-        if(goal==NaN || goal==undefined){
+        if (goal == NaN || goal == undefined) {
             goal = 0;
         }
         return goal;
     }
 
-    function getCalsEatenThatDisplaysCorrectly(){
+    function getCalsEatenThatDisplaysCorrectly() {
         var goal = getCalsEaten();
-        if(goal==NaN || goal==undefined){
+        if (goal == NaN || goal == undefined) {
             goal = 0;
         }
         return goal;
@@ -142,15 +142,15 @@ const FoodIntake = ({navigation}) => {
             caloriesToGo: caloriesToGo,
             date: date
         })
-        .catch(error => alert(error.message));
+            .catch(error => alert(error.message));
         navigation.replace('Food Intake');
         global.lastActivity = "food";
-      }
-    
-      const locale = 'en-GB'
-      return (
+    }
+
+    const locale = 'en-GB'
+    return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <KeyboardAvoidingView style={styles.container}>
+            <View style={styles.container}>
                 <LinearGradient colors={['#b5e8ff', '#ffffff']} style={{
                     position: 'absolute',
                     left: 0,
@@ -168,7 +168,7 @@ const FoodIntake = ({navigation}) => {
                         fontSize: 60,
                     }]}>Food</Text>
                     <View style={[styles.shadowProp, {
-                        marginRight: '70%',
+                        marginRight: '75%',
                     }]}>
                         <Pressable
                             onPress={() => navigation.navigate('Home')}
@@ -177,7 +177,7 @@ const FoodIntake = ({navigation}) => {
                         </Pressable>
                     </View>
                 </View>
-                <View style={{ top: '5%' }}>
+                <View style={{ top: '4%' }}>
                     <Text style={[styles.goalText, styles.shadowProp, { marginTop: '-5%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
                     <View style={{ alignSelf: 'center' }}>
                         <TextInput placeholder='Enter Goal'
@@ -191,10 +191,10 @@ const FoodIntake = ({navigation}) => {
                     <LottieView
                         autoPlay loop
                         style={[styles.shadowProp, {
-                            top: '3%',
+                            top: '5%',
                             alignSelf: 'center',
-                            width: 200,
-                            height: 200,
+                            width: 150,
+                            height: 150,
                         }]}
                         source={require('./images/pagePics/foodTracker.json')}
                     />
@@ -206,7 +206,7 @@ const FoodIntake = ({navigation}) => {
                                 transform: [{ translateY: 45 }],
                             }}
                             transition={{ type: 'spring', duration: 600 }}>
-                            <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
+                            <View style={{ alignSelf: 'center' }}>
                                 <TextInput placeholder='Calories'
                                     style={[styles.sleepInput, styles.shadowProp]}
                                     value={caloriesEaten}
@@ -219,31 +219,31 @@ const FoodIntake = ({navigation}) => {
                         <Pressable
                             onPress={handleToggle}
                             style={[styles.shadowProp, styles.bigButton, {
-                                marginTop: -55,
+                                marginTop: -57,
                             }]}
                         >
                             <Image source={require('./images/globalButtons/plus.png')} style={styles.buttonImage} />
                         </Pressable>
                     </View>
+                </View>
+                <View style={{ transform: [{translateY: 10}] }}>
                     <View style={{ alignItems: 'center', marginTop: 60 }}>
                         <Text style={[styles.goalText, styles.shadowProp]}>Today's Stats</Text>
                         <View style={[styles.shadowProp, styles.goalContainer, {
                             justifyContent: 'center',
                             marginTop: '5%',
                         }]}>
-                            <View style={[ { justifyContent: 'center', marginRight: '50%', marginTop: -20 }]}>
-                                <AutoSizeText fontSizePresets={[75,  60]} numberOfLines={1} mode={ResizeTextMode.preset_font_sizes} style={[styles.goalText, styles.bigNumber]}>{`${caloriesEatenForDisplay}`}</AutoSizeText>
-                                <Text style={[styles.goalText, { color: '#BCF4A6', fontSize: 20, textAlign: 'center'}]}>{`Calories${'\n'}Eaten`}</Text>
+                            <View style={[{ justifyContent: 'center', marginRight: '50%', marginTop: -20 }]}>
+                                <AutoSizeText fontSizePresets={[75, 60]} numberOfLines={1} mode={ResizeTextMode.preset_font_sizes} style={[styles.goalText, styles.bigNumber]}>{`${caloriesEatenForDisplay}`}</AutoSizeText>
+                                <Text style={[styles.goalText, { color: '#BCF4A6', fontSize: 20, textAlign: 'center' }]}>{`Calories${'\n'}Eaten`}</Text>
                             </View>
-                            <View style={[ { justifyContent: 'center', marginLeft: '50%', marginTop: -153}]}>
-                                <AutoSizeText fontSizePresets={[75,  60]} numberOfLines={1} mode={ResizeTextMode.preset_font_sizes} style={[styles.goalText, styles.bigNumber]}>{`${caloriesToGoForDisplay}`}</AutoSizeText>
+                            <View style={[{ justifyContent: 'center', marginLeft: '50%', marginTop: -153 }]}>
+                                <AutoSizeText fontSizePresets={[75, 60]} numberOfLines={1} mode={ResizeTextMode.preset_font_sizes} style={[styles.goalText, styles.bigNumber]}>{`${caloriesToGoForDisplay}`}</AutoSizeText>
                                 <Text style={[styles.goalText, { color: '#F1A7B0', fontSize: 20, textAlign: 'center' }]}>{`Calories${'\n'}Left`}</Text>
                             </View>
                         </View>
                     </View>
-                </View>
-                <View>
-                    <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton]}>
+                    <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { transform: [{translateY: -40}]}]}>
                         <TouchableOpacity
                             style={styles.button}
                             onPress={validateInputs}
@@ -252,7 +252,7 @@ const FoodIntake = ({navigation}) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-            </KeyboardAvoidingView>
+            </View>
         </TouchableWithoutFeedback >
     )
 }
@@ -260,7 +260,9 @@ const FoodIntake = ({navigation}) => {
 export default FoodIntake;
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between'
     },
     navButtons: {
         width: 40,
