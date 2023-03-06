@@ -130,10 +130,12 @@ const Exercise = ({ navigation }) => {
       }
       else {
         minsExercised = data.minutesExercised;
-        console.log(data.minutesExercised);
         return minsExercised;
       }
     });
+
+    global.progressToGoals[0] = minsExercised/getExerciseGoal();
+
     return minsExercised;
   }
 
@@ -149,10 +151,10 @@ const Exercise = ({ navigation }) => {
     var exerciseToGo = goal - minsExercised;
 
     if (exerciseToGo <= 0) {
-      global.goalsCompleted[2] = 'complete';
+      global.goalsCompleted[0] = 'complete';
     }
     else {
-      global.goalsCompleted[2] = 'incomplete';
+      global.goalsCompleted[0] = 'incomplete';
     }
 
     return exerciseToGo;

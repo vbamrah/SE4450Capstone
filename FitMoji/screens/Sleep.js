@@ -117,6 +117,10 @@ const Sleep = ({ navigation }) => {
     formatDate(date);
   }
 
+  function getSleepGoal() {
+    return sleepGoal;
+  }
+
   function subtractData() {
     var bedtimes = inputBedTime.split(":");
     var bedHours = bedtimes[0];
@@ -173,12 +177,14 @@ const Sleep = ({ navigation }) => {
 
     setHoursSlept(subtractHour);
 
-    if (subtractHour >= getRecommendedSleepGoal()) {
+    if (subtractHour >= getSleepGoal()) {
       global.goalsCompleted[3] = 'complete';
     }
     else {
       global.goalsCompleted[3] = 'incomplete';
     }
+
+    global.progressToGoals[3] = subtractHour/getSleepGoal();
 
   }
 

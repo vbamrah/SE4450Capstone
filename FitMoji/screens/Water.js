@@ -22,13 +22,13 @@ import { database } from '../firebase';
 import { LinearGradient } from 'expo-linear-gradient';
 import LottieView from 'lottie-react-native';
 import { MotiView, MotiText } from 'moti';
+import Confetti from 'react-native-confetti';
 
 import {
     enGB,
     registerTranslation,
 } from 'react-native-paper-dates'
 registerTranslation('en-GB', enGB)
-
 
 const Water = ({ navigation }) => {
 
@@ -54,7 +54,6 @@ const Water = ({ navigation }) => {
 
         writeUserData();
     }
-
 
     function addWater(wat) {
         var watDrank = getWaterDrank();
@@ -104,6 +103,8 @@ const Water = ({ navigation }) => {
             }
         });
 
+        global.progressToGoals[2] = watDrank/getWaterGoal();
+
         return watDrank;
     }
 
@@ -120,10 +121,10 @@ const Water = ({ navigation }) => {
         var waterToGo = goal - watDrank;
 
         if(waterToGo <= 0) {
-            global.goalsCompleted[0] = 'complete';
+            global.goalsCompleted[2] = 'complete';
         }
         else {
-            global.goalsCompleted[0] = 'incomplete';
+            global.goalsCompleted[2] = 'incomplete';
           }
 
         return waterToGo;
@@ -154,6 +155,7 @@ const Water = ({ navigation }) => {
                     bottom: 0,
                     top: 0,
                 }}></LinearGradient>
+                <Confetti ref={(node) => this._confettiView = node}/>
                 <View style={{
                     top: '5%'
                 }}>

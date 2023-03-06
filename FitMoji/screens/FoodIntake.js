@@ -94,6 +94,9 @@ const FoodIntake = ({ navigation }) => {
                 calsEaten = data.caloriesEaten;
             }
         });
+
+        global.progressToGoals[1] = calsEaten/getCalGoal();
+
         return calsEaten;
     }
 
@@ -177,7 +180,7 @@ const FoodIntake = ({ navigation }) => {
                         </Pressable>
                     </View>
                 </View>
-                <View style={{ top: '4%' }}>
+                <View style={{ top: '0%' }}>
                     <Text style={[styles.goalText, styles.shadowProp, { marginTop: '-5%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
                     <View style={{ alignSelf: 'center' }}>
                         <TextInput placeholder='Enter Goal'
@@ -227,7 +230,7 @@ const FoodIntake = ({ navigation }) => {
                     </View>
                 </View>
                 <View style={{ transform: [{translateY: 10}] }}>
-                    <View style={{ alignItems: 'center', marginTop: 60 }}>
+                    <View style={{ alignItems: 'center' }}>
                         <Text style={[styles.goalText, styles.shadowProp]}>Today's Stats</Text>
                         <View style={[styles.shadowProp, styles.goalContainer, {
                             justifyContent: 'center',

@@ -19,6 +19,8 @@ const Stack = createNativeStackNavigator();
 const MyStack = () => {
   global.lastActivity = "none";
   global.goalsCompleted = ["undefined", "undefined", "undefined", "undefined"];
+  global.progressToGoals = [0.0, 0.0, 0.0, 0.0];
+  
   return (
     <NavigationContainer>
       <Stack.Navigator
