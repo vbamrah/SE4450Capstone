@@ -98,7 +98,7 @@ const Goals = ({ navigation }) => {
                     <Text style={[styles.goalText, { textAlign: 'center' }]}>Exercise</Text>
                     <Progress.Bar progress={global.progressToGoals[0]} width={300} height={20} borderColor={'#b5e8ff'} color={colorPicker(formatPercent(global.progressToGoals[0]))} style={[styles.shadowProp, {
                         alignSelf: 'center',
-                        marginTop: '5%'
+                        marginTop: '3%'
                     }]} />
                     <Text style={[styles.goalText, { alignSelf: 'center', fontSize: 20, marginTop: 5 }]}>{`${formatPercent(global.progressToGoals[0])}%`}</Text>
 
@@ -109,7 +109,7 @@ const Goals = ({ navigation }) => {
                     <Text style={[styles.goalText, { textAlign: 'center' }]}>Nutrition</Text>
                     <Progress.Bar progress={global.progressToGoals[1]} width={300} height={20} borderColor={'#b5e8ff'} color={colorPicker(formatPercent(global.progressToGoals[1]))} style={[styles.shadowProp, {
                         alignSelf: 'center',
-                        marginTop: '5%'
+                        marginTop: '3%'
                     }]} />
                     <Text style={[styles.goalText, { alignSelf: 'center', fontSize: 20, marginTop: 5 }]}>{`${formatPercent(global.progressToGoals[1])}%`}</Text>
 
@@ -120,7 +120,7 @@ const Goals = ({ navigation }) => {
                     <Text style={[styles.goalText, { textAlign: 'center' }]}>Water</Text>
                     <Progress.Bar progress={global.progressToGoals[2]} width={300} height={20} borderColor={'#b5e8ff'} color={colorPicker(formatPercent(global.progressToGoals[2]))} style={[styles.shadowProp, {
                         alignSelf: 'center',
-                        marginTop: '5%'
+                        marginTop: '3%'
                     }]} />
                     <Text style={[styles.goalText, { alignSelf: 'center', fontSize: 20, marginTop: 5 }]}>{`${formatPercent(global.progressToGoals[2])}%`}</Text>
 
@@ -131,7 +131,7 @@ const Goals = ({ navigation }) => {
                     <Text style={[styles.goalText, { textAlign: 'center' }]}>Sleep</Text>
                     <Progress.Bar progress={global.progressToGoals[3]} width={300} height={20} borderColor={'#b5e8ff'} color={colorPicker(formatPercent(global.progressToGoals[3]))} style={[styles.shadowProp, {
                         alignSelf: 'center',
-                        marginTop: '5%'
+                        marginTop: '3%'
                     }]} />
                     <Text style={[styles.goalText, { alignSelf: 'center', fontSize: 20, marginTop: 5 }]}>{`${formatPercent(global.progressToGoals[3])}%`}</Text>
                 </View>
