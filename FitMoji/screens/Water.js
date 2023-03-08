@@ -12,7 +12,6 @@ import {
     Pressable,
     KeyboardAvoidingView,
     TouchableOpacity,
-    Platform,
     TouchableWithoutFeedback,
     Keyboard,
     Image
@@ -21,8 +20,7 @@ import { auth } from '../firebase';
 import { database } from '../firebase';
 import { LinearGradient } from 'expo-linear-gradient';
 import LottieView from 'lottie-react-native';
-import { MotiView, MotiText } from 'moti';
-import Confetti from 'react-native-confetti';
+import { MotiView } from 'moti';
 
 import {
     enGB,
@@ -32,18 +30,19 @@ registerTranslation('en-GB', enGB)
 
 const Water = ({ navigation }) => {
 
-    let waterGoalForDisplay = getWaterGoal();
+    var waterGoalForDisplay = 0;
+    var waterDrankForDisplay = 0;
+    var waterToGoForDisplay = 0;
 
-    let waterDrankForDisplay = getWaterDrank();
-
-    let waterToGoForDisplay = getWaterToGo();
+    getWaterGoal();
+    getWaterDrank();
+    getWaterToGo();
 
     const [animated, setAnimated] = useState(false);
     const handleToggle = () => {
         setAnimated(!animated);
     }
 
-    const defaultValue = 0;
     const [waterGoal, setWaterGoal] = useState(waterGoalForDisplay);
     const [waterDrank, setWaterDrank] = useState(waterDrankForDisplay);
     const [waterToGo, setWaterToGo] = useState(waterToGoForDisplay);
@@ -51,83 +50,80 @@ const Water = ({ navigation }) => {
 
 
     const validateInputs = () => {
-
         writeUserData();
     }
 
     function addWater(wat) {
-        var watDrank = getWaterDrank();
-        var goal = getWaterGoal();
-        var addWater = parseInt(wat) + watDrank;
-        var waterToGo = goal - addWater;
-        setWaterDrank(addWater);
-        setWaterToGo(waterToGo);
+        waterDrankForDisplay += wat;
+        waterToGoForDisplay -= wat;
+
+        setWaterDrank(waterDrankForDisplay);
+        setWaterToGo(waterToGoForDisplay);
+
     }
 
     function getWaterGoal() {
-        let goal;
         const db = getDatabase();
-        const waterGoal = ref(db, 'Water/' + auth.currentUser?.uid);
+        const waterGoal = ref(db, 'Water/' + auth.currentUser?.uid + '/waterGoal');
         onValue(waterGoal, (snapshot) => {
-            var data = snapshot.val();
+            const data = snapshot.val();
             if (data == null) {
-                goal = 0;
-                console.log("should return 0");
-                return goal;
-
+                console.log('no data');
             }
             else {
-                goal = data.waterGoal;
-                console.log("should return goal");
-                console.log(data.waterGoal);
-                return goal;
-
+                updateWaterGoal(data);
+                console.log("Water Goal: " + data);
             }
         });
-        return goal;
+    }
+
+    function updateWaterGoal(data) {
+        waterGoalForDisplay = data;
     }
 
     function getWaterDrank() {
-        let watDrank = 0;
         const db = getDatabase();
-        const waterDrank = ref(db, 'Water/' + auth.currentUser?.uid);
+        const waterDrank = ref(db, 'Water/' + auth.currentUser?.uid + '/waterDrank');
         onValue(waterDrank, (snapshot) => {
-            var data = snapshot.val();
+            const data = snapshot.val();
             if (data == null) {
-                watDrank = 0;
-                return watDrank;
+                console.log('no data');
             }
             else {
-                watDrank = data.waterDrank;
-                return watDrank;
+                updateWaterDrank(data);
+                console.log("Water Drank: " + data);
+            }
+        });
+    }
+
+    function updateWaterDrank(data) {
+        waterDrankForDisplay = data;
+    }
+
+    function getWaterToGo() {
+        const db = getDatabase();
+        const waterToGo = ref(db, 'Water/' + auth.currentUser?.uid);
+        onValue(waterToGo, (snapshot) => {
+            const data = snapshot.val();
+            if (data == null) {
+                console.log('no data');
+            }
+            else {
+                updateWaterToGo(data.waterGoal - data.waterDrank);
+                console.log("Water To Go: " + (data.waterGoal - data.waterDrank));
             }
         });
 
-        global.progressToGoals[2] = watDrank/getWaterGoal();
-
-        return watDrank;
-    }
-
-
-    function getWaterToGo() {
-        var goal = getWaterGoal();
-        if (goal == NaN || goal == undefined) {
-            goal = 0;
-        }
-        var watDrank = getWaterDrank();
-        if (watDrank == NaN || watDrank == undefined) {
-            watDrank = 0;
-        }
-        var waterToGo = goal - watDrank;
-
-        if(waterToGo <= 0) {
+        if (waterToGo <= 0) {
             global.goalsCompleted[2] = 'complete';
         }
         else {
             global.goalsCompleted[2] = 'incomplete';
-          }
+        }
+    }
 
-        return waterToGo;
+    function updateWaterToGo(data) {
+        waterToGoForDisplay = data;
     }
 
     function writeUserData() {
@@ -144,6 +140,9 @@ const Water = ({ navigation }) => {
         global.lastActivity = "water";
     }
 
+    global.progressToGoals[2] = waterDrankForDisplay / waterGoalForDisplay;
+    console.log(global.progressToGoals[2]);
+
     const locale = 'en-GB'
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -155,7 +154,6 @@ const Water = ({ navigation }) => {
                     bottom: 0,
                     top: 0,
                 }}></LinearGradient>
-                <Confetti ref={(node) => this._confettiView = node}/>
                 <View style={{
                     top: '5%'
                 }}>
@@ -178,10 +176,10 @@ const Water = ({ navigation }) => {
                 <View style={{ top: '2%' }}>
                     <Text style={[styles.goalText, styles.shadowProp, { marginTop: '-5%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
                     <View style={{ alignSelf: 'center' }}>
-                        <TextInput placeholder='Enter Goal'
+                        <TextInput placeholder={`${waterGoalForDisplay}`}
                             style={[styles.shadowProp, styles.sleepInput, { width: '80%' }]}
                             value={waterGoal}
-                            onChangeText={text => setWaterGoal(text.replace(/[^0-9]/g, ''))}
+                            onChangeText={text => setWaterGoal(Number(text.replace(/[^0-9]/g, '')))}
                             keyboardType="numeric"
                             maxLength={2}
                         />
@@ -207,7 +205,7 @@ const Water = ({ navigation }) => {
                                 <TextInput placeholder='Litres'
                                     style={[styles.sleepInput, styles.shadowProp]}
                                     value={waterDrank}
-                                    onChangeText={text => addWater(text.replace(/[^0-9]/g, ''))}
+                                    onChangeText={text => addWater(Number(text.replace(/[^0-9]/g, '')))}
                                     keyboardType="numeric"
                                     maxLength={5}
                                 />
@@ -223,7 +221,7 @@ const Water = ({ navigation }) => {
                         </Pressable>
                     </View>
                 </View>
-                <View style={{ transform: [{translateY: 10}] }}>
+                <View style={{ transform: [{ translateY: 10 }] }}>
                     <View style={{ alignItems: 'center' }}>
                         <Text style={[styles.goalText, styles.shadowProp]}>Today's Stats</Text>
                         <View style={[styles.shadowProp, styles.goalContainer, {
@@ -235,11 +233,11 @@ const Water = ({ navigation }) => {
                             </View>
                             <View style={[{ marginLeft: '50%', marginTop: -163 }]}>
                                 <Text style={[styles.goalText, styles.bigNumber]}>{`${waterToGoForDisplay}`}</Text>
-                                <Text style={[styles.goalText, {  color: '#F1A7B0', fontSize: 20, textAlign: 'center', marginTop: -10 }]}>{`Litres${'\n'}Left`}</Text>
+                                <Text style={[styles.goalText, { color: '#F1A7B0', fontSize: 20, textAlign: 'center', marginTop: -10 }]}>{`Litres${'\n'}Left`}</Text>
                             </View>
                         </View>
                     </View>
-                    <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { transform: [{translateY: -40}]}]}>
+                    <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { transform: [{ translateY: -40 }] }]}>
                         <TouchableOpacity
                             style={styles.button}
                             onPress={validateInputs}

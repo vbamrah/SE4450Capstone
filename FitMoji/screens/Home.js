@@ -58,7 +58,6 @@ const Home = ({ navigation }) => {
     const userId = auth.currentUser.uid;
     get(child(dbRef, `avatars/${userId}`)).then((snapshot) => {
         if (snapshot.exists()) {
-            console.log(snapshot.val().url);
             setAvatarUrl(snapshot.val().url);
         } else {
             console.log("No data available");
@@ -72,7 +71,6 @@ const Home = ({ navigation }) => {
     }
 
     function getGoalImage() {
-        console.log(global.goalsCompleted)
         var counter = 0;
         for (i = 0; i < global.goalsCompleted.length; i++) {
             if (global.goalsCompleted[i] == 'complete') {

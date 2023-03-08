@@ -1,37 +1,23 @@
 import React from 'react'
-import { useCallback, useState, useEffect } from 'react';
 import {
     View,
-    TextInput,
     Text,
     StyleSheet,
     Pressable,
     KeyboardAvoidingView,
-    TouchableOpacity,
-    Platform,
     TouchableWithoutFeedback,
     Keyboard,
     Image
 } from 'react-native'
 import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
 import { LinearGradient } from 'expo-linear-gradient';
-import { StatusBar } from 'expo-status-bar';
-import CircularProgress, { CircularProgressBase } from 'react-native-circular-progress-indicator'
 import * as Progress from 'react-native-progress';
 
 const Goals = ({ navigation }) => {
-    const [value, setValue] = useState(0);
 
     const [fontsLoaded] = useFonts({
         'Lemon-Milk': require('./fonts/LEMONMILK-Regular.otf'),
     });
-
-    const onLayoutRootView = useCallback(async () => {
-        if (fontsLoaded) {
-            await SplashScreen.hideAsync();
-        }
-    }, [fontsLoaded]);
 
     if (!fontsLoaded) {
         return null;
@@ -39,7 +25,10 @@ const Goals = ({ navigation }) => {
 
     function formatPercent(num) {
         var formatted;
-        var color;
+
+        if (num == 'NaN') {
+            formatted = 0;
+        }
 
         formatted = Math.floor(num * 100)
 
