@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
     },
     submitButton: {
-        marginTop: 90,
+        marginTop: 60,
         alignSelf: 'center'
     },
     bigButton: {
