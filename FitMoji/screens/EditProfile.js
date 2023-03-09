@@ -95,7 +95,7 @@ const EditProfile = ({ navigation }) => {
                 top: 0,
             }}></LinearGradient>
             <ScrollView>
-                <View style={styles.topBar}>
+                <View style={[styles.topBar, styles.shadowProp]}>
                     <LinearGradient colors={['#b5e8ff', '#C2ECFF']} style={{
                         position: 'absolute',
                         left: 0,
@@ -118,7 +118,7 @@ const EditProfile = ({ navigation }) => {
                             <Pressable
                                 onPress={() => navigation.navigate('Home')}
                                 style={[styles.navButtons, {backgroundColor: 'transparent'}]}>
-                                <Image source={require('./images/home.png')} style={{ tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center' }} />
+                                <Image source={require('./images/globalButtons/home.png')} style={{ tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center' }} />
                             </Pressable>
                         </View>
                         <View style={[styles.shadowProp, {
@@ -128,7 +128,7 @@ const EditProfile = ({ navigation }) => {
                             <Pressable
                                 onPress={() => saveData()}
                                 style={[styles.navButtons, {backgroundColor: 'transparent'}]}>
-                                <Image source={require('./images/checked.png')} style={{ tintColor: 'white', width: '60%', height: '60%', resizeMode: 'contain', alignSelf: 'center', top: '5%' }} />
+                                <Image source={require('./images/globalButtons/checked.png')} style={{ tintColor: 'white', width: '60%', height: '60%', resizeMode: 'contain', alignSelf: 'center', top: '5%' }} />
                             </Pressable>
                         </View>
                     </LinearGradient>
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     inputLabel: {
-        color: '#000000',
+        color: '#FFFFFF',
         padding: 10,
         paddingLeft: 40,
         fontSize: 20,
@@ -240,9 +240,6 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#b5e8ff',
         height: 225,
-        shadowColor: '#8E8E8E',
-        shadowOpacity: '100%',
-        shadowOffset: { width: 0, height: 1 },
         borderRadius: 30
     },
     logoutButton: {

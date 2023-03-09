@@ -1,27 +1,50 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { get, getDatabase, ref, set, onValue } from "firebase/database";
-import { View, TextInput, Text, StyleSheet, KeyboardAvoidingView, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import {
+  View,
+  TextInput,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Pressable,
+  Image
+} from 'react-native'
 import { auth } from '../firebase';
-import { enGB, registerTranslation } from 'react-native-paper-dates' 
+import { enGB, registerTranslation } from 'react-native-paper-dates'
 import Headers from './ExerciseComponents/Headers';
 import { LinearGradient } from 'expo-linear-gradient';
 // import {ProgressView} from "@react-native-community/progress-view";
 // import { requireNativeComponent } from 'react-native';
 import { VictoryPie } from 'victory-native';
 import { Center } from '@react-three/drei';
+import LottieView from 'lottie-react-native';
+import { min } from 'lodash';
 
 // Registering translation for paper-dates
 registerTranslation('en-GB', enGB)
 
-const Exercise = ({navigation}) => {
+const Exercise = ({ navigation }) => {
 
-  const [exerciseGoal, setExerciseGoal] = useState("");
-  const [minutesExercised, setMinutesExercised] = useState("");
-  const [exercisesToGo, setExercisesToGo] = useState(0);
+  let exerciseGoalForDisplay = getExerciseGoal();
+
+  let exerciseForDisplay = getMinsExercised();
+
+  let exerciseToGoForDisplay = getExerciseToGo();
+
+  var minsCounter = 0;
+
+  const [exerciseGoal, setExerciseGoal] = useState(exerciseGoalForDisplay);
+  const [minutesExercised, setMinutesExercised] = useState(exerciseForDisplay);
+  const [exercisesToGo, setExercisesToGo] = useState(exerciseToGoForDisplay);
   const [date, setDate] = useState(new Date());
   const [progress, setProgress] = useState(0);
   const [data, setData] = useState([]);
+  const [counter, setCounter] = useState(0);
 
+  /*
   const fetchExerciseData = () => {
     const db = getDatabase();
     const exerciseInputsRef = ref(db, `ExerciseInputs/${auth.currentUser?.uid}`);
@@ -32,10 +55,12 @@ const Exercise = ({navigation}) => {
       setDate(data.date ? new Date(data.date) : new Date());
     });
   };
+  
 
   useEffect(() => {
     fetchExerciseData();
   }, []);
+  
 
   useEffect(() => {
     const achievedPercentage = (minutesExercised / exerciseGoal) * 100;
@@ -55,35 +80,85 @@ const Exercise = ({navigation}) => {
     const percentage = (parseInt(minutesExercised) / parseInt(exerciseGoal)) * 100;
     setProgress(isNaN(percentage) ? 0 : percentage);
   }, [exerciseGoal, minutesExercised]);
+*/
 
   const validateInputs = () => {
     writeUserData();
   }
 
-  const addExercise = (mins) => {
-    const minsExercised = parseInt(minutesExercised) + parseInt(mins);
-    const calsToGo = parseInt(exerciseGoal) - minsExercised;
-    setMinutesExercised(minsExercised);
-    setExercisesToGo(calsToGo < 0 ? 0 : calsToGo);
+  function countMin(mins) {
+    setCounter(counter + mins);
   }
 
-  const getExerciseGoal = () => {
+  function addExercise(mins) {
+    countMin(mins);
+    var minsExercised = getMinsExercised();
+    var goal = getExerciseGoal();
+    var addExercise = parseInt(mins) + minsExercised;
+    var exercisesToGo = goal - addExercise;
+    setExercisesToGo(exercisesToGo);
+  }
+
+  function getExerciseGoal() {
+    let goal;
     const db = getDatabase();
-    const exerciseGoalRef = ref(db, 'ExerciseInputs/' + auth.currentUser?.uid + '/exerciseGoal');
+    const exerciseGoalRef = ref(db, 'ExerciseInputs/' + auth.currentUser?.uid);
     onValue(exerciseGoalRef, (snapshot) => {
-      const goal = snapshot.val();
-      setExerciseGoal(goal || "");
+      var data = snapshot.val();
+      if (data == null) {
+        goal = 0;
+        return goal;
+
+      }
+      else {
+        goal = data.exerciseGoal;
+        return goal;
+
+      }
     });
+    return goal;
   }
 
-  const getMinsExercised = () => {
+  function getMinsExercised() {
+    let minsExercised = 0;
     const db = getDatabase();
-    const minutesExercisedRef = ref(db, 'ExerciseInputs/' + auth.currentUser?.uid + '/minutesExercised');
-    onValue(minutesExercisedRef, (snapshot) => {
-      const minsExercised = snapshot.val();
-      setMinutesExercised(minsExercised || "");
-      setExercisesToGo(parseInt(exerciseGoal) - parseInt(minsExercised));
+    const minutesExercised = ref(db, 'ExerciseInputs/' + auth.currentUser?.uid);
+    onValue(minutesExercised, (snapshot) => {
+      var data = snapshot.val();
+      if (data == null) {
+        minsExercised = 0;
+        return minsExercised;
+      }
+      else {
+        minsExercised = data.minutesExercised;
+        return minsExercised;
+      }
     });
+
+    global.progressToGoals[0] = minsExercised/getExerciseGoal();
+
+    return minsExercised;
+  }
+
+  function getExerciseToGo() {
+    var goal = getExerciseGoal();
+    if (goal == NaN || goal == undefined) {
+      goal = 0;
+    }
+    var minsExercised = getMinsExercised();
+    if (minsExercised == NaN || minsExercised == undefined) {
+      minsExercised = 0;
+    }
+    var exerciseToGo = goal - minsExercised;
+
+    if (exerciseToGo <= 0) {
+      global.goalsCompleted[0] = 'complete';
+    }
+    else {
+      global.goalsCompleted[0] = 'incomplete';
+    }
+
+    return exerciseToGo;
   }
   function getAge(){
     var dob;
@@ -124,30 +199,58 @@ function getRecommendedExerciseGoal() {
   const writeUserData = () => {
     const db = getDatabase();
     set(ref(db, 'ExerciseInputs/' + auth.currentUser?.uid), {
-        exerciseGoal: isNaN(parseInt(exerciseGoal)) ? 0 : parseInt(exerciseGoal),
-        minutesExercised: isNaN(parseInt(minutesExercised)) ? 0 : parseInt(minutesExercised),
-        exercisesToGo: isNaN(parseInt(exercisesToGo)) ? 0 : parseInt(exercisesToGo),
-        date: date
+      exerciseGoal: exerciseGoal,
+      minutesExercised: minutesExercised + counter,
+      exercisesToGo: exercisesToGo,
+      date: date
     })
-    .catch(error => alert(error.message));
+      .catch(error => alert(error.message));
     navigation.replace('Exercise');
     global.lastActivity = "exercise";
   }
-  
 
   return (
-    <LinearGradient
-      colors={['#ffffff', '#b5e8ff']}
-      style={styles.gradient}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <KeyboardAvoidingView style={styles.container} behavior="padding">
-          <View style={styles.inputContainer}>
-            <Text style={styles.title}>Exercise Tracker</Text>
-            <Headers />
-            <View style={styles.goalContainer}>
-              <Text style={styles.goalText}>Exercise Goal</Text>
-              <Text style={styles.goalIndicator}>{exerciseGoal}</Text>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={styles.container}>
+        <LinearGradient colors={['#b5e8ff', '#ffffff']} style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          top: 0,
+        }}></LinearGradient>
+        <View style={{
+          top: '5%',
+          flex: 0.2
+        }}>
+          <Text style={[styles.shadowProp, {
+            fontFamily: 'Lemon-Milk',
+            textAlign: 'center',
+            color: '#ffffff',
+            fontSize: 60,
+          }]}>Fitness</Text>
+          <View style={[styles.shadowProp, {
+            marginRight: '75%',
+          }]}>
+            <Pressable
+              onPress={() => navigation.navigate('Home')}
+              style={[styles.navButtons, { backgroundColor: 'transparent' }]}>
+              <Image source={require('./images/globalButtons/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
+            </Pressable>
+          </View>
+        </View>
+        <View style={{flex: 0.8, top: '2%'}}>
+          <View style={{ zIndex: 4, alignItems: 'center' }}>
+            <Text style={styles.goalText}>Goal</Text>
+            <View style={{ alignSelf: 'center' }}>
+              <TextInput
+                placeholder='Enter Goal'
+                style={[styles.fitInput, styles.shadowProp]}
+                value={exerciseGoal}
+                onChangeText={text => setExerciseGoal(text.replace(/[^0-9]/g, ''))}
+                keyboardType="numeric"
+                maxLength={5}
+              />
             </View>
             <TextInput
               placeholder='Enter Exercise Goal For Today'
@@ -161,58 +264,81 @@ function getRecommendedExerciseGoal() {
             <View style={styles.goalContainer}>
               <Text style={styles.goalText}>Minutes Exercised</Text>
               <Text style={styles.goalIndicator}>{minutesExercised}</Text>
+          </View>
+          <LottieView
+            autoPlay loop
+            style={[styles.shadowProp, {
+              marginTop: -15,
+              alignSelf: 'center',
+              width: 200,
+              height: 200,
+            }]}
+            source={require('./images/pagePics/exerciseTracker.json')}
+          />
+          <View style={{
+            alignItems: 'center',
+            marginTop: -80
+          }}>
+            <Text style={[styles.goalText, styles.shadowProp]}>Add Minutes</Text>
+            <Text style={[styles.goalText, styles.shadowProp, { fontSize: 60, marginTop: -10 }]}>{`${counter}`}</Text>
+            <View style={{
+              alignItems: 'center',
+              alignSelf: 'center',
+              flexDirection: 'row'
+            }}>
+              <TouchableOpacity
+                style={[styles.button, styles.shadowProp, { marginTop: 10, marginRight: 10, width: '25%' }]}
+                onPress={() => { addExercise(5); countMin(5); }}
+              >
+                <Text style={[styles.buttonText, { fontSize: 16 }]}>+5 Min</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.shadowProp, { marginTop: 10, marginRight: 10, width: '25%' }]}
+                onPress={() => addExercise(10)}
+              >
+                <Text style={[styles.buttonText, { fontSize: 16 }]}>+10 Min</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.shadowProp, { marginTop: 10, width: '25%' }]}
+                onPress={() => addExercise(15)}
+              >
+                <Text style={[styles.buttonText, { fontSize: 16 }]}>+15 Min</Text>
+              </TouchableOpacity>
             </View>
-            <TextInput
-              placeholder='Enter Minutes Exercised Today'
-              style={styles.input}
-              value={minutesExercised.toString()}
-              onChangeText={text => setMinutesExercised(text.replace(/[^0-9]/g, ''))}
-              keyboardType="numeric"
-              maxLength={5}
-            />
+          </View>
+        </View>
+        <View style={{ transform: [{translateY: 25}] }}>
+          <View style={[styles.goalContainer, styles.shadowProp, { marginTop: 40, alignItems: 'center', alignSelf: 'center' }]}>
+            <Text style={[styles.goalText, { color: '#BCF4A6', marginTop: 2 }]}>Minutes Exercised</Text>
+            <Text style={[styles.goalText, { fontSize: 60, marginTop: -10, color: '#b5e8ff' }]}>{`${exerciseForDisplay}`}</Text>
+          </View>
+          <View style={[styles.goalContainer, styles.shadowProp, { marginTop: 10, alignItems: 'center', alignSelf: 'center' }]}>
+            <Text style={[styles.goalText, { color: '#F1A7B0', marginTop: 2 }]}>Minutes To Go</Text>
+            <Text style={[styles.goalText, { fontSize: 60, marginTop: -10, color: '#b5e8ff' }]}>{`${exerciseToGoForDisplay}`}</Text>
+          </View>
+          <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { transform: [{translateY: -60}]}]}>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => addExercise(5)}
-            >
-              <Text style={styles.buttonText}>+5 Minutes</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => addExercise(10)}
-            >
-              <Text style={styles.buttonText}>+10 Minutes</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => addExercise(15)}
-            >
-              <Text style={styles.buttonText}>+15 Minutes</Text>
-            </TouchableOpacity>
-            <View style={styles.goalContainer}>
-              <Text style={styles.goalText}>Exercises To Go</Text>
-              <Text style={styles.goalIndicator}>{exercisesToGo}</Text>
-            </View>
-            <TouchableOpacity
-              style={styles.submitButton}
               onPress={validateInputs}
             >
               <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.chartContainer}>
-                <VictoryPie
-                data={data}
-                colorScale={['#FFFFFF', '#2196F3']}
-                innerRadius={95}
-                labelRadius={31}
-                style={{
-                labels: { fill: 'black', fontSize: 12, fontWeight: 'bold' },
-                }}
-                width ={200}
-                height = {200}
-                />
-            </View>
-          {/* <View style={styles.progressContainer}>
+        </View>
+        {/*<View style={styles.chartContainer}>
+          <VictoryPie
+            data={data}
+            colorScale={['#FFFFFF', '#2196F3']}
+            innerRadius={95}
+            labelRadius={31}
+            style={{
+              labels: { fill: 'black', fontSize: 12, fontWeight: 'bold' },
+            }}
+            width={200}
+            height={200}
+          />
+        </View>
+        {/* <View style={styles.progressContainer}>
             <Text style={styles.progressText}>Progress: {progress.toFixed(0)}%</Text>
                 <ProgressView
                 isIndeterminate={false}
@@ -221,69 +347,61 @@ function getRecommendedExerciseGoal() {
                 trackTintColor="blue"
                 />
         </View> */}
-        </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
-    </LinearGradient>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
-    gradient: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      container: {
-        flex: 1,
-        width: '90%',
-      },
-      inputContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-    title: {
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start'
+  },
+  navButtons: {
+    width: 40,
+    height: 40,
+    borderRadius: 30,
+    backgroundColor: '#FFFFFF',
+    alignSelf: 'center'
+  },
+  inputContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
     fontSize: 35,
     fontWeight: 'bold',
     marginBottom: 50,
     textAlign: 'center',
-    },
-    goalContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    marginBottom: 10,
-    },
-    goalText: {
-    fontSize: 16,
-    },
-    goalIndicator: {
+  },
+  goalText: {
+    fontFamily: 'Lemon-Milk',
+    color: '#ffffff',
+    fontSize: 25,
+    marginTop: 20
+  },
+  goalIndicator: {
     fontSize: 20,
     fontWeight: 'bold',
-    },
-    input: {
+  },
+  input: {
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
     width: '100%',
-    },
-    button: {
-    backgroundColor: '#4da6ff',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-    width: '100%',
+  },
+  buttonContainer: {
+    width: '60%',
+    justifyContent: 'center',
     alignItems: 'center',
-    },
-    submitButton: {
-    backgroundColor: '#b5e8ff',
-    borderRadius: 5,
-    padding: 10,
-    marginTop: 5,
-    marginBottom: 10,
+  },
+  button: {
+    backgroundColor: "#FFFFFF",
     width: '100%',
+    borderRadius: 10,
     alignItems: 'center',
     },
     // progressContainer: {
@@ -315,7 +433,54 @@ const styles = StyleSheet.create({
       fontSize: 12,
       marginTop: 10,
       alignSelf: 'center'
-    },
+  },
+  buttonText: {
+    fontFamily: 'Lemon-Milk',
+    color: '#b5e8ff',
+    fontSize: 30
+  },
+  shadowProp: {
+    shadowOffset: { width: -2, height: 4 },
+    shadowColor: '#171717',
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
+  submitButton: {
+    marginTop: 90,
+    alignSelf: 'center'
+  },
+  // progressContainer: {
+  //     width: '100%',
+  //     marginBottom: 20,
+  //     alignItems: 'center',
+  //     },
+  //     progressText: {
+  //     color: '#fff',
+  //     fontSize: 20,
+  //     marginBottom: 10,
+  //     },
+  chartContainer: {
+    marginTop: 10,
+    alignItems: 'center',
+    padding: 50,
+    position: 'relative',
+    top: -58,
+    marginRight: 20
+  },
+  fitInput: {
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 10,
+    marginTop: 10,
+    width: "40%"
+  },
+  goalContainer: {
+    width: '80%',
+    height: 100,
+    backgroundColor: '#F2FBFF',
+    borderRadius: 25
+  },
 });
 
 export default Exercise;
