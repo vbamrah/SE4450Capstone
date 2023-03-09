@@ -8,6 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 // import {ProgressView} from "@react-native-community/progress-view";
 // import { requireNativeComponent } from 'react-native';
 import { VictoryPie } from 'victory-native';
+import { Center } from '@react-three/drei';
 
 // Registering translation for paper-dates
 registerTranslation('en-GB', enGB)
@@ -84,6 +85,41 @@ const Exercise = ({navigation}) => {
       setExercisesToGo(parseInt(exerciseGoal) - parseInt(minsExercised));
     });
   }
+  function getAge(){
+    var dob;
+    var age;
+    const db = getDatabase();
+    const userData = ref(db, 'users/' + auth.currentUser?.uid);
+    onValue(userData, (snapshot) => {
+    var data = snapshot.val();
+
+    dob = data.dob;
+
+    let dobYear = dob.slice(0,4);
+    let currentYear = new Date().getFullYear();
+    age = currentYear - dobYear;
+    });
+    return age;
+
+}
+
+function getRecommendedExerciseGoal() {
+    var goal;
+    var age = getAge();
+    if (6 <= age <= 17) {
+        goal = '60 min/day'
+        return goal;
+    }
+    if (18 <= age <= 64) {
+        goal = '150 min/week'
+        return goal;
+    }
+    else if (age >= 65) {
+        goal = '150 min/week'
+        return goal;
+    }
+    else return null;
+}
 
   const writeUserData = () => {
     const db = getDatabase();
@@ -121,6 +157,7 @@ const Exercise = ({navigation}) => {
               keyboardType="numeric"
               maxLength={5}
             />
+            <Text style={styles.recommendationText}>{`Recommended Exercise Goal for ${getAge()} year olds: ${getRecommendedExerciseGoal()}`}</Text>
             <View style={styles.goalContainer}>
               <Text style={styles.goalText}>Minutes Exercised</Text>
               <Text style={styles.goalIndicator}>{minutesExercised}</Text>
@@ -271,6 +308,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
+    },
+    recommendationText: {
+      color: 'grey',
+      fontWeight: '600',
+      fontSize: 12,
+      marginTop: 10,
+      alignSelf: 'center'
     },
 });
 

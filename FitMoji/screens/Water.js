@@ -177,6 +177,7 @@ const Water = ({ navigation }) => {
                             maxLength={2}
                         />
                     </View>
+                    <Text style={styles.recommendationText}>{`Recommended Water Goal: \nMen: 3.7L \t Women: 2.7L`}</Text>
                     <LottieView
                         autoPlay loop
                         style={[styles.shadowProp, {
@@ -333,5 +334,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#F2FBFF',
         borderRadius: 25
     },
+    recommendationText: {
+        color: 'grey',
+        fontWeight: '600',
+        fontSize: 12,
+        marginTop: 10,
+        alignSelf: 'center'
+      },
 });
 
