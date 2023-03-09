@@ -33,11 +33,10 @@ registerTranslation('en-GB', enGB)
 const FoodIntake = ({navigation}) => {
 
     let calorieGoalForDisplay = getCalGoalThatDisplaysCorrectly();
-    //console.log(calorieGoalForDisplay);
     let caloriesEatenForDisplay = getCalsEatenThatDisplaysCorrectly();
-    //console.log(caloriesEatenForDisplay);
     let caloriesToGoForDisplay = getCalsToGo();
-    //console.log(caloriesToGoForDisplay);
+    let calorieRecommendationMale = getCalsRecommendationThatDisplaysCorrectlyMale();
+    let calorieRecommendationFemale = getCalsRecommendationThatDisplaysCorrectlyFemale();
     
     const [animated, setAnimated] = useState(false);
     const handleToggle = () => {
@@ -126,6 +125,75 @@ const FoodIntake = ({navigation}) => {
         return goal;
     }
 
+    function getRecommendedCalorieGoalMale(){
+        var hInFeet;
+        var hInInches;
+        var weight;
+        var dob;
+        var totalHeight;
+        var calRecommendation;
+        const db = getDatabase();
+        const userData = ref(db, 'users/' + auth.currentUser?.uid);
+        onValue(userData, (snapshot) => {
+        var data = snapshot.val();
+
+        hInFeet = Number(data.heightFeet);
+        hInInches = Number(data.heightInches);   
+        weight = data.weight;
+        dob = data.dob;
+
+        totalHeight = (hInFeet * 12) + hInInches;
+        let dobYear = dob.slice(0,4);
+        let currentYear = new Date().getFullYear();
+        let age = currentYear - dobYear;
+
+        let bmr = (4.536 * weight) + (15.88 * totalHeight) - (5 * age) + 5; //need a different formula for women
+        calRecommendation = Math.round(1.375 * bmr);
+        });
+
+        return calRecommendation;
+    }
+
+    function getRecommendedCalorieGoalFemale(){
+        var hInFeet;
+        var hInInches;
+        var weight;
+        var dob;
+        var totalHeight;
+        var calRecommendation;
+        const db = getDatabase();
+        const userData = ref(db, 'users/' + auth.currentUser?.uid);
+        onValue(userData, (snapshot) => {
+        var data = snapshot.val();
+
+        hInFeet = Number(data.heightFeet);
+        hInInches = Number(data.heightInches);   
+        weight = data.weight;
+        dob = data.dob;
+
+        totalHeight = (hInFeet * 12) + hInInches;
+        let dobYear = dob.slice(0,4);
+        let currentYear = new Date().getFullYear();
+        let age = currentYear - dobYear;
+
+        let bmr = (4.536 * weight) + (15.88 * totalHeight) - (5 * age) - 161; //need a different formula for women
+        calRecommendation = Math.round(1.375 * bmr);
+        });
+
+        return calRecommendation;
+    }
+
+
+    function getCalsRecommendationThatDisplaysCorrectlyMale(){
+        var calRec = getRecommendedCalorieGoalMale();
+        return calRec;
+    }
+
+    function getCalsRecommendationThatDisplaysCorrectlyFemale(){
+        var calRec = getRecommendedCalorieGoalFemale();
+        return calRec;
+    }
+
     function writeUserData() {
         const db = getDatabase();
         set(ref(db, 'foodIntake/' + auth.currentUser?.uid), {
@@ -180,6 +248,7 @@ const FoodIntake = ({navigation}) => {
                             maxLength={5}
                         />
                     </View>
+                    <Text style={styles.recommendationText}>{`Recommended Calorie Goal: \nMen: ${calorieRecommendationMale} calories   Women: ${calorieRecommendationFemale} calories`}</Text>
                     <LottieView
                         autoPlay loop
                         style={[styles.shadowProp, {
@@ -308,7 +377,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
     },
     submitButton: {
-        marginTop: 90,
+        marginTop: 70,
         alignSelf: 'center'
     },
     bigButton: {
@@ -336,5 +405,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#F2FBFF',
         borderRadius: 25
     },
+    recommendationText: {
+        color: 'grey',
+        fontWeight: '600',
+        fontSize: 12,
+        marginTop: 10,
+        alignSelf: 'center',
+        textAlign: 'center'
+        
+    }
 });
 

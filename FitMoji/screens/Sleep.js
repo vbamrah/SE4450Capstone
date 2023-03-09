@@ -269,7 +269,7 @@ const Sleep = ({ navigation }) => {
             </Pressable>
           </View>
         </View>
-        <Text style={styles.recommendationText}>{`Recommended Sleep Goal: ${sleepRecommendation} hours`}</Text>
+        
         <View style={{ top: '5%' }}>
           <Text style={[styles.goalText, styles.shadowProp, { marginTop: '-5%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
           <View style={{ alignSelf: 'center' }}>
@@ -281,7 +281,7 @@ const Sleep = ({ navigation }) => {
               maxLength={2}
             />
           </View>
-
+          <Text style={styles.recommendationText}>{`Recommended Sleep Goal: ${sleepRecommendation} hours`}</Text>
           <View style={[styles.shadowProp, styles.bigButton, {
             alignSelf: 'center',
             marginTop: '-12%'
@@ -420,7 +420,8 @@ const styles = StyleSheet.create({
     color: 'grey',
     fontWeight: '600',
     fontSize: 12,
-    marginTop: 10
+    marginTop: 10,
+    alignSelf: 'center'
   },
   navButtons: {
     width: 40,
