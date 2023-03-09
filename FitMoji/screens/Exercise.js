@@ -135,7 +135,7 @@ const Exercise = ({ navigation }) => {
       }
     });
 
-    global.progressToGoals[0] = minsExercised/getExerciseGoal();
+    global.progressToGoals[0] = minsExercised / getExerciseGoal();
 
     return minsExercised;
   }
@@ -160,41 +160,41 @@ const Exercise = ({ navigation }) => {
 
     return exerciseToGo;
   }
-  function getAge(){
+  function getAge() {
     var dob;
     var age;
     const db = getDatabase();
     const userData = ref(db, 'users/' + auth.currentUser?.uid);
     onValue(userData, (snapshot) => {
-    var data = snapshot.val();
+      var data = snapshot.val();
 
-    dob = data.dob;
+      dob = data.dob;
 
-    let dobYear = dob.slice(0,4);
-    let currentYear = new Date().getFullYear();
-    age = currentYear - dobYear;
+      let dobYear = dob.slice(0, 4);
+      let currentYear = new Date().getFullYear();
+      age = currentYear - dobYear;
     });
     return age;
 
-}
+  }
 
-function getRecommendedExerciseGoal() {
+  function getRecommendedExerciseGoal() {
     var goal;
     var age = getAge();
     if (6 <= age <= 17) {
-        goal = '60 min/day'
-        return goal;
+      goal = '60 min/day'
+      return goal;
     }
     if (18 <= age <= 64) {
-        goal = '150 min/week'
-        return goal;
+      goal = '150 min/week'
+      return goal;
     }
     else if (age >= 65) {
-        goal = '150 min/week'
-        return goal;
+      goal = '150 min/week'
+      return goal;
     }
     else return null;
-}
+  }
 
   const writeUserData = () => {
     const db = getDatabase();
@@ -220,8 +220,7 @@ function getRecommendedExerciseGoal() {
           top: 0,
         }}></LinearGradient>
         <View style={{
-          top: '5%',
-          flex: 0.2
+          top: '5%'
         }}>
           <Text style={[styles.shadowProp, {
             fontFamily: 'Lemon-Milk',
@@ -239,7 +238,7 @@ function getRecommendedExerciseGoal() {
             </Pressable>
           </View>
         </View>
-        <View style={{flex: 0.8, top: '2%'}}>
+        <View>
           <View style={{ zIndex: 4, alignItems: 'center' }}>
             <Text style={styles.goalText}>Goal</Text>
             <View style={{ alignSelf: 'center' }}>
@@ -252,80 +251,69 @@ function getRecommendedExerciseGoal() {
                 maxLength={5}
               />
             </View>
-            <TextInput
-              placeholder='Enter Exercise Goal For Today'
-              style={styles.input}
-              value={exerciseGoal.toString()}
-              onChangeText={text => setExerciseGoal(text.replace(/[^0-9]/g, ''))}
-              keyboardType="numeric"
-              maxLength={5}
-            />
             <Text style={styles.recommendationText}>{`Recommended Exercise Goal for ${getAge()} year olds: ${getRecommendedExerciseGoal()}`}</Text>
-            <View style={styles.goalContainer}>
-              <Text style={styles.goalText}>Minutes Exercised</Text>
-              <Text style={styles.goalIndicator}>{minutesExercised}</Text>
-          </View>
-          <LottieView
-            autoPlay loop
-            style={[styles.shadowProp, {
-              marginTop: -15,
-              alignSelf: 'center',
-              width: 200,
-              height: 200,
-            }]}
-            source={require('./images/pagePics/exerciseTracker.json')}
-          />
-          <View style={{
-            alignItems: 'center',
-            marginTop: -80
-          }}>
-            <Text style={[styles.goalText, styles.shadowProp]}>Add Minutes</Text>
-            <Text style={[styles.goalText, styles.shadowProp, { fontSize: 60, marginTop: -10 }]}>{`${counter}`}</Text>
+
+            <LottieView
+              autoPlay loop
+              style={[styles.shadowProp, {
+                marginTop: -15,
+                alignSelf: 'center',
+                width: 200,
+                height: 200,
+              }]}
+              source={require('./images/pagePics/exerciseTracker.json')}
+            />
             <View style={{
               alignItems: 'center',
-              alignSelf: 'center',
-              flexDirection: 'row'
+              marginTop: -80
             }}>
+              <Text style={[styles.goalText, styles.shadowProp]}>Add Minutes</Text>
+              <Text style={[styles.goalText, styles.shadowProp, { fontSize: 60, marginTop: -10 }]}>{`${counter}`}</Text>
+              <View style={{
+                alignItems: 'center',
+                alignSelf: 'center',
+                flexDirection: 'row'
+              }}>
+                <TouchableOpacity
+                  style={[styles.button, styles.shadowProp, { marginTop: 10, marginRight: 10, width: '25%' }]}
+                  onPress={() => { addExercise(5); countMin(5); }}
+                >
+                  <Text style={[styles.buttonText, { fontSize: 16 }]}>+5 Min</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.button, styles.shadowProp, { marginTop: 10, marginRight: 10, width: '25%' }]}
+                  onPress={() => addExercise(10)}
+                >
+                  <Text style={[styles.buttonText, { fontSize: 16 }]}>+10 Min</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.button, styles.shadowProp, { marginTop: 10, width: '25%' }]}
+                  onPress={() => addExercise(15)}
+                >
+                  <Text style={[styles.buttonText, { fontSize: 16 }]}>+15 Min</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+          <View style={{ }}>
+            <View style={[styles.goalContainer, styles.shadowProp, { marginTop: 40, alignItems: 'center', alignSelf: 'center' }]}>
+              <Text style={[styles.goalText, { color: '#BCF4A6', marginTop: 2 }]}>Minutes Exercised</Text>
+              <Text style={[styles.goalText, { fontSize: 60, marginTop: -10, color: '#b5e8ff' }]}>{`${exerciseForDisplay}`}</Text>
+            </View>
+            <View style={[styles.goalContainer, styles.shadowProp, { marginTop: 10, alignItems: 'center', alignSelf: 'center' }]}>
+              <Text style={[styles.goalText, { color: '#F1A7B0', marginTop: 2 }]}>Minutes To Go</Text>
+              <Text style={[styles.goalText, { fontSize: 60, marginTop: -10, color: '#b5e8ff' }]}>{`${exerciseToGoForDisplay}`}</Text>
+            </View>
+            <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { transform: [{ translateY: -60 }] }]}>
               <TouchableOpacity
-                style={[styles.button, styles.shadowProp, { marginTop: 10, marginRight: 10, width: '25%' }]}
-                onPress={() => { addExercise(5); countMin(5); }}
+                style={styles.button}
+                onPress={validateInputs}
               >
-                <Text style={[styles.buttonText, { fontSize: 16 }]}>+5 Min</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.button, styles.shadowProp, { marginTop: 10, marginRight: 10, width: '25%' }]}
-                onPress={() => addExercise(10)}
-              >
-                <Text style={[styles.buttonText, { fontSize: 16 }]}>+10 Min</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.button, styles.shadowProp, { marginTop: 10, width: '25%' }]}
-                onPress={() => addExercise(15)}
-              >
-                <Text style={[styles.buttonText, { fontSize: 16 }]}>+15 Min</Text>
+                <Text style={styles.buttonText}>Submit</Text>
               </TouchableOpacity>
             </View>
           </View>
-        </View>
-        <View style={{ transform: [{translateY: 25}] }}>
-          <View style={[styles.goalContainer, styles.shadowProp, { marginTop: 40, alignItems: 'center', alignSelf: 'center' }]}>
-            <Text style={[styles.goalText, { color: '#BCF4A6', marginTop: 2 }]}>Minutes Exercised</Text>
-            <Text style={[styles.goalText, { fontSize: 60, marginTop: -10, color: '#b5e8ff' }]}>{`${exerciseForDisplay}`}</Text>
-          </View>
-          <View style={[styles.goalContainer, styles.shadowProp, { marginTop: 10, alignItems: 'center', alignSelf: 'center' }]}>
-            <Text style={[styles.goalText, { color: '#F1A7B0', marginTop: 2 }]}>Minutes To Go</Text>
-            <Text style={[styles.goalText, { fontSize: 60, marginTop: -10, color: '#b5e8ff' }]}>{`${exerciseToGoForDisplay}`}</Text>
-          </View>
-          <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { transform: [{translateY: -60}]}]}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={validateInputs}
-            >
-              <Text style={styles.buttonText}>Submit</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        {/*<View style={styles.chartContainer}>
+          {/*<View style={styles.chartContainer}>
           <VictoryPie
             data={data}
             colorScale={['#FFFFFF', '#2196F3']}
@@ -345,8 +333,8 @@ function getRecommendedExerciseGoal() {
                 progress={progress / 100}
                 progressTintColor="orange"
                 trackTintColor="blue"
-                />
-        </View> */}
+                />*/}
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -403,36 +391,37 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 10,
     alignItems: 'center',
-    },
-    // progressContainer: {
-    //     width: '100%',
-    //     marginBottom: 20,
-    //     alignItems: 'center',
-    //     },
-    //     progressText: {
-    //     color: '#fff',
-    //     fontSize: 20,
-    //     marginBottom: 10,
-    //     },
-    chartContainer: {
-        marginTop: 10,
-        alignItems: 'center',
-        padding: 50,
-        position: 'relative',
-        top:-58,
-        marginRight: 20
-        },
-    buttonText: {
+    padding: 10
+  },
+  // progressContainer: {
+  //     width: '100%',
+  //     marginBottom: 20,
+  //     alignItems: 'center',
+  //     },
+  //     progressText: {
+  //     color: '#fff',
+  //     fontSize: 20,
+  //     marginBottom: 10,
+  //     },
+  chartContainer: {
+    marginTop: 10,
+    alignItems: 'center',
+    padding: 50,
+    position: 'relative',
+    top: -58,
+    marginRight: 20
+  },
+  buttonText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
-    },
-    recommendationText: {
-      color: 'grey',
-      fontWeight: '600',
-      fontSize: 12,
-      marginTop: 10,
-      alignSelf: 'center'
+  },
+  recommendationText: {
+    color: 'grey',
+    fontWeight: '600',
+    fontSize: 12,
+    marginTop: 10,
+    alignSelf: 'center'
   },
   buttonText: {
     fontFamily: 'Lemon-Milk',
