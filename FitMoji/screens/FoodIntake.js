@@ -69,7 +69,7 @@ const FoodIntake = ({ navigation }) => {
     function getCalGoal() {
         var goal;
         const db = getDatabase();
-        const calorieGoal = ref(db, 'foodIntake/' + auth.currentUser?.uid);
+        const calorieGoal = ref(db, 'Goals/' + auth.currentUser?.uid);
         onValue(calorieGoal, (snapshot) => {
             var data = snapshot.val();
             if (data == null) {
@@ -207,13 +207,30 @@ const FoodIntake = ({ navigation }) => {
         return calRec;
     }
 
+    function getDateForDB(){
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+
+        let todaysDate = day + '-' + month + '-' + year;
+        return todaysDate;
+
+    }
+
     function writeUserData() {
         const db = getDatabase();
-        set(ref(db, 'foodIntake/' + auth.currentUser?.uid), {
-            calorieGoal: calorieGoal,
+        var dateForDB = getDateForDB();
+        set(ref(db, 'foodIntake/' + auth.currentUser?.uid + '/' + dateForDB), {
             caloriesEaten: caloriesEaten,
             caloriesToGo: caloriesToGo,
             date: date
+        })
+            .catch(error => alert(error.message));
+        navigation.replace('Food Intake');
+        global.lastActivity = "food";
+
+        set(ref(db, 'Goals/' + auth.currentUser?.uid), {
+            calorieGoal: calorieGoal,
         })
             .catch(error => alert(error.message));
         navigation.replace('Food Intake');
