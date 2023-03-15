@@ -186,13 +186,26 @@ const Sleep = ({ navigation }) => {
 
     global.progressToGoals[3] = subtractHour/getSleepGoal();
 
+    var tDate = getDateForDB();
+    setInputDate(tDate);
+
+  }
+
+  function getDateForDB(){
+    var day = new Date().getDate();
+    var month = new Date().getMonth() + 1;
+    var year = new Date().getFullYear();
+
+    let todaysDate = day + '-' + month + '-' + year;
+    console.log(todaysDate);
+    return todaysDate;
   }
 
   function writeUserData() {
     const db = getDatabase();
-    set(ref(db, 'sleepTime/' + auth.currentUser?.uid), {
+    var dateForDB = getDateForDB();
+    set(ref(db, 'sleepTime/' + auth.currentUser?.uid + '/' + dateForDB), {
       inputDate: inputDate,
-      sleepGoal: sleepGoal,
       hoursSlept: hoursSlept,
       inputBedTime: inputBedTime,
       inputWakeupTime: inputWakeupTime
@@ -200,13 +213,20 @@ const Sleep = ({ navigation }) => {
       .catch(error => alert(error.message));
     navigation.replace("Sleep");
     global.lastActivity = "sleep";
+
+    set(ref(db, 'Goals/' + auth.currentUser?.uid), {
+      sleepGoal: sleepGoal,
+    })
+      .catch(error => alert(error.message));
+    navigation.replace('Sleep');
+    global.lastActivity = "sleep";
   }
 
   function getCurrentSleepGoal() {
     var goal;
 
     const db = getDatabase();
-    const sleepGoal = ref(db, 'sleepTime/' + auth.currentUser?.uid);
+    const sleepGoal = ref(db, 'Goals/' + auth.currentUser?.uid);
     onValue(sleepGoal, (snapshot) => {
       var data = snapshot.val();
       if (data == null) {
