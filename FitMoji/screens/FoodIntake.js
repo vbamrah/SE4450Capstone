@@ -62,8 +62,10 @@ const FoodIntake = ({ navigation }) => {
         var goal = getCalGoal();
         var addCals = parseInt(cals) + calsEaten;
         var calsToGo = goal - addCals;
+        var tDate = getDateForDB();
         setCaloriesEaten(addCals);
         setCaloriesToGo(calsToGo);
+        setDate(tDate);
     }
 
     function getCalGoal() {
@@ -85,7 +87,8 @@ const FoodIntake = ({ navigation }) => {
     function getCalsEaten() {
         var calsEaten;
         const db = getDatabase();
-        const caloriesEaten = ref(db, 'foodIntake/' + auth.currentUser?.uid);
+        var dateForDB = getDateForDB();
+        const caloriesEaten = ref(db, 'foodIntake/' + auth.currentUser?.uid + '/' + dateForDB);
         onValue(caloriesEaten, (snapshot) => {
             var data = snapshot.val();
             if (data == null) {
@@ -160,7 +163,7 @@ const FoodIntake = ({ navigation }) => {
         let currentYear = new Date().getFullYear();
         let age = currentYear - dobYear;
 
-        let bmr = (4.536 * weight) + (15.88 * totalHeight) - (5 * age) + 5; //need a different formula for women
+        let bmr = (4.536 * weight) + (15.88 * totalHeight) - (5 * age) + 5; 
         calRecommendation = Math.round(1.375 * bmr);
         });
 
@@ -189,7 +192,7 @@ const FoodIntake = ({ navigation }) => {
         let currentYear = new Date().getFullYear();
         let age = currentYear - dobYear;
 
-        let bmr = (4.536 * weight) + (15.88 * totalHeight) - (5 * age) - 161; //need a different formula for women
+        let bmr = (4.536 * weight) + (15.88 * totalHeight) - (5 * age) - 161; 
         calRecommendation = Math.round(1.375 * bmr);
         });
 
@@ -208,11 +211,12 @@ const FoodIntake = ({ navigation }) => {
     }
 
     function getDateForDB(){
-        var day = date.getDate();
-        var month = date.getMonth() + 1;
-        var year = date.getFullYear();
+        var day = new Date().getDate();
+        var month = new Date().getMonth() + 1;
+        var year = new Date().getFullYear();
 
         let todaysDate = day + '-' + month + '-' + year;
+        console.log(todaysDate);
         return todaysDate;
 
     }
@@ -220,6 +224,7 @@ const FoodIntake = ({ navigation }) => {
     function writeUserData() {
         const db = getDatabase();
         var dateForDB = getDateForDB();
+        console.log(dateForDB);
         set(ref(db, 'foodIntake/' + auth.currentUser?.uid + '/' + dateForDB), {
             caloriesEaten: caloriesEaten,
             caloriesToGo: caloriesToGo,
