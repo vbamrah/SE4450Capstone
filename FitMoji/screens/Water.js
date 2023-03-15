@@ -64,7 +64,6 @@ const Water = ({ navigation }) => {
 
     function getWaterGoal() {
         const db = getDatabase();
-        const waterGoal = ref(db, 'Water/' + auth.currentUser?.uid + '/waterGoal');
         const waterGoal = ref(db, 'Water/' + auth.currentUser?.uid + '/Goals');
         onValue(waterGoal, (snapshot) => {
             const data = snapshot.val();
