@@ -64,7 +64,7 @@ const Water = ({ navigation }) => {
 
     function getWaterGoal() {
         const db = getDatabase();
-        const waterGoal = ref(db, 'Water/' + auth.currentUser?.uid + '/Goals');
+        const waterGoal = ref(db, 'Water/' + auth.currentUser?.uid + '/waterGoal');
         onValue(waterGoal, (snapshot) => {
             const data = snapshot.val();
             if (data == null) {
@@ -140,25 +140,8 @@ const Water = ({ navigation }) => {
         global.lastActivity = "water";
     }
     
-     function getDateForDB(){
-        var day = date.getDate();
-        var month = date.getMonth() + 1;
-        var year = date.getFullYear();
-
-        let todaysDate = day + '-' + month + '-' + year;
-        return todaysDate;
-
-    }
-    
-     set(ref(db, 'Goals/' + auth.currentUser?.uid), {
-        waterGoal: waterGoal,
-    })
-        .catch(error => alert(error.message));
-    navigation.replace('Water');
-    global.lastActivity = "water";
-    
-    
-
+  
+   
     global.progressToGoals[2] = waterDrankForDisplay / waterGoalForDisplay;
     console.log(global.progressToGoals[2]);
 
