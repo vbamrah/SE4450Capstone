@@ -1,90 +1,28 @@
 import React from 'react'
 import { useCallback, useState, useEffect } from 'react';
+import { get, getDatabase, ref, child, onValue } from "firebase/database";
 import { StyleSheet, View, Text, Pressable, ScrollView, Image, TextInput, KeyboardAvoidingView } from "react-native"
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useHeaderHeight } from '@react-navigation/elements'
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { auth } from '../firebase';
 import { LinearGradient } from 'expo-linear-gradient';
-import { get, getDatabase, ref, child, onValue } from "firebase/database";
 
-const EditProfile = ({ navigation }) => {
-    useEffect(() => {
-        getData();
-    })
+const Friends = ({ navigation }) => {
 
-    const [name, setFirstName] = useState();
+    const [name, setName] = useState();
     const dbRef = ref(getDatabase());
     const userId = auth.currentUser.uid;
     get(child(dbRef, `users/${userId}`)).then((snapshot) => {
         if (snapshot.exists()) {
-            setFirstName(snapshot.val().firstName);
+            setName(snapshot.val().firstName);
         } else {
             console.log("No data available");
         }
     }).catch((error) => {
         console.error(error);
     });
-
-    const [userName, setName] = useState("Username");
-    const [email, setEmail] = useState("Email");
     const height = useHeaderHeight()
-
-    const saveData = async () => {
-        try {
-            await AsyncStorage.setItem('username', userName);
-            await AsyncStorage.setItem('email', email);
-            alert("Profile Saved!")
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-    const clearUser = async () => {
-        try {
-            await AsyncStorage.removeItem('username');
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-    const clearEmail = async () => {
-        try {
-            await AsyncStorage.removeItem('email');
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-    const getData = async () => {
-        try {
-            const user = await AsyncStorage.getItem('username')
-            const email = await AsyncStorage.getItem('email')
-            if (user !== null) {
-                setName(user)
-            }
-            if (email !== null) {
-                setEmail(email)
-            }
-        }
-        catch (err) {
-            console.log(err)
-        }
-    }
-
-    const handleLogOut = () => {
-        auth.signOut().then(() => {
-            navigation.replace("Login");
-        }).catch(error => alert(error.message))
-    }
-
-    const handleDeleteAccount = () => {
-        auth.currentUser.delete().then(() => {
-            navigation.replace("Login");
-        }).catch(error => alert(error.message))
-    }
-
 
     const [fontsLoaded] = useFonts({
         'Lemon-Milk': require('./fonts/LEMONMILK-Regular.otf'),
@@ -130,7 +68,7 @@ const EditProfile = ({ navigation }) => {
                             textAlign: 'center',
                             color: '#FFFFFF',
                             fontSize: 40,
-                        }]}>Profile</Text>
+                        }]}>Friends</Text>
                         <View style={[styles.shadowProp, {
                             marginTop: -40,
                             marginRight: 300,
@@ -139,16 +77,6 @@ const EditProfile = ({ navigation }) => {
                                 onPress={() => navigation.navigate('Home')}
                                 style={[styles.navButtons, {backgroundColor: 'transparent'}]}>
                                 <Image source={require('./images/globalButtons/home.png')} style={{ tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center' }} />
-                            </Pressable>
-                        </View>
-                        <View style={[styles.shadowProp, {
-                            marginTop: -40,
-                            marginLeft: 300,
-                        }]}>
-                            <Pressable
-                                onPress={() => saveData()}
-                                style={[styles.navButtons, {backgroundColor: 'transparent'}]}>
-                                <Image source={require('./images/globalButtons/checked.png')} style={{ tintColor: 'white', width: '60%', height: '60%', resizeMode: 'contain', alignSelf: 'center', top: '5%' }} />
                             </Pressable>
                         </View>
                     </LinearGradient>
@@ -184,45 +112,136 @@ const EditProfile = ({ navigation }) => {
                 }]}>
                     {auth.currentUser.email}
                 </Text>
-                <Text style={[styles.inputLabel, styles.shadowProp]}>
-                    Username
-                </Text>
-                <View>
-                    <TextInput
-                        style={[styles.input, styles.shadowProp]}
-                        placeholder={userName}
-                        onFocus={() => clearUser()}
-                        onChangeText={(val) => setName(val)} />
-                </View>
-                <Text style={[styles.inputLabel, styles.shadowProp]}>
-                    Email
-                </Text>
-                <View>
-                    <TextInput
-                        style={[styles.input, styles.shadowProp]}
-                        placeholder={email}
-                        onFocus={() => clearEmail()}
-                        onChangeText={(val) => setEmail(val)} />
-                </View>
-                <Text style={[styles.inputLabel, styles.shadowProp]}>
-                    Password
-                </Text>
-                <View>
-                    <TextInput
-                        style={[styles.input, styles.shadowProp]}
-                        placeholder='Enter Password' />
-                </View>
-                <View style={[styles.shadowProp, { marginTop: 20, paddingBottom: 20, alignItems: 'center' }]}>
-                    <Pressable onPress={handleLogOut} style={styles.logoutButton}>
-                        <Text style={styles.logoutButtonText}>Log Out</Text>
-                    </Pressable>
-                </View>
-                <View style={[styles.shadowProp, { marginTop: 20, paddingBottom: 20, alignItems: 'center' }]}>
-                    <Pressable onPress={handleDeleteAccount} style={styles.deleteButton}>
-                        <Text style={styles.deleteButtonText}>Delete Account</Text>
-                    </Pressable>
-                </View>
             </ScrollView>
+            <View style={[styles.friends]}>
+                <View style={[styles.row]}>
+                <Image source={require('../assets/images/userprofile.png')}
+                        style={{
+                            width: 50,
+                            height: 50,
+                            borderRadius: 100,
+                            marginLeft: '10%',
+                            display: 'inline-block'
+                        }}>
+                    </Image>
+                    <Text style={[styles.inputLabel, styles.shadowProp]}>
+                        John
+                </Text>
+                </View>
+                <View style={[styles.row]}>
+                <Image source={require('./images/trackButtons/exercise.png')}
+                        style={{
+                            width: 50,
+                            height: 50,
+                            display: 'inline-block',
+                            marginLeft: '10%',
+                        }}>
+                    </Image>
+                    <Image source={require('./images/trackButtons/food.png')}
+                        style={{
+                            width: 50,
+                            height: 50,
+                            display: 'inline-block',
+                            marginLeft: '10%',
+                        }}>
+                    </Image>
+                    <Image source={require('./images/trackButtons/water.png')}
+                        style={{
+                            width: 50,
+                            height: 50,
+                            display: 'inline-block',
+                            marginLeft: '10%',
+                        }}>
+                    </Image>
+                    <Image source={require('./images/trackButtons/sleep.png')}
+                        style={{
+                            width: 50,
+                            height: 50,
+                            display: 'inline-block',
+                            marginLeft: '10%',
+                        }}>
+                    </Image>
+                    </View>
+                    <View style={[styles.row]}>
+                    <Text style={[styles.inputLabel, styles.shadowProp]}>
+                    87%
+                </Text>
+                <Text style={[styles.inputLabel, styles.shadowProp]}>
+                    39%
+                </Text>
+                <Text style={[styles.inputLabel, styles.shadowProp]}>
+                    58%
+                </Text>
+                <Text style={[styles.inputLabel, styles.shadowProp]}>
+                    100%
+                </Text>
+                    </View>
+            </View>
+            <View style={styles.friends}>
+            <View style={[styles.row]}>
+                <Image source={require('../assets/images/userprofile.png')}
+                        style={{
+                            width: 50,
+                            height: 50,
+                            borderRadius: 100,
+                            marginLeft: '10%',
+                            display: 'inline-block'
+                        }}>
+                    </Image>
+                    <Text style={[styles.inputLabel, styles.shadowProp]}>
+                        Jane
+                </Text>
+                </View>
+
+                <View style={[styles.row]}>
+                <Image source={require('./images/trackButtons/exercise.png')}
+                        style={{
+                            width: 50,
+                            height: 50,
+                            display: 'inline-block',
+                            marginLeft: '10%',
+                        }}>
+                    </Image>
+                    <Image source={require('./images/trackButtons/food.png')}
+                        style={{
+                            width: 50,
+                            height: 50,
+                            display: 'inline-block',
+                            marginLeft: '10%',
+                        }}>
+                    </Image>
+                    <Image source={require('./images/trackButtons/water.png')}
+                        style={{
+                            width: 50,
+                            height: 50,
+                            display: 'inline-block',
+                            marginLeft: '10%',
+                        }}>
+                    </Image>
+                    <Image source={require('./images/trackButtons/sleep.png')}
+                        style={{
+                            width: 50,
+                            height: 50,
+                            display: 'inline-block',
+                            marginLeft: '10%',
+                        }}>
+                    </Image>
+                    </View>
+                    <View style={[styles.row]}>
+                    <Text style={[styles.inputLabel, styles.shadowProp]}>
+                    48%
+                </Text>
+                <Text style={[styles.inputLabel, styles.shadowProp]}>
+                    100%
+                </Text>
+                <Text style={[styles.inputLabel, styles.shadowProp]}>
+                    60%
+                </Text>
+                <Text style={[styles.inputLabel, styles.shadowProp]}>
+                    92%
+                </Text>
+                    </View>
+            </View>
         </KeyboardAvoidingView>
     );
 }
@@ -282,26 +301,23 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         top: '10%'
     },
-    deleteButton: {
-        backgroundColor: '#ffffff',
-        borderRadius: 10,
-        padding: 10,
-        width: '50%',
-        height: 35,
-        alignItems: 'center',
-    },
-    deleteButtonText: {
-        fontFamily: 'Lemon-Milk',
-        color: '#ff0000',
-        fontSize: 15,
-        fontWeight: 'bold',
-    },
     shadowProp: {
         shadowOffset: { width: -2, height: 4 },
         shadowColor: '#171717',
         shadowOpacity: 0.2,
         shadowRadius: 3,
     },
+    friends: {
+        backgroundColor: '#ADD8E6',
+        padding: 10,
+        height: '25%'
+    },
+    row: {
+        flex: 1, 
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginTop: 10
+    }
 })
 
-export default EditProfile
+export default Friends

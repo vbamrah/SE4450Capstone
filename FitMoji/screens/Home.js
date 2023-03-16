@@ -283,11 +283,20 @@ const Home = ({ navigation }) => {
                 <Pressable
                     onPress={() => navigation.navigate('Profile')}
                     style={[styles.shadowProp, styles.smallButton, {
-                        marginTop: -20,
+                        marginTop: -40,
                         marginLeft: '80%',
                     }]}
                 >
                     <Image source={require('./images/homeButtons/user.png')} style={{ width: '60%', height: '60%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
+                </Pressable>
+                <Pressable
+                    onPress={() => navigation.navigate('Friends')}
+                    style={[styles.shadowProp, styles.smallButton, {
+                        marginTop: 10,
+                        marginLeft: '80%',
+                    }]}
+                >
+                    <Image source={require('./images/homeButtons/friends.png')} style={{ width: '80%', height: '80%', resizeMode: 'contain', alignSelf: 'center', top: '10%' }} />
                 </Pressable>
             </LinearGradient>
         </View>
