@@ -65,6 +65,12 @@ const EditProfile = ({ navigation }) => {
         }).catch(error => alert(error.message))
     }
 
+    const handleDeleteAccount = () => {
+        auth.currentUser.delete().then(() => {
+            navigation.replace("Login");
+        }).catch(error => alert(error.message))
+    }
+
 
     const [fontsLoaded] = useFonts({
         'Lemon-Milk': require('./fonts/LEMONMILK-Regular.otf'),
@@ -197,6 +203,11 @@ const EditProfile = ({ navigation }) => {
                         <Text style={styles.logoutButtonText}>Log Out</Text>
                     </Pressable>
                 </View>
+                <View style={[styles.shadowProp, { marginTop: 20, paddingBottom: 20, alignItems: 'center' }]}>
+                    <Pressable onPress={handleDeleteAccount} style={styles.deleteButton}>
+                        <Text style={styles.deleteButtonText}>Delete Account</Text>
+                    </Pressable>
+                </View>
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -256,6 +267,20 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
         top: '10%'
+    },
+    deleteButton: {
+        backgroundColor: '#ffffff',
+        borderRadius: 10,
+        padding: 10,
+        width: '50%',
+        height: 35,
+        alignItems: 'center',
+    },
+    deleteButtonText: {
+        fontFamily: 'Lemon-Milk',
+        color: '#ff0000',
+        fontSize: 15,
+        fontWeight: 'bold',
     },
     shadowProp: {
         shadowOffset: { width: -2, height: 4 },
