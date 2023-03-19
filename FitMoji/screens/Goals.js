@@ -107,6 +107,16 @@ const Goals = ({ navigation }) => {
                     marginTop: '5%',
                 }]}>
                     <Text style={[styles.goalText, { textAlign: 'center' }]}>Water</Text>
+                    <Pressable
+                    onPress={() => navigation.navigate('Goal Calendar')}
+                    style={[styles.shadowProp, styles.smallButton, {
+                        marginTop: -40,
+                        marginLeft: '10%',
+                        alignSelf: 'right'
+                    }]}
+                    >
+                    <Image source={require('./images/homeButtons/calendar.png')} style={[styles.buttonImage, { height: '60%', width: '60%', top: '17%' }]} />
+                </Pressable>
                     <Progress.Bar progress={global.progressToGoals[2]} width={300} height={20} borderColor={'#b5e8ff'} color={colorPicker(formatPercent(global.progressToGoals[2]))} style={[styles.shadowProp, {
                         alignSelf: 'center',
                         marginTop: '3%'
