@@ -118,6 +118,16 @@ const Goals = ({ navigation }) => {
                     marginTop: '5%',
                 }]}>
                     <Text style={[styles.goalText, { textAlign: 'center' }]}>Sleep</Text>
+                    <Pressable
+                    onPress={() => navigation.navigate('Goal Calendar')}
+                    style={[styles.shadowProp, styles.smallButton, {
+                        marginTop: -40,
+                        marginLeft: '10%',
+                        alignSelf: 'right'
+                    }]}
+                    >
+                    <Image source={require('./images/homeButtons/calendar.png')} style={[styles.buttonImage, { height: '60%', width: '60%', top: '17%' }]} />
+                </Pressable>
                     <Progress.Bar progress={global.progressToGoals[3]} width={300} height={20} borderColor={'#b5e8ff'} color={colorPicker(formatPercent(global.progressToGoals[3]))} style={[styles.shadowProp, {
                         alignSelf: 'center',
                         marginTop: '3%'
@@ -172,4 +182,17 @@ const styles = StyleSheet.create({
         fontSize: 35,
         marginTop: 20
     },
+    smallButton: {
+        backgroundColor: '#FFFFFF',
+        width: 40,
+        height: 40,
+        borderRadius: 40,
+    },
+    buttonImage: {
+        width: '70%',
+        height: '70%',
+        resizeMode: 'contain',
+        alignSelf: 'center',
+        top: '15%'
+    }
 })
