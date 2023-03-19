@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar } from 'react-native-calendars';
+import {
+    View,
+    Text,
+    StyleSheet,
+    Pressable,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+    Keyboard,
+    Image
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Calendar, CalendarList } from 'react-native-calendars';
 import { get, getDatabase, ref, set, onValue } from "firebase/database";
 import { auth } from '../firebase';
 
@@ -91,19 +102,46 @@ function getTodaysDate() {
 }
 
   return (
-    <Calendar
-      markingType={'custom'}
-      markedDates={renderMarkedDates()}
-      onMonthChange={(month) => setCurrentMonth(new Date(month.dateString))}
-      style={{
-        alignContent: 'center',
-        marginTop: 100,
-      }}
-      theme={{
-        
-      }}
-    />
+    <View>
+        <LinearGradient colors={['#b5e8ff', '#ffffff']} style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            top: 0,
+        }}></LinearGradient>
+        <View>
+            <Text style={[styles.shadowProp, {
+                fontFamily: 'Lemon-Milk',
+                textAlign: 'center',
+                color: '#ffffff',
+                fontSize: 30,
+                marginTop: 70,
+                }]}>Sleep Goal History</Text>
+            <CalendarList
+                markingType={'custom'}
+                markedDates={renderMarkedDates()}
+                onMonthChange={(month) => setCurrentMonth(new Date(month.dateString))}
+                style={{
+                    marginTop: 20,
+                    height: 720,
+                }}
+                theme={{
+                    calendarBackground: 'transparent'
+                }}
+                />
+            </View>
+        </View>
   );
 };
 
 export default GoalCalendar;
+
+const styles = StyleSheet.create({
+    shadowProp: {
+        shadowOffset: { width: -2, height: 4 },
+        shadowColor: '#171717',
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+    },
+})
