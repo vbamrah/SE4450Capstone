@@ -15,7 +15,7 @@ import UserManual from './screens/UserManual'
 import Goals from './screens/Goals'
 import Calendar from './screens/Calendar'
 import Friends from './screens/Friends'
-import GoalCalendar from './screens/GoalCalendar'
+import SleepGoalCalendar from './screens/SleepGoalCalendar'
 
 const Stack = createNativeStackNavigator();
 
@@ -78,7 +78,7 @@ const MyStack = () => {
         <Stack.Screen name = "Goals" component = {Goals}/>
         <Stack.Screen name = "Calendar" component = {Calendar}/>
         <Stack.Screen name = "Friends" component = {Friends}/>
-        <Stack.Screen name = "Goal Calendar" component={GoalCalendar}/>
+        <Stack.Screen name = "Goal Calendar" component={SleepGoalCalendar}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

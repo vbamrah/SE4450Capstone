@@ -14,7 +14,7 @@ import { Calendar, CalendarList } from 'react-native-calendars';
 import { get, getDatabase, ref, set, onValue } from "firebase/database";
 import { auth } from '../firebase';
 
-const GoalCalendar = () => {
+const SleepGoalCalendar = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const renderMarkedDates = () => {
@@ -135,7 +135,7 @@ function getTodaysDate() {
   );
 };
 
-export default GoalCalendar;
+export default SleepGoalCalendar;
 
 const styles = StyleSheet.create({
     shadowProp: {
