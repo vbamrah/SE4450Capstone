@@ -60,7 +60,11 @@ const FoodIntake = ({ navigation }) => {
     function addCalories(cals) {
         var calsEaten = getCalsEaten();
         var goal = getCalGoal();
+        if(goal == undefined || goal == NaN || goal == null){
+            goal = 0;
+        }
         var addCals = parseInt(cals) + calsEaten;
+
         var calsToGo = goal - addCals;
         var tDate = getDateForDB();
         setCaloriesEaten(addCals);
@@ -74,7 +78,7 @@ const FoodIntake = ({ navigation }) => {
         const calorieGoal = ref(db, 'Goals/' + auth.currentUser?.uid);
         onValue(calorieGoal, (snapshot) => {
             var data = snapshot.val();
-            if (data == null) {
+            if (data == null || data == undefined || data == NaN) {
                 goal = 0;
             }
             else {
@@ -121,7 +125,6 @@ const FoodIntake = ({ navigation }) => {
         else {
             global.goalsCompleted[1] = 'incomplete';
         }
-
         return calsToGo;
     }
 
@@ -224,7 +227,6 @@ const FoodIntake = ({ navigation }) => {
     function writeUserData() {
         const db = getDatabase();
         var dateForDB = getDateForDB();
-        console.log(dateForDB);
         set(ref(db, 'foodIntake/' + auth.currentUser?.uid + '/' + dateForDB), {
             caloriesEaten: caloriesEaten,
             caloriesToGo: caloriesToGo,
@@ -330,11 +332,11 @@ const FoodIntake = ({ navigation }) => {
                             marginTop: '5%',
                         }]}>
                             <View style={[{ justifyContent: 'center', marginRight: '50%', marginTop: -20 }]}>
-                                <AutoSizeText fontSizePresets={[75, 60]} numberOfLines={1} mode={ResizeTextMode.preset_font_sizes} style={[styles.goalText, styles.bigNumber]}>{`${caloriesEatenForDisplay}`}</AutoSizeText>
+                                <Text style={[styles.goalText, styles.bigNumber]}>{`${caloriesEatenForDisplay}`}</Text>
                                 <Text style={[styles.goalText, { color: '#BCF4A6', fontSize: 20, textAlign: 'center' }]}>{`Calories${'\n'}Eaten`}</Text>
                             </View>
-                            <View style={[{ justifyContent: 'center', marginLeft: '50%', marginTop: -153 }]}>
-                                <AutoSizeText fontSizePresets={[75, 60]} numberOfLines={1} mode={ResizeTextMode.preset_font_sizes} style={[styles.goalText, styles.bigNumber]}>{`${caloriesToGoForDisplay}`}</AutoSizeText>
+                            <View style={[{ justifyContent: 'center', marginLeft: '50%', marginTop: -120 }]}>
+                                <Text style={[styles.goalText, styles.bigNumber]}>{`${caloriesToGoForDisplay}`}</Text>
                                 <Text style={[styles.goalText, { color: '#F1A7B0', fontSize: 20, textAlign: 'center' }]}>{`Calories${'\n'}Left`}</Text>
                             </View>
                         </View>
@@ -426,7 +428,7 @@ const styles = StyleSheet.create({
     },
     bigNumber: {
         textAlign: 'center',
-        fontSize: 75,
+        fontSize: 50,
         color: '#b5e8ff'
     },
     buttonImage: {

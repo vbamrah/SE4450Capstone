@@ -177,15 +177,15 @@ const Exercise = ({ navigation }) => {
     return age;
 
   }
-
+  
   function getRecommendedExerciseGoal() {
     var goal;
     var age = getAge();
-    if (6 <= age <= 17) {
+    if (6 <= age && age <= 17) {
       goal = '60 min/day'
       return goal;
     }
-    if (18 <= age <= 64) {
+    if (18 <= age && age <= 64) {
       goal = '150 min/week'
       return goal;
     }
