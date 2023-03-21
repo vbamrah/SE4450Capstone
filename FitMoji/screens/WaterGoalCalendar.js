@@ -32,15 +32,13 @@ const WaterGoalCalendar = () => {
     var goal;
 
     const db = getDatabase();
-    const waterGoal = ref(db, 'Goals/' + auth.currentUser?.uid);
+    const waterGoal = ref(db, 'Goals/' + auth.currentUser?.uid + '/waterGoal');
     onValue(waterGoal, (snapshot) => {
       var data = snapshot.val();
       if (data == null) {
         goal = 0;
-        console.log("goal1: " + goal);
       } else {
         goal = data.waterGoal;
-        console.log("goal2: " + goal);
       }
     });
 
@@ -52,11 +50,9 @@ const WaterGoalCalendar = () => {
         var data = snapshot.val();
         if (data == null) {
             watDrank = 0;
-            console.log("waterDrank1: " + watDrank);
         }
         else {
             watDrank = data.waterDrank;
-            console.log("waterDrank2: " + watDrank);
         }
     });
 
