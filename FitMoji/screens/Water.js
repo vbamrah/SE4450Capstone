@@ -33,6 +33,7 @@ const Water = ({ navigation }) => {
     var waterGoalForDisplay = 0;
     var waterDrankForDisplay = 0;
     var waterToGoForDisplay = 0;
+    var tDate = getDateForDB();
 
     getWaterGoal();
     getWaterDrank();
@@ -59,12 +60,13 @@ const Water = ({ navigation }) => {
 
         setWaterDrank(waterDrankForDisplay);
         setWaterToGo(waterToGoForDisplay);
+        setDate(tDate);
 
     }
 
     function getWaterGoal() {
         const db = getDatabase();
-        const waterGoal = ref(db, 'Water/' + auth.currentUser?.uid + '/waterGoal');
+        const waterGoal = ref(db, 'Goals/' + auth.currentUser?.uid);
         onValue(waterGoal, (snapshot) => {
             const data = snapshot.val();
             if (data == null) {
@@ -83,7 +85,8 @@ const Water = ({ navigation }) => {
 
     function getWaterDrank() {
         const db = getDatabase();
-        const waterDrank = ref(db, 'Water/' + auth.currentUser?.uid + '/waterDrank');
+        var dateForDB = getDateForDB();
+        const waterDrank = ref(db, 'Water/' + auth.currentUser?.uid +  '/' + dateForDB);
         onValue(waterDrank, (snapshot) => {
             const data = snapshot.val();
             if (data == null) {
@@ -125,10 +128,21 @@ const Water = ({ navigation }) => {
     function updateWaterToGo(data) {
         waterToGoForDisplay = data;
     }
+    
+      function getDateForDB(){
+    var day = new Date().getDate();
+    var month = new Date().getMonth() + 1;
+    var year = new Date().getFullYear();
+
+    let todaysDate = day + '-' + month + '-' + year;
+    console.log(todaysDate);
+    return todaysDate;
+  }
 
     function writeUserData() {
         const db = getDatabase();
-        set(ref(db, 'Water/' + auth.currentUser?.uid), {
+        var dateForDB = getDateForDB();
+        set(ref(db, 'Water/' + auth.currentUser?.uid + '/' + dateForDB), {
             waterGoal: waterGoal,
             waterDrank: waterDrank,
             waterToGo: waterToGo,
@@ -138,6 +152,13 @@ const Water = ({ navigation }) => {
             .catch(error => alert(error.message));
         navigation.replace("Water");
         global.lastActivity = "water";
+        
+         set(ref(db, 'Goals/' + auth.currentUser?.uid), {
+            waterGoal: waterGoal,
+          })
+            .catch(error => alert(error.message));
+          navigation.replace('Water');
+          global.lastActivity = "water";
     }
     
   
