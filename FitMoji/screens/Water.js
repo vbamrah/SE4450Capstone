@@ -30,14 +30,10 @@ registerTranslation('en-GB', enGB)
 
 const Water = ({ navigation }) => {
 
-    var waterGoalForDisplay = 0;
-    var waterDrankForDisplay = 0;
-    var waterToGoForDisplay = 0;
+    var waterGoalForDisplay =  getWaterGoal();;
+    var waterDrankForDisplay = getWaterDrank();
+    var waterToGoForDisplay = getWaterToGo();;
     
-
-    getWaterGoal();
-    getWaterDrank();
-    getWaterToGo();
 
     const [animated, setAnimated] = useState(false);
     const handleToggle = () => {
@@ -48,35 +44,63 @@ const Water = ({ navigation }) => {
     const [waterDrank, setWaterDrank] = useState(waterDrankForDisplay);
     const [waterToGo, setWaterToGo] = useState(waterToGoForDisplay);
     const [date, setDate] = useState(new Date());
+    const [counter, setCounter] = useState(0);
 
 
     const validateInputs = () => {
         writeUserData();
     }
 
-    function addWater(wat) {
-        waterDrankForDisplay += wat;
-        waterToGoForDisplay -= wat;
-
-        setWaterDrank(waterDrankForDisplay);
-        setWaterToGo(waterToGoForDisplay);
-        
-
+    function countWater(water) {
+        setCounter(counter + water);
     }
 
+    function addWater(wat) {
+        countWater(wat);
+        var wDrank = getWaterDrank();
+        var wGoal = getWaterGoal();
+        if(wGoal == undefined || wGoal == NaN || wGoal == null){
+            wGoal = 0;
+        }
+        var addWat = parseFloat(wat) + wDrank;
+        var watToGo = wGoal - addWat; 
+        //waterDrankForDisplay += wat;
+        //waterToGoForDisplay -= wat;
+
+        //setWaterDrank(waterDrankForDisplay);
+        setWaterDrank(addWat);
+        setWaterToGo(watToGo);
+        var tDate = getDateForDB();
+        setDate(tDate);
+    }
+
+    function getDateForDB(){
+        var day = new Date().getDate();
+        var month = new Date().getMonth() + 1;
+        var year = new Date().getFullYear();
+    
+        let todaysDate = day + '-' + month + '-' + year;
+        console.log(todaysDate);
+        return todaysDate;
+      }
+
     function getWaterGoal() {
+        var goal;
         const db = getDatabase();
-        const waterGoal = ref(db, 'Water/' + auth.currentUser?.uid + '/waterGoal');
+        const waterGoal = ref(db, 'Goals/' + auth.currentUser?.uid);
         onValue(waterGoal, (snapshot) => {
             const data = snapshot.val();
-            if (data == null) {
-                console.log('no data');
+            if (data == null || data == undefined || data == NaN) {
+                //console.log('no data');
+                goal = 0;
             }
             else {
-                updateWaterGoal(data);
-                console.log("Water Goal: " + data);
+                //updateWaterGoal(data);
+                //console.log("Water Goal: " + data);
+                goal = data.waterGoal;
             }
         });
+        return goal;
     }
 
     function updateWaterGoal(data) {
@@ -84,44 +108,66 @@ const Water = ({ navigation }) => {
     }
 
     function getWaterDrank() {
+        var watDrank;
         const db = getDatabase();
-        const waterDrank = ref(db, 'Water/' + auth.currentUser?.uid + '/waterDrank');
+        var dateforDB = getDateForDB();
+        const waterDrank = ref(db, 'Water/' + auth.currentUser?.uid + '/' + dateforDB);
         onValue(waterDrank, (snapshot) => {
-            const data = snapshot.val();
-            if (data == null) {
-                console.log('no data');
+            var data = snapshot.val();
+            if (data == null || data == undefined || data == NaN) {
+                watDrank = 0;
             }
             else {
-                updateWaterDrank(data);
-                console.log("Water Drank: " + data);
+                watDrank = data.waterDrank;
             }
         });
+        return watDrank;
     }
 
-    function updateWaterDrank(data) {
-        waterDrankForDisplay = data;
-    }
+    // function updateWaterDrank(data) {
+    //     waterDrankForDisplay = data;
+    // }
 
     function getWaterToGo() {
-        const db = getDatabase();
-        const waterToGo = ref(db, 'Water/' + auth.currentUser?.uid);
-        onValue(waterToGo, (snapshot) => {
-            const data = snapshot.val();
-            if (data == null) {
-                console.log('no data');
-            }
-            else {
-                updateWaterToGo(data.waterGoal - data.waterDrank);
-                console.log("Water To Go: " + (data.waterGoal - data.waterDrank));
-            }
-        });
+        var goal = getWaterGoal();
+        if (goal == NaN || goal == undefined) {
+            goal = 0;
+        }
+        console.log("This is the Water Goal: " + goal)
+        var wDrank = getWaterDrank();
+        if (wDrank == NaN || wDrank == undefined) {
+            wDrank = 0;
+        }
 
-        if (waterToGo <= 0) {
-            global.goalsCompleted[2] = 'complete';
+        var wToGo = goal - wDrank;
+        console.log("This is the water to go: " + wToGo);
+        if (wToGo <= 0) {
+            global.goalsCompleted[0] = 'complete';
+        } else {
+            global.goalsCompleted[0] = 'incomplete';
         }
-        else {
-            global.goalsCompleted[2] = 'incomplete';
-        }
+
+        return wToGo;
+
+        // const db = getDatabase();
+        // const waterToGo = ref(db, 'Water/' + auth.currentUser?.uid);
+        // onValue(waterToGo, (snapshot) => {
+        //     const data = snapshot.val();
+        //     if (data == null) {
+        //         console.log('no data');
+        //     }
+        //     else {
+        //         updateWaterToGo(data.waterGoal - data.waterDrank);
+        //         console.log("Water To Go: " + (data.waterGoal - data.waterDrank));
+        //     }
+        // });
+
+        // if (waterToGo <= 0) {
+        //     global.goalsCompleted[2] = 'complete';
+        // }
+        // else {
+        //     global.goalsCompleted[2] = 'incomplete';
+        // }
     }
 
     function updateWaterToGo(data) {
@@ -132,8 +178,8 @@ const Water = ({ navigation }) => {
 
     function writeUserData() {
         const db = getDatabase();
-        set(ref(db, 'Water/' + auth.currentUser?.uid ), {
-            waterGoal: waterGoal,
+        var dateForDB = getDateForDB();
+        set(ref(db, 'Water/' + auth.currentUser?.uid + '/' + dateForDB), {
             waterDrank: waterDrank,
             waterToGo: waterToGo,
             date: date
@@ -142,7 +188,14 @@ const Water = ({ navigation }) => {
             .catch(error => alert(error.message));
         navigation.replace("Water");
         global.lastActivity = "water";
-        
+
+        set(ref(db, 'Goals/' + auth.currentUser?.uid), {
+            waterGoal: waterGoal,
+
+        })
+            .catch(error => alert(error.message));
+        navigation.replace("Water");
+        global.lastActivity = "water";    
         
     }
     
@@ -184,15 +237,15 @@ const Water = ({ navigation }) => {
                 <View style={{ top: '2%' }}>
                     <Text style={[styles.goalText, styles.shadowProp, { marginTop: '-5%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
                     <View style={{ alignSelf: 'center' }}>
-                        <TextInput placeholder={`${waterGoalForDisplay}`}
+                        <TextInput placeholder='Enter Goal'
                             style={[styles.shadowProp, styles.sleepInput, { width: '80%' }]}
                             value={waterGoal}
                             onChangeText={text => setWaterGoal(Number(text.replace(/[^0-9]/g, '')))}
                             keyboardType="numeric"
-                            maxLength={2}
+                            maxLength={5}
                         />
                     </View>
-                    <Text style={styles.recommendationText}>{`Recommended Water Goal: \nMen: 3.7L \t Women: 2.7L`}</Text>
+                    <Text style={styles.recommendationText}>{`\t  Recommended Water Goal: \n    Men: 3700mL \t   Women: 2700mL`}</Text>
                     <LottieView
                         autoPlay loop
                         style={[styles.shadowProp, {
@@ -238,11 +291,11 @@ const Water = ({ navigation }) => {
                         }]}>
                             <View style={[{ marginRight: '50%', marginTop: '-7%' }]}>
                                 <Text style={[styles.goalText, styles.bigNumber]}>{`${waterDrankForDisplay}`}</Text>
-                                <Text style={[styles.goalText, { color: '#BCF4A6', fontSize: 20, marginTop: -10, textAlign: 'center' }]}>{`Litres${'\n'}Drank`}</Text>
+                                <Text style={[styles.goalText, { color: '#BCF4A6', fontSize: 20, textAlign: 'center' }]}>{`Millitres${'\n'}Drank`}</Text>
                             </View>
                             <View style={[{ marginLeft: '50%', marginTop: -163 }]}>
                                 <Text style={[styles.goalText, styles.bigNumber]}>{`${waterToGoForDisplay}`}</Text>
-                                <Text style={[styles.goalText, { color: '#F1A7B0', fontSize: 20, textAlign: 'center', marginTop: -10 }]}>{`Litres${'\n'}Left`}</Text>
+                                <Text style={[styles.goalText, { color: '#F1A7B0', fontSize: 20, textAlign: 'center', marginTop: -10 }]}>{`Millitres${'\n'}Left`}</Text>
                             </View>
                         </View>
                     </View>
@@ -335,7 +388,7 @@ const styles = StyleSheet.create({
     },
     bigNumber: {
         textAlign: 'center',
-        fontSize: 75,
+        fontSize: 50,
         color: '#b5e8ff'
     },
     buttonImage: {

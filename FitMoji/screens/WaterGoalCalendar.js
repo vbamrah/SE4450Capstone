@@ -37,22 +37,26 @@ const WaterGoalCalendar = () => {
       var data = snapshot.val();
       if (data == null) {
         goal = 0;
+        console.log("goal1: " + goal);
       } else {
         goal = data.waterGoal;
+        console.log("goal2: " + goal);
       }
     });
 
     var watDrank;
     var currentDate = getDateForDB(date);
 
-    const waterDrank = ref(db, 'water/' + auth.currentUser?.uid + '/' + currentDate);
+    const waterDrank = ref(db, 'Water/' + auth.currentUser?.uid + '/' + currentDate);
     onValue(waterDrank, (snapshot) => {
         var data = snapshot.val();
         if (data == null) {
             watDrank = 0;
+            console.log("waterDrank1: " + watDrank);
         }
         else {
             watDrank = data.waterDrank;
+            console.log("waterDrank2: " + watDrank);
         }
     });
 
