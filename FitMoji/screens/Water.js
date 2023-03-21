@@ -33,7 +33,7 @@ const Water = ({ navigation }) => {
     var waterGoalForDisplay = 0;
     var waterDrankForDisplay = 0;
     var waterToGoForDisplay = 0;
-    var tDate = getDateForDB();
+    
 
     getWaterGoal();
     getWaterDrank();
@@ -60,13 +60,13 @@ const Water = ({ navigation }) => {
 
         setWaterDrank(waterDrankForDisplay);
         setWaterToGo(waterToGoForDisplay);
-        setDate(tDate);
+        
 
     }
 
     function getWaterGoal() {
         const db = getDatabase();
-        const waterGoal = ref(db, 'Goals/' + auth.currentUser?.uid);
+        const waterGoal = ref(db, 'Water/' + auth.currentUser?.uid + '/waterGoal');
         onValue(waterGoal, (snapshot) => {
             const data = snapshot.val();
             if (data == null) {
@@ -85,8 +85,7 @@ const Water = ({ navigation }) => {
 
     function getWaterDrank() {
         const db = getDatabase();
-        var dateForDB = getDateForDB();
-        const waterDrank = ref(db, 'Water/' + auth.currentUser?.uid +  '/' + dateForDB);
+        const waterDrank = ref(db, 'Water/' + auth.currentUser?.uid + '/waterDrank');
         onValue(waterDrank, (snapshot) => {
             const data = snapshot.val();
             if (data == null) {
