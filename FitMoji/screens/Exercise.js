@@ -94,18 +94,23 @@ const Exercise = ({ navigation }) => {
     countMin(mins);
     var minsExercised = getMinsExercised();
     var goal = getExerciseGoal();
+    if(goal == undefined || goal == NaN || goal == null){
+      goal = 0;
+  }
     var addExercise = parseInt(mins) + minsExercised;
     var exercisesToGo = goal - addExercise;
     setExercisesToGo(exercisesToGo);
+    var tDate = getDateForDB();
+    setDate(tDate);
   }
 
   function getExerciseGoal() {
     let goal;
     const db = getDatabase();
-    const exerciseGoalRef = ref(db, 'ExerciseInputs/' + auth.currentUser?.uid);
+    const exerciseGoalRef = ref(db, 'Goals/' + auth.currentUser?.uid);
     onValue(exerciseGoalRef, (snapshot) => {
       var data = snapshot.val();
-      if (data == null) {
+      if (data == null || data == undefined || data == NaN) {
         goal = 0;
         return goal;
 
@@ -122,7 +127,8 @@ const Exercise = ({ navigation }) => {
   function getMinsExercised() {
     let minsExercised = 0;
     const db = getDatabase();
-    const minutesExercised = ref(db, 'ExerciseInputs/' + auth.currentUser?.uid);
+    var dateForDB = getDateForDB();
+    const minutesExercised = ref(db, 'ExerciseInputs/' + auth.currentUser?.uid + '/' + dateForDB);
     onValue(minutesExercised, (snapshot) => {
       var data = snapshot.val();
       if (data == null) {
@@ -138,6 +144,16 @@ const Exercise = ({ navigation }) => {
     global.progressToGoals[0] = minsExercised / getExerciseGoal();
 
     return minsExercised;
+  }
+
+  function getDateForDB(){
+    var day = new Date().getDate();
+    var month = new Date().getMonth() + 1;
+    var year = new Date().getFullYear();
+
+    let todaysDate = day + '-' + month + '-' + year;
+    console.log(todaysDate);
+    return todaysDate;
   }
 
   function getExerciseToGo() {
@@ -181,7 +197,7 @@ const Exercise = ({ navigation }) => {
   function getRecommendedExerciseGoal() {
     var goal;
     var age = getAge();
-    if (6 <= age && age <= 17) {
+    if (0 <= age && age <= 17) {
       goal = '60 min/day'
       return goal;
     }
@@ -198,11 +214,18 @@ const Exercise = ({ navigation }) => {
 
   const writeUserData = () => {
     const db = getDatabase();
-    set(ref(db, 'ExerciseInputs/' + auth.currentUser?.uid), {
-      exerciseGoal: exerciseGoal,
+    var dateForDB = getDateForDB();
+    set(ref(db, 'ExerciseInputs/' + auth.currentUser?.uid + '/' + dateForDB), {
       minutesExercised: minutesExercised + counter,
       exercisesToGo: exercisesToGo,
       date: date
+    })
+      .catch(error => alert(error.message));
+    navigation.replace('Exercise');
+    global.lastActivity = "exercise";
+
+    set(ref(db, 'Goals/' + auth.currentUser?.uid), {
+      exerciseGoal: exerciseGoal,
     })
       .catch(error => alert(error.message));
     navigation.replace('Exercise');
