@@ -128,20 +128,11 @@ const Water = ({ navigation }) => {
         waterToGoForDisplay = data;
     }
     
-      function getDateForDB(){
-    var day = new Date().getDate();
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
-
-    let todaysDate = day + '-' + month + '-' + year;
-    console.log(todaysDate);
-    return todaysDate;
-  }
+ 
 
     function writeUserData() {
         const db = getDatabase();
-        var dateForDB = getDateForDB();
-        set(ref(db, 'Water/' + auth.currentUser?.uid + '/' + dateForDB), {
+        set(ref(db, 'Water/' + auth.currentUser?.uid ), {
             waterGoal: waterGoal,
             waterDrank: waterDrank,
             waterToGo: waterToGo,
@@ -152,12 +143,7 @@ const Water = ({ navigation }) => {
         navigation.replace("Water");
         global.lastActivity = "water";
         
-         set(ref(db, 'Goals/' + auth.currentUser?.uid), {
-            waterGoal: waterGoal,
-          })
-            .catch(error => alert(error.message));
-          navigation.replace('Water');
-          global.lastActivity = "water";
+        
     }
     
   
