@@ -256,7 +256,7 @@ const Water = ({ navigation }) => {
                                 <Text style={[styles.goalText, styles.bigNumber]}>{`${waterDrankForDisplay}`}</Text>
                                 <Text style={[styles.goalText, { color: '#BCF4A6', fontSize: 20, marginTop: -10, textAlign: 'center' }]}>{`Millitres${'\n'}Drank`}</Text>
                             </View>
-                            <View style={[{ marginLeft: '50%', marginTop: -163 }]}>
+                            <View style={[{ marginLeft: '50%', marginTop: -130 }]}>
                                 <Text style={[styles.goalText, styles.bigNumber]}>{`${waterToGoForDisplay}`}</Text>
                                 <Text style={[styles.goalText, { color: '#F1A7B0', fontSize: 20, textAlign: 'center', marginTop: -10 }]}>{`Millitres${'\n'}Left`}</Text>
                             </View>
@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
     },
     bigNumber: {
         textAlign: 'center',
-        fontSize: 75,
+        fontSize: 50,
         color: '#b5e8ff'
     },
     buttonImage: {
