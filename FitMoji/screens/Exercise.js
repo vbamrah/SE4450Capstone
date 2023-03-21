@@ -107,7 +107,7 @@ const Exercise = ({ navigation }) => {
   function getExerciseGoal() {
     let goal;
     const db = getDatabase();
-    const exerciseGoalRef = ref(db, 'Goals/' + auth.currentUser?.uid);
+    const exerciseGoalRef = ref(db, 'Goals/' + auth.currentUser?.uid + '/exerciseGoal');
     onValue(exerciseGoalRef, (snapshot) => {
       var data = snapshot.val();
       if (data == null || data == undefined || data == NaN) {
@@ -224,7 +224,7 @@ const Exercise = ({ navigation }) => {
     navigation.replace('Exercise');
     global.lastActivity = "exercise";
 
-    set(ref(db, 'Goals/' + auth.currentUser?.uid), {
+    set(ref(db, 'Goals/' + auth.currentUser?.uid + '/exerciseGoal'), {
       exerciseGoal: exerciseGoal,
     })
       .catch(error => alert(error.message));

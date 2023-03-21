@@ -64,10 +64,7 @@ const Water = ({ navigation }) => {
         }
         var addWat = parseFloat(wat) + wDrank;
         var watToGo = wGoal - addWat; 
-        //waterDrankForDisplay += wat;
-        //waterToGoForDisplay -= wat;
 
-        //setWaterDrank(waterDrankForDisplay);
         setWaterDrank(addWat);
         setWaterToGo(watToGo);
         var tDate = getDateForDB();
@@ -80,31 +77,23 @@ const Water = ({ navigation }) => {
         var year = new Date().getFullYear();
     
         let todaysDate = day + '-' + month + '-' + year;
-        console.log(todaysDate);
         return todaysDate;
       }
 
     function getWaterGoal() {
         var goal;
         const db = getDatabase();
-        const waterGoal = ref(db, 'Goals/' + auth.currentUser?.uid);
+        const waterGoal = ref(db, 'Goals/' + auth.currentUser?.uid + '/waterGoal');
         onValue(waterGoal, (snapshot) => {
             const data = snapshot.val();
             if (data == null || data == undefined || data == NaN) {
-                //console.log('no data');
                 goal = 0;
             }
             else {
-                //updateWaterGoal(data);
-                //console.log("Water Goal: " + data);
                 goal = data.waterGoal;
             }
         });
         return goal;
-    }
-
-    function updateWaterGoal(data) {
-        waterGoalForDisplay = data;
     }
 
     function getWaterDrank() {
@@ -124,23 +113,17 @@ const Water = ({ navigation }) => {
         return watDrank;
     }
 
-    // function updateWaterDrank(data) {
-    //     waterDrankForDisplay = data;
-    // }
-
     function getWaterToGo() {
         var goal = getWaterGoal();
         if (goal == NaN || goal == undefined) {
             goal = 0;
         }
-        console.log("This is the Water Goal: " + goal)
         var wDrank = getWaterDrank();
         if (wDrank == NaN || wDrank == undefined) {
             wDrank = 0;
         }
 
         var wToGo = goal - wDrank;
-        console.log("This is the water to go: " + wToGo);
         if (wToGo <= 0) {
             global.goalsCompleted[0] = 'complete';
         } else {
@@ -149,25 +132,6 @@ const Water = ({ navigation }) => {
 
         return wToGo;
 
-        // const db = getDatabase();
-        // const waterToGo = ref(db, 'Water/' + auth.currentUser?.uid);
-        // onValue(waterToGo, (snapshot) => {
-        //     const data = snapshot.val();
-        //     if (data == null) {
-        //         console.log('no data');
-        //     }
-        //     else {
-        //         updateWaterToGo(data.waterGoal - data.waterDrank);
-        //         console.log("Water To Go: " + (data.waterGoal - data.waterDrank));
-        //     }
-        // });
-
-        // if (waterToGo <= 0) {
-        //     global.goalsCompleted[2] = 'complete';
-        // }
-        // else {
-        //     global.goalsCompleted[2] = 'incomplete';
-        // }
     }
 
     function updateWaterToGo(data) {
@@ -189,7 +153,7 @@ const Water = ({ navigation }) => {
         navigation.replace("Water");
         global.lastActivity = "water";
 
-        set(ref(db, 'Goals/' + auth.currentUser?.uid), {
+        set(ref(db, 'Goals/' + auth.currentUser?.uid + '/waterGoal'), {
             waterGoal: waterGoal,
 
         })
@@ -202,7 +166,6 @@ const Water = ({ navigation }) => {
   
    
     global.progressToGoals[2] = waterDrankForDisplay / waterGoalForDisplay;
-    console.log(global.progressToGoals[2]);
 
     const locale = 'en-GB'
     return (
@@ -291,7 +254,7 @@ const Water = ({ navigation }) => {
                         }]}>
                             <View style={[{ marginRight: '50%', marginTop: '-7%' }]}>
                                 <Text style={[styles.goalText, styles.bigNumber]}>{`${waterDrankForDisplay}`}</Text>
-                                <Text style={[styles.goalText, { color: '#BCF4A6', fontSize: 20, textAlign: 'center' }]}>{`Millitres${'\n'}Drank`}</Text>
+                                <Text style={[styles.goalText, { color: '#BCF4A6', fontSize: 20, marginTop: -10, textAlign: 'center' }]}>{`Millitres${'\n'}Drank`}</Text>
                             </View>
                             <View style={[{ marginLeft: '50%', marginTop: -163 }]}>
                                 <Text style={[styles.goalText, styles.bigNumber]}>{`${waterToGoForDisplay}`}</Text>
@@ -388,7 +351,7 @@ const styles = StyleSheet.create({
     },
     bigNumber: {
         textAlign: 'center',
-        fontSize: 50,
+        fontSize: 75,
         color: '#b5e8ff'
     },
     buttonImage: {

@@ -75,7 +75,7 @@ const FoodIntake = ({ navigation }) => {
     function getCalGoal() {
         var goal;
         const db = getDatabase();
-        const calorieGoal = ref(db, 'Goals/' + auth.currentUser?.uid);
+        const calorieGoal = ref(db, 'Goals/' + auth.currentUser?.uid + '/foodGoal');
         onValue(calorieGoal, (snapshot) => {
             var data = snapshot.val();
             if (data == null || data == undefined || data == NaN) {
@@ -236,7 +236,7 @@ const FoodIntake = ({ navigation }) => {
         navigation.replace('Food Intake');
         global.lastActivity = "food";
 
-        set(ref(db, 'Goals/' + auth.currentUser?.uid), {
+        set(ref(db, 'Goals/' + auth.currentUser?.uid  + '/foodGoal'), {
             calorieGoal: calorieGoal,
         })
             .catch(error => alert(error.message));

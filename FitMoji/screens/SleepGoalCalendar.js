@@ -32,7 +32,7 @@ const SleepGoalCalendar = () => {
     var goal;
 
     const db = getDatabase();
-    const sleepGoal = ref(db, 'Goals/' + auth.currentUser?.uid);
+    const sleepGoal = ref(db, 'Goals/' + auth.currentUser?.uid + '/sleepGoal');
     onValue(sleepGoal, (snapshot) => {
       var data = snapshot.val();
       if (data == null) {

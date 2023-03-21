@@ -32,7 +32,7 @@ const FoodGoalCalendar = () => {
     var goal;
 
     const db = getDatabase();
-    const calorieGoal = ref(db, 'Goals/' + auth.currentUser?.uid);
+    const calorieGoal = ref(db, 'Goals/' + auth.currentUser?.uid + '/foodGoal');
     onValue(calorieGoal, (snapshot) => {
       var data = snapshot.val();
       if (data == null) {

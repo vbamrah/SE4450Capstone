@@ -214,7 +214,7 @@ const Sleep = ({ navigation }) => {
     navigation.replace("Sleep");
     global.lastActivity = "sleep";
 
-    set(ref(db, 'Goals/' + auth.currentUser?.uid), {
+    set(ref(db, 'Goals/' + auth.currentUser?.uid + '/sleepGoal'), {
       sleepGoal: sleepGoal,
     })
       .catch(error => alert(error.message));
@@ -226,7 +226,7 @@ const Sleep = ({ navigation }) => {
     var goal;
 
     const db = getDatabase();
-    const sleepGoal = ref(db, 'Goals/' + auth.currentUser?.uid);
+    const sleepGoal = ref(db, 'Goals/' + auth.currentUser?.uid + '/sleepGoal');
     onValue(sleepGoal, (snapshot) => {
       var data = snapshot.val();
       if (data == null) {
