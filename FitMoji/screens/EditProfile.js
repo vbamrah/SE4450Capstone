@@ -100,12 +100,15 @@ const EditProfile = ({ navigation }) => {
         return null;
     }
     return (
-        <KeyboardAvoidingView
-            keyboardVerticalOffset={height - 120}
-            behavior="position"
+        <KeyboardAvoidingView 
+            keyboardVerticalOffset={height}
+            behavior = "height"
+            style={{flex: 1}}>
+        <View
             style={{
                 flex: 1,
-                paddingBottom: 20
+                flexDirection: 'column',
+                justifyContent: 'space-between'
             }}>
             <LinearGradient colors={['#b5e8ff', '#ffffff']} style={{
                 position: 'absolute',
@@ -114,7 +117,7 @@ const EditProfile = ({ navigation }) => {
                 bottom: 0,
                 top: 0,
             }}></LinearGradient>
-            <ScrollView>
+            <View style={{ flex: 1 }}>
                 <View style={[styles.topBar, styles.shadowProp]}>
                     <LinearGradient colors={['#b5e8ff', '#C2ECFF']} style={{
                         position: 'absolute',
@@ -137,7 +140,7 @@ const EditProfile = ({ navigation }) => {
                         }]}>
                             <Pressable
                                 onPress={() => navigation.navigate('Home')}
-                                style={[styles.navButtons, {backgroundColor: 'transparent'}]}>
+                                style={[styles.navButtons, { backgroundColor: 'transparent' }]}>
                                 <Image source={require('./images/globalButtons/home.png')} style={{ tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center' }} />
                             </Pressable>
                         </View>
@@ -147,7 +150,7 @@ const EditProfile = ({ navigation }) => {
                         }]}>
                             <Pressable
                                 onPress={() => saveData()}
-                                style={[styles.navButtons, {backgroundColor: 'transparent'}]}>
+                                style={[styles.navButtons, { backgroundColor: 'transparent' }]}>
                                 <Image source={require('./images/globalButtons/checked.png')} style={{ tintColor: 'white', width: '60%', height: '60%', resizeMode: 'contain', alignSelf: 'center', top: '5%' }} />
                             </Pressable>
                         </View>
@@ -184,6 +187,8 @@ const EditProfile = ({ navigation }) => {
                 }]}>
                     {auth.currentUser.email}
                 </Text>
+            </View>
+            <View style={{ flex: 1 }}>
                 <Text style={[styles.inputLabel, styles.shadowProp]}>
                     Username
                 </Text>
@@ -212,17 +217,20 @@ const EditProfile = ({ navigation }) => {
                         style={[styles.input, styles.shadowProp]}
                         placeholder='Enter Password' />
                 </View>
-                <View style={[styles.shadowProp, { marginTop: 20, paddingBottom: 20, alignItems: 'center' }]}>
+            </View>
+            <View style={{ flex: 1, marginBottom: '-35%' }}>
+                <View style={[styles.shadowProp, { alignItems: 'center' }]}>
                     <Pressable onPress={handleLogOut} style={styles.logoutButton}>
                         <Text style={styles.logoutButtonText}>Log Out</Text>
                     </Pressable>
                 </View>
-                <View style={[styles.shadowProp, { marginTop: 20, paddingBottom: 20, alignItems: 'center' }]}>
-                    <Pressable onPress={handleDeleteAccount} style={styles.deleteButton}>
-                        <Text style={styles.deleteButtonText}>Delete Account</Text>
+                <View style={[styles.shadowProp, { marginTop: 20, alignItems: 'center' }]}>
+                    <Pressable onPress={handleDeleteAccount} style={styles.logoutButton}>
+                        <Text style={[styles.logoutButtonText, {fontSize: 15, top: '22%'}]}>Delete Account</Text>
                     </Pressable>
                 </View>
-            </ScrollView>
+            </View>
+        </View>
         </KeyboardAvoidingView>
     );
 }
@@ -237,7 +245,6 @@ const styles = StyleSheet.create({
         padding: 20,
         paddingBottom: 20,
         borderRadius: 20,
-        marginBottom: 20,
     },
     inputLabel: {
         color: '#FFFFFF',
@@ -272,28 +279,13 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         width: '50%',
-        height: 70,
+        height: 60,
         alignItems: 'center',
     },
     logoutButtonText: {
         fontFamily: 'Lemon-Milk',
         color: '#ff0000',
         fontSize: 30,
-        fontWeight: 'bold',
-        top: '10%'
-    },
-    deleteButton: {
-        backgroundColor: '#ffffff',
-        borderRadius: 10,
-        padding: 10,
-        width: '50%',
-        height: 35,
-        alignItems: 'center',
-    },
-    deleteButtonText: {
-        fontFamily: 'Lemon-Milk',
-        color: '#ff0000',
-        fontSize: 15,
         fontWeight: 'bold',
     },
     shadowProp: {
