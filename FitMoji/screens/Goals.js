@@ -118,7 +118,7 @@ const Goals = ({ navigation }) => {
                 }]}>
                     <Text style={[styles.goalText, { textAlign: 'center' }]}>Water</Text>
                     <Pressable
-                    onPress={() => navigation.navigate('Goal Calendar')}
+                    onPress={() => navigation.navigate('Water Goal Calendar')}
                     style={[styles.shadowProp, styles.smallButton, {
                         marginTop: -40,
                         marginLeft: '10%',
