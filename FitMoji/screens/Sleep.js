@@ -325,16 +325,7 @@ const Sleep = ({ navigation }) => {
             </Pressable>
           </View>
         </View>
-        <View style={[styles.shadowProp, {
-          top: '3%',
-          width: '90%',
-          height: '8%',
-          backgroundColor: '#cdefff',
-          borderRadius: 25,
-          alignSelf: 'center'
-        }]}>
-          <Text style={[styles.goalText, { color: 'white', textAlign: 'center', marginTop: 3 }]}>{`Recommended Goal ${'\n' + sleepRecommendation} hours`}</Text>
-        </View>
+          
         <Text style={[styles.goalText, styles.shadowProp, { marginTop: '8%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
         <View style={{ zIndex: 4, alignSelf: 'center' }}>
           <TextInput placeholder='Enter Goal'
@@ -345,6 +336,7 @@ const Sleep = ({ navigation }) => {
             maxLength={2}
           />
         </View>
+        <Text style={[styles.recommendationText, { textAlign: 'center', marginTop: 3 }]}>{`Recommended Sleep Goal: ${'\n' + sleepRecommendation} hours`}</Text>
         <View style={[styles.shadowProp, {
           top: '2%',
           width: '90%',
@@ -615,5 +607,14 @@ const styles = StyleSheet.create({
   submitButton: {
     marginTop: '80%',
     alignSelf: 'center'
-  }
+  },
+  recommendationText: {
+    color: 'grey',
+    fontWeight: '600',
+    fontSize: 12,
+    marginTop: 10,
+    alignSelf: 'center',
+    textAlign: 'center'
+    
+}
 });
