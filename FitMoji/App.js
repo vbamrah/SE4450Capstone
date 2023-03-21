@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import HomeScreen from './screens/Home'
 import ProfileScreen from './screens/EditProfile'
 import LogIn from './screens/Login'
@@ -32,46 +33,16 @@ const MyStack = () => {
       initialRouteName='Welcome'
         screenOptions={{
           headerShown: false,
-          headerShadowVisible: false,
-          headerBackTitleVisible: false,
-          headerTintColor: 'white',
-          headerTitleStyle: {
-            color: 0,
-          },
-          headerStyle: {
-            backgroundColor: '#b5e8ff',
-          },
           contentStyle: {
-            backgroundColor: '#b5e8ff',
+            backgroundColor: 'transparent',
           }
         }}>
-        <Stack.Screen
-        name="Create Avatar"
-        options={{headerShown: false}}
-        component = {CreateAvatar}/>
-        <Stack.Screen 
-        name = "Welcome"
-        options={{headerShown: false}}
-        component = {WelcomeScreen}/>
-         <Stack.Screen 
-        name = "Login"
-        options={{headerShown: false}}
-        component = {LogIn}/>
-        <Stack.Screen 
-        name = "Sleep"
-        component = {Sleep}/>
-        <Stack.Screen
-          options={{headerShown: false, gestureEnabled: false}}
-          name = "Home"
-          component = {HomeScreen}/>
-        <Stack.Screen 
-          options=
-          {{headerShown: false,
-            contentStyle: {
-            backgroundColor: '#FFFFFF',
-          }}}
-          name = "Profile"
-          component = {ProfileScreen}/>
+        <Stack.Screen name = "Create Avatar" component = {CreateAvatar}/>
+        <Stack.Screen name = "Welcome" component = {WelcomeScreen}/>
+        <Stack.Screen name = "Login" component = {LogIn}/>
+        <Stack.Screen name = "Sleep" component = {Sleep}/>
+        <Stack.Screen name = "Home" component = {HomeScreen}/>
+        <Stack.Screen name = "Profile" component = {ProfileScreen}/>
         <Stack.Screen name = "Create Profile" component = {CreateProfile}/>
         <Stack.Screen name = "Food Intake" component = {FoodIntake}/>
         <Stack.Screen name = "Water" component = {Water}/>
@@ -80,9 +51,9 @@ const MyStack = () => {
         <Stack.Screen name = "Goals" component = {Goals}/>
         <Stack.Screen name = "Calendar" component = {Calendar}/>
         <Stack.Screen name = "Friends" component = {Friends}/>
-        <Stack.Screen name = "Goal Calendar" component={SleepGoalCalendar}/>
-        <Stack.Screen name = "Food Goal Calendar" component={FoodGoalCalendar}/>
-        <Stack.Screen name = "Water Goal Calendar" component={WaterGoalCalendar}/>
+        <Stack.Screen name = "Goal Calendar" component = {SleepGoalCalendar}/>
+        <Stack.Screen name = "Food Goal Calendar" component = {FoodGoalCalendar}/>
+        <Stack.Screen name = "Water Goal Calendar" component = {WaterGoalCalendar}/>
       </Stack.Navigator>
     </NavigationContainer>
   )
