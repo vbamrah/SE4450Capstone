@@ -176,7 +176,7 @@ const EditProfile = ({ navigation }) => {
                     fontFamily: 'Lemon-Milk',
                     color: '#000000'
                 }]}>
-                    {name}
+                    {userName}
                 </Text>
                 <Text style={[styles.shadowProp, {
                     alignSelf: 'center',
@@ -185,7 +185,7 @@ const EditProfile = ({ navigation }) => {
                     fontFamily: 'Lemon-Milk',
                     color: '#000000',
                 }]}>
-                    {auth.currentUser.email}
+                    {email}
                 </Text>
             </View>
             <View style={{ flex: 1 }}>
