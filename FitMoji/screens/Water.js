@@ -30,10 +30,10 @@ registerTranslation('en-GB', enGB)
 
 const Water = ({ navigation }) => {
 
-    var waterGoalForDisplay =  getWaterGoal();;
+    var waterGoalForDisplay = getWaterGoal();;
     var waterDrankForDisplay = getWaterDrank();
     var waterToGoForDisplay = getWaterToGo();;
-    
+
 
     const [animated, setAnimated] = useState(false);
     const handleToggle = () => {
@@ -59,11 +59,11 @@ const Water = ({ navigation }) => {
         countWater(wat);
         var wDrank = getWaterDrank();
         var wGoal = getWaterGoal();
-        if(wGoal == undefined || wGoal == NaN || wGoal == null){
+        if (wGoal == undefined || wGoal == NaN || wGoal == null) {
             wGoal = 0;
         }
         var addWat = parseFloat(wat) + wDrank;
-        var watToGo = wGoal - addWat; 
+        var watToGo = wGoal - addWat;
 
         setWaterDrank(addWat);
         setWaterToGo(watToGo);
@@ -71,14 +71,14 @@ const Water = ({ navigation }) => {
         setDate(tDate);
     }
 
-    function getDateForDB(){
+    function getDateForDB() {
         var day = new Date().getDate();
         var month = new Date().getMonth() + 1;
         var year = new Date().getFullYear();
-    
+
         let todaysDate = day + '-' + month + '-' + year;
         return todaysDate;
-      }
+    }
 
     function getWaterGoal() {
         var goal;
@@ -137,8 +137,8 @@ const Water = ({ navigation }) => {
     function updateWaterToGo(data) {
         waterToGoForDisplay = data;
     }
-    
- 
+
+
 
     function writeUserData() {
         const db = getDatabase();
@@ -159,18 +159,23 @@ const Water = ({ navigation }) => {
         })
             .catch(error => alert(error.message));
         navigation.replace("Water");
-        global.lastActivity = "water";    
-        
+        global.lastActivity = "water";
+
     }
-    
-  
-   
+
+
+
     global.progressToGoals[2] = waterDrankForDisplay / waterGoalForDisplay;
 
     const locale = 'en-GB'
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <View style={styles.container}>
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'space-around'
+                }}>
                 <LinearGradient colors={['#b5e8ff', '#ffffff']} style={{
                     position: 'absolute',
                     left: 0,
@@ -179,7 +184,11 @@ const Water = ({ navigation }) => {
                     top: 0,
                 }}></LinearGradient>
                 <View style={{
-                    top: '5%'
+                    flex: 1,
+                    top: '5%',
+                    flexBasis: 50,
+                    flexGrow: 1,
+                    flexShrink: 1,
                 }}>
                     <Text style={[styles.shadowProp, {
                         fontFamily: 'Lemon-Milk',
@@ -188,20 +197,23 @@ const Water = ({ navigation }) => {
                         fontSize: 60,
                     }]}>Water</Text>
                     <View style={[styles.shadowProp, {
-                        marginRight: '75%',
+                        marginTop: -50,
+                        marginRight: 300,
                     }]}>
                         <Pressable
                             onPress={() => navigation.navigate('Home')}
                             style={[styles.navButtons, { backgroundColor: 'transparent' }]}>
-                            <Image source={require('./images/globalButtons/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
+                            <Image source={require('./images/globalButtons/home.png')} style={{ tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center' }} />
                         </Pressable>
                     </View>
                 </View>
-                <View style={{ top: '2%' }}>
-                    <Text style={[styles.goalText, styles.shadowProp, { marginTop: '-5%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
+                <View style={{ flex: 3, flexBasis: 400,
+                    flexGrow: 1,
+                    flexShrink: 1, }}>
+                    <Text style={[styles.goalText, styles.shadowProp, { color: 'white', alignSelf: 'center' }]}>Goal</Text>
                     <View style={{ alignSelf: 'center' }}>
                         <TextInput placeholder='Enter Goal'
-                            style={[styles.shadowProp, styles.sleepInput, { width: '80%' }]}
+                            style={[styles.shadowProp, styles.goalInput, { width: '80%' }]}
                             value={waterGoal}
                             onChangeText={text => setWaterGoal(Number(text.replace(/[^0-9]/g, '')))}
                             keyboardType="numeric"
@@ -209,48 +221,53 @@ const Water = ({ navigation }) => {
                         />
                     </View>
                     <Text style={styles.recommendationText}>{`\t  Recommended Water Goal: \n    Men: 3700mL \t   Women: 2700mL`}</Text>
-                    <LottieView
-                        autoPlay loop
-                        style={[styles.shadowProp, {
-                            alignSelf: 'center',
-                            width: 200,
-                            height: 200,
-                        }]}
-                        source={require('./images/pagePics/waterTracker.json')}
-                    />
-                    <View style={{ alignSelf: 'center', justifyContent: 'center', marginTop: -45 }}>
-                        <MotiView
-                            animate={{
-                                scale: animated ? 1 : 0,
-                                opacity: animated ? 1 : 0,
-                                transform: [{ translateY: 45 }],
-                            }}
-                            transition={{ type: 'spring', duration: 600 }}>
-                            <View style={{ alignSelf: 'center' }}>
-                                <TextInput placeholder='Litres'
-                                    style={[styles.sleepInput, styles.shadowProp]}
-                                    value={waterDrank}
-                                    onChangeText={text => addWater(Number(text.replace(/[^0-9]/g, '')))}
-                                    keyboardType="numeric"
-                                    maxLength={5}
-                                />
-                            </View>
-                        </MotiView>
-                        <Pressable
-                            onPress={handleToggle}
-                            style={[styles.shadowProp, styles.bigButton, {
-                                marginTop: -57,
+                    <View style={{transform: [{translateY: -25}]}}>
+                        <LottieView
+                            autoPlay loop
+                            style={[styles.shadowProp, {
+                                alignSelf: 'center',
+                                width: 300,
+                                height: 300,
                             }]}
-                        >
-                            <Image source={require('./images/globalButtons/plus.png')} style={styles.buttonImage} />
-                        </Pressable>
+                            source={require('./images/pagePics/waterTracker.json')}
+                        />
+                        <View>
+                            <MotiView
+                                animate={{
+                                    scale: animated ? 1 : 0,
+                                    opacity: animated ? 1 : 0,
+                                    transform: [{ translateY: -10 }],
+                                }}
+                                transition={{ type: 'spring', duration: 600 }}>
+                                <View style={{ alignSelf: 'center' }}>
+                                    <TextInput placeholder='Litres'
+                                        style={[styles.waterInput, styles.shadowProp]}
+                                        value={waterDrank}
+                                        onChangeText={text => addWater(Number(text.replace(/[^0-9]/g, '')))}
+                                        keyboardType="numeric"
+                                        maxLength={5}
+                                    />
+                                </View>
+                            </MotiView>
+                            <Pressable
+                                onPress={handleToggle}
+                                style={[styles.shadowProp, styles.bigButton, {
+                                    marginTop: -100
+                                }]}
+                            >
+                                <Image source={require('./images/globalButtons/plus.png')} style={styles.buttonImage} />
+                            </Pressable>
+                        </View>
                     </View>
                 </View>
-                <View style={{ transform: [{ translateY: 10 }] }}>
+                <View style={{ flex: 2, marginBottom: '15%',
+                    flexBasis: 200,
+                    flexGrow: 1,
+                    flexShrink: 1, }}>
                     <View style={{ alignItems: 'center' }}>
                         <Text style={[styles.goalText, styles.shadowProp]}>Today's Stats</Text>
                         <View style={[styles.shadowProp, styles.goalContainer, {
-                            marginTop: '5%',
+                            top: '5%'
                         }]}>
                             <View style={[{ marginRight: '50%', marginTop: '-2%' }]}>
                                 <Text style={[styles.goalText, styles.bigNumber]}>{`${waterDrankForDisplay}`}</Text>
@@ -301,10 +318,16 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 5
     },
-    sleepInput: {
+    goalInput: {
         backgroundColor: '#ffffff',
-        paddingHorizontal: 20,
-        paddingVertical: 12,
+        padding: 10,
+        borderRadius: 10,
+        marginTop: 10,
+        width: "40%"
+    },
+    waterInput: {
+        backgroundColor: '#ffffff',
+        padding: 15,
         borderRadius: 10,
         marginTop: 10,
         width: "40%"
@@ -373,6 +396,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
         marginTop: 10,
         alignSelf: 'center'
-      },
+    },
 });
 
