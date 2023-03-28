@@ -252,13 +252,13 @@ const Water = ({ navigation }) => {
                         <View style={[styles.shadowProp, styles.goalContainer, {
                             marginTop: '5%',
                         }]}>
-                            <View style={[{ marginRight: '50%', marginTop: '-7%' }]}>
+                            <View style={[{ marginRight: '50%', marginTop: '-2%' }]}>
                                 <Text style={[styles.goalText, styles.bigNumber]}>{`${waterDrankForDisplay}`}</Text>
-                                <Text style={[styles.goalText, { color: '#BCF4A6', fontSize: 20, marginTop: -10, textAlign: 'center' }]}>{`Millitres${'\n'}Drank`}</Text>
+                                <Text style={[styles.goalText, { color: '#BCF4A6', fontSize: 20, marginTop: -10, textAlign: 'center' }]}>{`Millilitres${'\n'}Drank`}</Text>
                             </View>
                             <View style={[{ marginLeft: '50%', marginTop: -130 }]}>
                                 <Text style={[styles.goalText, styles.bigNumber]}>{`${waterToGoForDisplay}`}</Text>
-                                <Text style={[styles.goalText, { color: '#F1A7B0', fontSize: 20, textAlign: 'center', marginTop: -10 }]}>{`Millitres${'\n'}Left`}</Text>
+                                <Text style={[styles.goalText, { color: '#F1A7B0', fontSize: 20, textAlign: 'center', marginTop: -10 }]}>{`Millilitres${'\n'}Left`}</Text>
                             </View>
                         </View>
                     </View>

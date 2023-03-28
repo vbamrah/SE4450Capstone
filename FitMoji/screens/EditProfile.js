@@ -100,10 +100,6 @@ const EditProfile = ({ navigation }) => {
         return null;
     }
     return (
-        <KeyboardAvoidingView 
-            keyboardVerticalOffset={height}
-            behavior = "height"
-            style={{flex: 1}}>
         <View
             style={{
                 flex: 1,
@@ -188,36 +184,40 @@ const EditProfile = ({ navigation }) => {
                     {email}
                 </Text>
             </View>
-            <View style={{ flex: 1 }}>
-                <Text style={[styles.inputLabel, styles.shadowProp]}>
-                    Username
-                </Text>
+            <KeyboardAvoidingView
+                behavior="position"
+                style={{ flex: 1 }}>
                 <View>
-                    <TextInput
-                        style={[styles.input, styles.shadowProp]}
-                        placeholder={userName}
-                        onFocus={() => clearUser()}
-                        onChangeText={(val) => setName(val)} />
+                    <Text style={[styles.inputLabel, styles.shadowProp]}>
+                        Username
+                    </Text>
+                    <View>
+                        <TextInput
+                            style={[styles.input, styles.shadowProp]}
+                            placeholder={userName}
+                            onFocus={() => clearUser()}
+                            onChangeText={(val) => setName(val)} />
+                    </View>
+                    <View>
+                        <Text style={[styles.inputLabel, styles.shadowProp]}>
+                            Email
+                        </Text>
+                        <TextInput
+                            style={[styles.input, styles.shadowProp]}
+                            placeholder={email}
+                            onFocus={() => clearEmail()}
+                            onChangeText={(val) => setEmail(val)} />
+                    </View>
+                    <View>
+                        <Text style={[styles.inputLabel, styles.shadowProp]}>
+                            Password
+                        </Text>
+                        <TextInput
+                            style={[styles.input, styles.shadowProp]}
+                            placeholder='Enter Password' />
+                    </View>
                 </View>
-                <Text style={[styles.inputLabel, styles.shadowProp]}>
-                    Email
-                </Text>
-                <View>
-                    <TextInput
-                        style={[styles.input, styles.shadowProp]}
-                        placeholder={email}
-                        onFocus={() => clearEmail()}
-                        onChangeText={(val) => setEmail(val)} />
-                </View>
-                <Text style={[styles.inputLabel, styles.shadowProp]}>
-                    Password
-                </Text>
-                <View>
-                    <TextInput
-                        style={[styles.input, styles.shadowProp]}
-                        placeholder='Enter Password' />
-                </View>
-            </View>
+            </KeyboardAvoidingView>
             <View style={{ flex: 1, marginBottom: '-35%' }}>
                 <View style={[styles.shadowProp, { alignItems: 'center' }]}>
                     <Pressable onPress={handleLogOut} style={styles.logoutButton}>
@@ -226,12 +226,11 @@ const EditProfile = ({ navigation }) => {
                 </View>
                 <View style={[styles.shadowProp, { marginTop: 20, alignItems: 'center' }]}>
                     <Pressable onPress={handleDeleteAccount} style={styles.logoutButton}>
-                        <Text style={[styles.logoutButtonText, {fontSize: 15, top: '22%'}]}>Delete Account</Text>
+                        <Text style={[styles.logoutButtonText, { fontSize: 15, top: '22%' }]}>Delete Account</Text>
                     </Pressable>
                 </View>
             </View>
         </View>
-        </KeyboardAvoidingView>
     );
 }
 
