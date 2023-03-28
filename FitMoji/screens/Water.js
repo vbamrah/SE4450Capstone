@@ -103,7 +103,7 @@ const Water = ({ navigation }) => {
         const waterDrank = ref(db, 'Water/' + auth.currentUser?.uid + '/' + dateforDB);
         onValue(waterDrank, (snapshot) => {
             var data = snapshot.val();
-            if (data == null || data == undefined || data == NaN) {
+            if (data == null) {
                 watDrank = 0;
             }
             else {
@@ -207,13 +207,16 @@ const Water = ({ navigation }) => {
                         </Pressable>
                     </View>
                 </View>
-                <View style={{ flex: 3, flexBasis: 400,
+                <View style={{
+                    flex: 3,
+                    flexBasis: 400,
                     flexGrow: 1,
-                    flexShrink: 1, }}>
+                    flexShrink: 1,
+                }}>
                     <Text style={[styles.goalText, styles.shadowProp, { color: 'white', alignSelf: 'center' }]}>Goal</Text>
                     <View style={{ alignSelf: 'center' }}>
                         <TextInput placeholder='Enter Goal'
-                            style={[styles.shadowProp, styles.goalInput, { width: '80%' }]}
+                            style={[styles.shadowProp, styles.sleepInput, { width: '80%' }]}
                             value={waterGoal}
                             onChangeText={text => setWaterGoal(Number(text.replace(/[^0-9]/g, '')))}
                             keyboardType="numeric"
@@ -221,13 +224,13 @@ const Water = ({ navigation }) => {
                         />
                     </View>
                     <Text style={styles.recommendationText}>{`\t  Recommended Water Goal: \n    Men: 3700mL \t   Women: 2700mL`}</Text>
-                    <View style={{transform: [{translateY: -25}]}}>
+                    <View style={{ transform: [{ translateY: -25 }] }}>
                         <LottieView
                             autoPlay loop
                             style={[styles.shadowProp, {
                                 alignSelf: 'center',
-                                width: 300,
-                                height: 300,
+                                width: 320,
+                                height: 320,
                             }]}
                             source={require('./images/pagePics/waterTracker.json')}
                         />
@@ -236,12 +239,12 @@ const Water = ({ navigation }) => {
                                 animate={{
                                     scale: animated ? 1 : 0,
                                     opacity: animated ? 1 : 0,
-                                    transform: [{ translateY: -10 }],
+                                    transform: [{ translateY: -20 }],
                                 }}
                                 transition={{ type: 'spring', duration: 600 }}>
                                 <View style={{ alignSelf: 'center' }}>
                                     <TextInput placeholder='Litres'
-                                        style={[styles.waterInput, styles.shadowProp]}
+                                        style={[styles.sleepInput, styles.shadowProp]}
                                         value={waterDrank}
                                         onChangeText={text => addWater(Number(text.replace(/[^0-9]/g, '')))}
                                         keyboardType="numeric"
@@ -260,26 +263,31 @@ const Water = ({ navigation }) => {
                         </View>
                     </View>
                 </View>
-                <View style={{ flex: 2, marginBottom: '15%',
+                <View style={{
+                    flex: 2,
+                    marginBottom: '15%',
                     flexBasis: 200,
                     flexGrow: 1,
-                    flexShrink: 1, }}>
+                    flexShrink: 1
+                }}>
                     <View style={{ alignItems: 'center' }}>
                         <Text style={[styles.goalText, styles.shadowProp]}>Today's Stats</Text>
                         <View style={[styles.shadowProp, styles.goalContainer, {
-                            top: '5%'
+                            top: '5%',
+                            flexDirection: 'row',
+                            justifyContent: 'space-around'
                         }]}>
-                            <View style={[{ marginRight: '50%', marginTop: '-2%' }]}>
+                            <View>
                                 <Text style={[styles.goalText, styles.bigNumber]}>{`${waterDrankForDisplay}`}</Text>
-                                <Text style={[styles.goalText, { color: '#BCF4A6', fontSize: 20, marginTop: -10, textAlign: 'center' }]}>{`Millilitres${'\n'}Drank`}</Text>
+                                <Text style={[styles.goalText, { color: '#BCF4A6', fontSize: 20, textAlign: 'center', marginTop: -10 }]}>{`Millilitres${'\n'}Drank`}</Text>
                             </View>
-                            <View style={[{ marginLeft: '50%', marginTop: -130 }]}>
+                            <View>
                                 <Text style={[styles.goalText, styles.bigNumber]}>{`${waterToGoForDisplay}`}</Text>
                                 <Text style={[styles.goalText, { color: '#F1A7B0', fontSize: 20, textAlign: 'center', marginTop: -10 }]}>{`Millilitres${'\n'}Left`}</Text>
                             </View>
                         </View>
                     </View>
-                    <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { transform: [{ translateY: -40 }] }]}>
+                    <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { transform: [{ translateY: -30 }]}]}>
                         <TouchableOpacity
                             style={styles.button}
                             onPress={validateInputs}
@@ -396,6 +404,14 @@ const styles = StyleSheet.create({
         fontSize: 12,
         marginTop: 10,
         alignSelf: 'center'
+    },
+    sleepInput: {
+        backgroundColor: '#ffffff',
+        paddingHorizontal: 20,
+        paddingVertical: 12,
+        borderRadius: 10,
+        marginTop: 10,
+        width: "40%"
     },
 });
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useCallback, useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Pressable, ScrollView, Image, TextInput, KeyboardAvoidingView } from "react-native"
+import { StyleSheet, View, Text, Pressable, ScrollView, Image, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useHeaderHeight } from '@react-navigation/elements'
 import { useFonts } from 'expo-font';
@@ -100,6 +100,7 @@ const EditProfile = ({ navigation }) => {
         return null;
     }
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View
             style={{
                 flex: 1,
@@ -231,6 +232,7 @@ const EditProfile = ({ navigation }) => {
                 </View>
             </View>
         </View>
+        </TouchableWithoutFeedback>
     );
 }
 

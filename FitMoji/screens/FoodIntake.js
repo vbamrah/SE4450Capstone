@@ -37,7 +37,7 @@ const FoodIntake = ({ navigation }) => {
     let caloriesToGoForDisplay = getCalsToGo();
     let calorieRecommendationMale = getCalsRecommendationThatDisplaysCorrectlyMale();
     let calorieRecommendationFemale = getCalsRecommendationThatDisplaysCorrectlyFemale();
-    
+
     //console.log(caloriesToGoForDisplay);
 
     const [animated, setAnimated] = useState(false);
@@ -60,7 +60,7 @@ const FoodIntake = ({ navigation }) => {
     function addCalories(cals) {
         var calsEaten = getCalsEaten();
         var goal = getCalGoal();
-        if(goal == undefined || goal == NaN || goal == null){
+        if (goal == undefined || goal == NaN || goal == null) {
             goal = 0;
         }
         var addCals = parseInt(cals) + calsEaten;
@@ -103,7 +103,7 @@ const FoodIntake = ({ navigation }) => {
             }
         });
 
-        global.progressToGoals[1] = calsEaten/getCalGoal();
+        global.progressToGoals[1] = calsEaten / getCalGoal();
 
         return calsEaten;
     }
@@ -144,7 +144,7 @@ const FoodIntake = ({ navigation }) => {
         return goal;
     }
 
-    function getRecommendedCalorieGoalMale(){
+    function getRecommendedCalorieGoalMale() {
         var hInFeet;
         var hInInches;
         var weight;
@@ -154,26 +154,26 @@ const FoodIntake = ({ navigation }) => {
         const db = getDatabase();
         const userData = ref(db, 'users/' + auth.currentUser?.uid);
         onValue(userData, (snapshot) => {
-        var data = snapshot.val();
+            var data = snapshot.val();
 
-        hInFeet = Number(data.heightFeet);
-        hInInches = Number(data.heightInches);   
-        weight = data.weight;
-        dob = data.dob;
+            hInFeet = Number(data.heightFeet);
+            hInInches = Number(data.heightInches);
+            weight = data.weight;
+            dob = data.dob;
 
-        totalHeight = (hInFeet * 12) + hInInches;
-        let dobYear = dob.slice(0,4);
-        let currentYear = new Date().getFullYear();
-        let age = currentYear - dobYear;
+            totalHeight = (hInFeet * 12) + hInInches;
+            let dobYear = dob.slice(0, 4);
+            let currentYear = new Date().getFullYear();
+            let age = currentYear - dobYear;
 
-        let bmr = (4.536 * weight) + (15.88 * totalHeight) - (5 * age) + 5; 
-        calRecommendation = Math.round(1.375 * bmr);
+            let bmr = (4.536 * weight) + (15.88 * totalHeight) - (5 * age) + 5;
+            calRecommendation = Math.round(1.375 * bmr);
         });
 
         return calRecommendation;
     }
 
-    function getRecommendedCalorieGoalFemale(){
+    function getRecommendedCalorieGoalFemale() {
         var hInFeet;
         var hInInches;
         var weight;
@@ -183,37 +183,37 @@ const FoodIntake = ({ navigation }) => {
         const db = getDatabase();
         const userData = ref(db, 'users/' + auth.currentUser?.uid);
         onValue(userData, (snapshot) => {
-        var data = snapshot.val();
+            var data = snapshot.val();
 
-        hInFeet = Number(data.heightFeet);
-        hInInches = Number(data.heightInches);   
-        weight = data.weight;
-        dob = data.dob;
+            hInFeet = Number(data.heightFeet);
+            hInInches = Number(data.heightInches);
+            weight = data.weight;
+            dob = data.dob;
 
-        totalHeight = (hInFeet * 12) + hInInches;
-        let dobYear = dob.slice(0,4);
-        let currentYear = new Date().getFullYear();
-        let age = currentYear - dobYear;
+            totalHeight = (hInFeet * 12) + hInInches;
+            let dobYear = dob.slice(0, 4);
+            let currentYear = new Date().getFullYear();
+            let age = currentYear - dobYear;
 
-        let bmr = (4.536 * weight) + (15.88 * totalHeight) - (5 * age) - 161; 
-        calRecommendation = Math.round(1.375 * bmr);
+            let bmr = (4.536 * weight) + (15.88 * totalHeight) - (5 * age) - 161;
+            calRecommendation = Math.round(1.375 * bmr);
         });
 
         return calRecommendation;
     }
 
 
-    function getCalsRecommendationThatDisplaysCorrectlyMale(){
+    function getCalsRecommendationThatDisplaysCorrectlyMale() {
         var calRec = getRecommendedCalorieGoalMale();
         return calRec;
     }
 
-    function getCalsRecommendationThatDisplaysCorrectlyFemale(){
+    function getCalsRecommendationThatDisplaysCorrectlyFemale() {
         var calRec = getRecommendedCalorieGoalFemale();
         return calRec;
     }
 
-    function getDateForDB(){
+    function getDateForDB() {
         var day = new Date().getDate();
         var month = new Date().getMonth() + 1;
         var year = new Date().getFullYear();
@@ -236,7 +236,7 @@ const FoodIntake = ({ navigation }) => {
         navigation.replace('Food Intake');
         global.lastActivity = "food";
 
-        set(ref(db, 'Goals/' + auth.currentUser?.uid  + '/foodGoal'), {
+        set(ref(db, 'Goals/' + auth.currentUser?.uid + '/foodGoal'), {
             calorieGoal: calorieGoal,
         })
             .catch(error => alert(error.message));
@@ -247,7 +247,12 @@ const FoodIntake = ({ navigation }) => {
     const locale = 'en-GB'
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <View style={styles.container}>
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'space-around'
+                }}>
                 <LinearGradient colors={['#b5e8ff', '#ffffff']} style={{
                     position: 'absolute',
                     left: 0,
@@ -256,7 +261,11 @@ const FoodIntake = ({ navigation }) => {
                     top: 0,
                 }}></LinearGradient>
                 <View style={{
-                    top: '5%'
+                    flex: 1,
+                    top: '5%',
+                    flexBasis: 50,
+                    flexGrow: 1,
+                    flexShrink: 1,
                 }}>
                     <Text style={[styles.shadowProp, {
                         fontFamily: 'Lemon-Milk',
@@ -265,17 +274,23 @@ const FoodIntake = ({ navigation }) => {
                         fontSize: 60,
                     }]}>Food</Text>
                     <View style={[styles.shadowProp, {
-                        marginRight: '75%',
+                        marginTop: -50,
+                        marginRight: 300,
                     }]}>
                         <Pressable
                             onPress={() => navigation.navigate('Home')}
                             style={[styles.navButtons, { backgroundColor: 'transparent' }]}>
-                            <Image source={require('./images/globalButtons/home.png')} style={{ marginTop: '-150%', tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center', top: '15%' }} />
+                            <Image source={require('./images/globalButtons/home.png')} style={{ tintColor: 'white', width: '70%', height: '70%', resizeMode: 'contain', alignSelf: 'center' }} />
                         </Pressable>
                     </View>
                 </View>
-                <View style={{ top: '0%' }}>
-                    <Text style={[styles.goalText, styles.shadowProp, { marginTop: '-5%', color: 'white', alignSelf: 'center' }]}>Goal</Text>
+                <View style={{
+                    flex: 3,
+                    flexBasis: 390,
+                    flexGrow: 1,
+                    flexShrink: 1,
+                }}>
+                    <Text style={[styles.goalText, styles.shadowProp, { color: 'white', alignSelf: 'center' }]}>Goal</Text>
                     <View style={{ alignSelf: 'center' }}>
                         <TextInput placeholder='Enter Goal'
                             style={[styles.shadowProp, styles.sleepInput, { width: '80%' }]}
@@ -286,62 +301,71 @@ const FoodIntake = ({ navigation }) => {
                         />
                     </View>
                     <Text style={styles.recommendationText}>{`Recommended Calorie Goal: \nMen: ${calorieRecommendationMale} calories   Women: ${calorieRecommendationFemale} calories`}</Text>
-                    <LottieView
-                        autoPlay loop
-                        style={[styles.shadowProp, {
-                            top: '5%',
-                            alignSelf: 'center',
-                            width: 150,
-                            height: 150,
-                        }]}
-                        source={require('./images/pagePics/foodTracker.json')}
-                    />
-                    <View style={{ alignSelf: 'center', justifyContent: 'center', marginTop: 10 }}>
-                        <MotiView
-                            animate={{
-                                scale: animated ? 1 : 0,
-                                opacity: animated ? 1 : 0,
-                                transform: [{ translateY: 45 }],
-                            }}
-                            transition={{ type: 'spring', duration: 600 }}>
-                            <View style={{ alignSelf: 'center' }}>
-                                <TextInput placeholder='Calories'
-                                    style={[styles.sleepInput, styles.shadowProp]}
-                                    value={caloriesEaten}
-                                    onChangeText={text => addCalories(text.replace(/[^0-9]/g, ''))}
-                                    keyboardType="numeric"
-                                    maxLength={5}
-                                />
-                            </View>
-                        </MotiView>
-                        <Pressable
-                            onPress={handleToggle}
-                            style={[styles.shadowProp, styles.bigButton, {
-                                marginTop: -57,
+                    <View style={{ transform: [{ translateY: -25 }] }}>
+                        <LottieView
+                            autoPlay loop
+                            style={[styles.shadowProp, {
+                                top: '5%',
+                                alignSelf: 'center',
+                                width: 250,
+                                height: 250,
                             }]}
-                        >
-                            <Image source={require('./images/globalButtons/plus.png')} style={styles.buttonImage} />
-                        </Pressable>
+                            source={require('./images/pagePics/foodTracker.json')}
+                        />
+                        <View>
+                            <MotiView
+                                animate={{
+                                    scale: animated ? 1 : 0,
+                                    opacity: animated ? 1 : 0,
+                                    transform: [{ translateY: 60 }],
+                                }}
+                                transition={{ type: 'spring', duration: 600 }}>
+                                <View style={{ alignSelf: 'center' }}>
+                                    <TextInput placeholder='Calories'
+                                        style={[styles.sleepInput, styles.shadowProp]}
+                                        value={caloriesEaten}
+                                        onChangeText={text => addCalories(text.replace(/[^0-9]/g, ''))}
+                                        keyboardType="numeric"
+                                        maxLength={5}
+                                    />
+                                </View>
+                            </MotiView>
+                            <Pressable
+                                onPress={handleToggle}
+                                style={[styles.shadowProp, styles.bigButton, {
+                                    marginTop: -40,
+                                }]}
+                            >
+                                <Image source={require('./images/globalButtons/plus.png')} style={styles.buttonImage} />
+                            </Pressable>
+                        </View>
                     </View>
                 </View>
-                <View style={{ transform: [{translateY: 10}] }}>
+                <View style={{
+                    flex: 2,
+                    flexBasis: 200,
+                    flexGrow: 1,
+                    flexShrink: 1,
+                    marginBottom: '5%'
+                }}>
                     <View style={{ alignItems: 'center' }}>
                         <Text style={[styles.goalText, styles.shadowProp]}>Today's Stats</Text>
                         <View style={[styles.shadowProp, styles.goalContainer, {
-                            justifyContent: 'center',
-                            marginTop: '5%',
+                            top: '5%',
+                            flexDirection: 'row',
+                            justifyContent: 'space-around'
                         }]}>
-                            <View style={[{ justifyContent: 'center', marginRight: '50%', marginTop: -20 }]}>
+                            <View style={{alignSelf: 'center'}}>
                                 <Text style={[styles.goalText, styles.bigNumber]}>{`${caloriesEatenForDisplay}`}</Text>
-                                <Text style={[styles.goalText, { color: '#BCF4A6', fontSize: 20, textAlign: 'center' }]}>{`Calories${'\n'}Eaten`}</Text>
+                                <Text style={[styles.goalText, { color: '#BCF4A6', fontSize: 20, textAlign: 'center', marginTop: -10 }]}>{`Calories${'\n'}Eaten`}</Text>
                             </View>
-                            <View style={[{ justifyContent: 'center', marginLeft: '50%', marginTop: -120 }]}>
+                            <View style={{alignSelf: 'center'}}>
                                 <Text style={[styles.goalText, styles.bigNumber]}>{`${caloriesToGoForDisplay}`}</Text>
-                                <Text style={[styles.goalText, { color: '#F1A7B0', fontSize: 20, textAlign: 'center' }]}>{`Calories${'\n'}Left`}</Text>
+                                <Text style={[styles.goalText, { color: '#F1A7B0', fontSize: 20, textAlign: 'center', marginTop: -10 }]}>{`Calories${'\n'}Left`}</Text>
                             </View>
                         </View>
                     </View>
-                    <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { transform: [{translateY: -40}]}]}>
+                    <View style={[styles.shadowProp, styles.buttonContainer, styles.submitButton, { transform: [{ translateY: -40 }]}]}>
                         <TouchableOpacity
                             style={styles.button}
                             onPress={validateInputs}
@@ -451,7 +475,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         alignSelf: 'center',
         textAlign: 'center'
-        
+
     }
 });
 
